@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import config from './config.js'
 import * as firebase from 'firebase'
-import {HashRouter as Router, Route, Switch, Link, Redirect} from 'react-router-dom';
+import {HashRouter as Router, Route, Switch, Link, Redirect, withRouter} from 'react-router-dom';
 
 class Game {
   constructor(name,order){
@@ -15,14 +15,14 @@ let testArray = (array) => array.forEach((x) => console.log(x));
 let fixName = (string) => {
   string = Array.from(string);      //convert string to array
   string.forEach((x,i) => {       //itereate through
-    if(x === '-'){                //if x is a -, change it to a space
+    if(x === '_'){                //if x is a -, change it to a space
       string[i] = " ";
     }
   })
   return string.join("");         //join the array back to a string a return
 }
 
-export default class Dropdown extends Component {
+ class Dropdown extends Component {
   constructor(){
     super();
     //this.db = firebase.initializeApp(config);
@@ -44,18 +44,16 @@ export default class Dropdown extends Component {
 
   handleSelect(event){
     this.selection = event.target.value;
-    this.setState({redirect: true});
+    this.props.history.push("/" + this.selection);
+
   }
   render(){
-    if(this.state.redirect){
-      return(
-      <Redirect to = {"/" + this.selection}></Redirect>
-      )
-    }
+
     //testArray(this.state.gameList)
     return (
-      <select onChange = {this.handleSelect}>
-        <option>Season Total</option>
+      <select onChange = {this.handleSelect} style = {{position: "absolute",left: "0", right: "0",margin: "auto", top: "80px" }}>
+        <option disabled selected value> -- select a game -- </option>
+        <option value = "">Season Total</option>
         {this.state.gameList.map((x,i)=> {
           return (
             <option key = {i} value = {x.name}>{fixName(x.name)}</option>
@@ -65,3 +63,4 @@ export default class Dropdown extends Component {
     )
   }
 }
+export default withRouter(Dropdown);

@@ -30,8 +30,8 @@ let findLineup = (array, lineup) => {
 class App extends Component {
   constructor(){
     super();
-    this.db = firebase.initializeApp(config);
-    this.ref = this.db.database().ref();
+
+    this.ref = firebase.database().ref();
     this.state = {dataArray: []};
     this.reverseOrder = this.reverseOrder.bind(this);
     this.ascending = true;
@@ -69,8 +69,8 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <Dropdown></Dropdown>
+          <h1 style = {{position: "relative", top: "-10px"}}>Season Total</h1>
+          <Dropdown name = "Season Total"></Dropdown>
         </header>
         <table>
           <tbody>
