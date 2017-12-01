@@ -13,8 +13,6 @@ firebase.initializeApp(config);
 
 let testArray = (array) => array.forEach((x) => console.log(x));
 
-const Liberty = () => <h1>Liberty</h1>
-const Georgia_Southern = () => <Games gameName = "Georgia_Southern"></Games>
 
 export default class Routing extends Component{
   constructor(){
@@ -32,7 +30,6 @@ export default class Routing extends Component{
     })
   }
   render(){
-    testArray(this.state.teamArray)
     return (
       <Router>
         <div>

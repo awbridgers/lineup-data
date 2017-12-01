@@ -65,7 +65,7 @@ class App extends Component {
     this.ascending = !this.ascending;
   }
   render() {
-    console.log(this.state.dataArray.length)
+    //console.log(this.state.dataArray.length)
     return (
       <div className="App">
         <header className="App-header">
