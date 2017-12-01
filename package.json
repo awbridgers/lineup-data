@@ -1,6 +1,7 @@
 {
   "name": "lineup-data",
   "version": "0.1.0",
+  "homepage": "https://awbridgers.github.io/lineup-data",
   "private": true,
   "dependencies": {
     "firebase": "^4.6.2",
