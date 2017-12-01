@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: black;
 }
 
 .App-logo {
@@ -9,7 +10,7 @@
 
 .App-header {
   background-color: #222;
-  height: 150px;
+  height: 75px;
   padding: 20px;
   color: white;
 }
@@ -25,4 +26,49 @@
 @keyframes App-logo-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
+
+}
+table {
+  margin: auto;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 50%;
+  table-layout: fixed;
+  padding-bottom: 50px;
+  min-width: 700px;
+}
+th,
+td {
+  padding: 6px 15px;
+  word-wrap: break-word;
+}
+th {
+  background: #42444e;
+  color: #fff;
+  text-align: center;
+}
+tr:first-child th:first-child {
+  border-top-left-radius: 6px;
+}
+tr:first-child th:last-child {
+  border-top-right-radius: 6px;
+}
+td {
+  border-right: 1px solid #c6c9cc;
+  border-bottom: 1px solid #c6c9cc;
+}
+td:first-child {
+  border-left: 1px solid #c6c9cc;
+}
+tr:nth-child(even) td {
+  background: #A9A9A9;
+}
+tr:nth-child(odd) td {
+  background: white;
+}
+tr:last-child td:first-child {
+  border-bottom-left-radius: 6px;
+}
+tr:last-child td:last-child {
+  border-bottom-right-radius: 6px;
 }
