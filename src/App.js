@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import config from './config.js'
 import * as firebase from 'firebase'
+import Dropdown from './dropDown.js';
 
 
 
@@ -39,7 +40,9 @@ class App extends Component {
   componentDidMount(){
      this.getData = this.ref.once('value').then((snapshot) => {
        let array =[];
+
        snapshot.forEach((childSnapshot) => {
+         //console.log(childSnapshot.key)
          childSnapshot.child('lineups').forEach((x) => {
 
            let temp = new Data (x.key, x.val());
@@ -67,6 +70,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <img src={logo} className="App-logo" alt="logo" />
+          <Dropdown></Dropdown>
         </header>
         <table>
           <tbody>
