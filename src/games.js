@@ -57,7 +57,7 @@ export default class Game extends Component {
     this.ascending = !this.ascending;
   }
   render(){
-    
+
     return (
       <div className="App">
         <header className="App-header">
@@ -70,7 +70,7 @@ export default class Game extends Component {
           <tbody>
             <tr>
               <th style = {{width: "85%"}}>Lineup</th><th>
-                <button style = {{background: "#42444e", width:"100%", border: "none"}} onClick = {this.reverseOrder}><b>+&frasl;-</b></button></th>
+                <button style = {{background: "#42444e", width:"100%", border: "none", color: "white"}} onClick = {this.reverseOrder}><b>+&frasl;-</b></button></th>
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (
