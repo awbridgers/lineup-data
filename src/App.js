@@ -77,8 +77,9 @@ class App extends Component {
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "85%"}}>Lineup</th><th>
-                <button style = {{background: "#42444e", width:"100%", border: "none",color: "white"}} onClick = {this.reverseOrder}><b>+&frasl;-</b></button></th>
+              <th style = {{width: "85%"}}>Lineup</th>
+              <th className = "click" onClick = {this.reverseOrder}> + &frasl; -
+              </th>
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (

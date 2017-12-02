@@ -61,16 +61,18 @@ export default class Game extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div style = {{position: "relative", top: "-20px", fontSize: "20px"}}><p>Wake Forest: {this.state.wakeScore}</p>
-          <p style ={{position: "relative", top: "-20px"}}>{fixName(this.props.gameName)}: {this.state.oppScore}</p></div>
+          <div style = {{position: "relative", top: "-30px", fontSize: "25px"}}><p>Wake Forest: {this.state.wakeScore}</p>
+          <p style ={{position: "relative", top: "-28px", marginBottom: "0px"}}>{fixName(this.props.gameName)}: {this.state.oppScore}</p></div>
           <Dropdown></Dropdown>
 
         </header>
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "85%"}}>Lineup</th><th>
-                <button style = {{background: "#42444e", width:"100%", border: "none", color: "white"}} onClick = {this.reverseOrder}><b>+&frasl;-</b></button></th>
+              <th style = {{width: "85%"}}>Lineup</th>
+                <th className = "click" onClick = {this.reverseOrder}> + &frasl; -
+                </th>
+
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (
