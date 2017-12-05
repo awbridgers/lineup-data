@@ -76,7 +76,7 @@ export default class Game extends Component {
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (
-            <tr key ={i}>
+            <tr key ={i} style = {{height: "58px"}}>
               <td>{x.lineup}</td><td>{x.value}</td>
             </tr>
           )
