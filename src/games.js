@@ -7,6 +7,7 @@ import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import config from './config.js'
 import * as firebase from 'firebase'
 import Dropdown from './dropDown.js';
+import secToMin from 'sec-to-min';
 
 import logo from './logo.svg';
 
@@ -14,9 +15,11 @@ import logo from './logo.svg';
 
 
 class Data {
-  constructor(lineup, value) {
+  constructor(lineup, pointsFor, pointsAgainst,time) {
     this.lineup = lineup;
-    this.value = value;
+    this.pointsFor = parseInt(pointsFor,10);
+    this.pointsAgainst = parseInt(pointsAgainst,10);
+    this.time = parseInt(time,10);
   }
 }
 let fixName = (string) => {
@@ -42,12 +45,12 @@ export default class Game extends Component {
      this.getData = this.ref.once('value').then((snapshot) => {
        let array =[];
        snapshot.child('lineups').forEach((x)=>{
-         array.push(new Data(x.key, x.val()));
+         array.push(new Data(x.key, x.val().pointsFor,x.val().pointsAgainst, x.val().time));
        });
        let wakeScore = snapshot.child('score').child('wake').val();
        let oppScore = snapshot.child('score').child("opp").val();
 
-       array.sort((a,b)=> {return(a.value-b.value)}).reverse();
+       array.sort((a,b)=> {return(a.pointsFor-a.pointsAgainst)-(b.pointsFor-b.pointsAgainst)}).reverse();
 
        this.setState({dataArray: array, wakeScore: wakeScore, oppScore: oppScore, loading:false});
      });
@@ -69,7 +72,10 @@ export default class Game extends Component {
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "85%"}}>Lineup</th>
+              <th style = {{width: "55%"}}>Lineup</th>
+                <th>Time</th>
+                <th>Points For</th>
+                <th>Points Against</th>
                 <th className = "click" onClick = {this.reverseOrder}> + &frasl; -
                 </th>
 
@@ -77,7 +83,7 @@ export default class Game extends Component {
         {this.state.dataArray.map((x,i) => {
           return (
             <tr key ={i} style = {{height: "58px"}}>
-              <td>{x.lineup}</td><td>{x.value}</td>
+              <td>{x.lineup}</td><td>{secToMin(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
             </tr>
           )
         })

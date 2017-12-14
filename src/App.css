@@ -32,10 +32,10 @@ table {
   margin: auto;
   border-collapse: separate;
   border-spacing: 0;
-  width: 50%;
+  width: 70%;
   table-layout: fixed;
   padding-bottom: 50px;
-  min-width: 700px;
+  min-width: 900px;
   text-align: center;
 }
 th,
@@ -47,6 +47,7 @@ th {
   background: #42444e;
   color: #fff;
   text-align: center;
+  font-size: 14px;
 }
 tr:first-child th:first-child {
   border-top-left-radius: 6px;
