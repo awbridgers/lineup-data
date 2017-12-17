@@ -37,8 +37,9 @@ export default class Game extends Component {
     super(props);
     this.ref = firebase.database().ref(this.props.gameName);
     this.state = {dataArray: [], wakeScore: 0, oppScore: 0, loading:true};
-    this.reverseOrder = this.reverseOrder.bind(this);
+    this.sortTable = this.sortTable.bind(this);
     this.ascending = true;
+    this.sortType = "net";
     this.opponent = fixName(this.props.gameName);
   }
   componentWillMount(){
@@ -55,9 +56,31 @@ export default class Game extends Component {
        this.setState({dataArray: array, wakeScore: wakeScore, oppScore: oppScore, loading:false});
      });
    }
-  reverseOrder(){
-    this.setState({dataArray: this.state.dataArray.reverse()});
-    this.ascending = !this.ascending;
+  sortTable(e){
+    const type = e.target.id;
+    let array = this.state.dataArray;
+    if(type === this.sortType){         //if the sort type is the same, reverse the order
+      array.reverse();
+    }
+    else{
+      if(type === "net"){
+        array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
+        this.sortType = "net";
+      }
+      else if (type === "pf"){
+        array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
+        this.sortType = "pf";
+      }
+      else if(type === "pa"){
+        array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
+        this.sortType = "pa";
+      }
+      else if (type === "time"){
+        array.sort((a,b)=>{return (b.time) - (a.time)});
+        this.sortType = "time";
+      }
+    }
+    this.setState({dataArray: array})
   }
   render(){
 
@@ -73,10 +96,10 @@ export default class Game extends Component {
           <tbody>
             <tr>
               <th style = {{width: "55%"}}>Lineup</th>
-                <th>Time</th>
-                <th>Points For</th>
-                <th>Points Against</th>
-                <th className = "click" onClick = {this.reverseOrder}> + &frasl; -
+                <th className = "click" id = "time" onClick = {this.sortTable}>Time</th>
+                <th className = "click" id = "pf" onClick = {this.sortTable}>Points For</th>
+                <th className = "click" id = "pa" onClick = {this.sortTable}>Points Against</th>
+                <th className = "click" id = "net" onClick = {this.sortTable}> + &frasl; -
                 </th>
 
             </tr>
