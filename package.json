@@ -9,7 +9,8 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
-    "sec-to-min": "^1.0.1"
+    "sec-to-min": "^1.0.1",
+    "sixty-sixty": "^2.0.0"
   },
   "devDependencies": {
     "react-scripts": "1.0.17"
