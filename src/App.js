@@ -128,7 +128,7 @@ class App extends Component {
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "55%"}}>Lineup</th>
+              <th style = {{width: "75%"}}>Lineup</th>
               <th className = "click" id = "time" onClick = {this.sortTable}>Time</th>
               <th className = "click" id = "pf" onClick = {this.sortTable}>Points For</th>
               <th className = "click" id = "pa" onClick = {this.sortTable}>Points Against</th>

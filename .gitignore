@@ -9,6 +9,7 @@
 # production
 /build
 config.js
+/public/icon
 
 # misc
 .DS_Store
