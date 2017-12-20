@@ -122,7 +122,7 @@ export default class Game extends Component {
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "75%"}}>Lineup</th>
+              <th style = {{width: "65%"}}>Lineup</th>
                 <th className = "click" id = "time" onClick = {this.sortTable}>Time</th>
                 <th className = "click" id = "pf" onClick = {this.sortTable}>Points For</th>
                 <th className = "click" id = "pa" onClick = {this.sortTable}>Points Against</th>
@@ -132,7 +132,7 @@ export default class Game extends Component {
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (
-            <tr key ={i} style = {{height: "58px"}}>
+            <tr key ={i} style = {{height: "58px", fontSize: "20px", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
               <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
             </tr>
           )

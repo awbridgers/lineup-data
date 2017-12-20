@@ -51,7 +51,7 @@ let fixName = (string) => {
 
     //testArray(this.state.gameList)
     return (
-      <select defaultValue = "select" onChange = {this.handleSelect} style = {{position: "relative",margin: "auto", top: "-50px" }}>
+      <select className = "select" defaultValue = "select" onChange = {this.handleSelect}>
         <option disabled value = "select"> -- select a game -- </option>
         <option value = "">Season Total</option>
         {this.state.gameList.map((x,i)=> {
