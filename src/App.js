@@ -120,7 +120,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div style = {{height: "90px", textAlign: "center"}}>
+          <div style = {{height: "90px", textAlign: "center", position: "relative", top: "-10px"}}>
           <h1>Season Total</h1>
           </div>
           <Dropdown name = "Season Total"></Dropdown>
