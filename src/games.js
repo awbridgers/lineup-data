@@ -122,17 +122,16 @@ export default class Game extends Component {
         <table>
           <tbody>
             <tr>
-              <th style = {{width: "65%"}}>Lineup</th>
-                <th className = "click" id = "time" onClick = {this.sortTable}>Time</th>
-                <th className = "click" id = "pf" onClick = {this.sortTable}>Points For</th>
-                <th className = "click" id = "pa" onClick = {this.sortTable}>Points Against</th>
-                <th className = "click" id = "net" onClick = {this.sortTable}> + &frasl; -
-                </th>
+                <th>Lineup</th>
+                <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortTable}>Time</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortTable}>PF</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortTable}>PA</th>
+                <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortTable}>+/-</th>
 
             </tr>
         {this.state.dataArray.map((x,i) => {
           return (
-            <tr key ={i} style = {{height: "58px", fontSize: "20px", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
+            <tr key ={i} style = {{height: "58px", fontSize: "calc(8px + .8vw)", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
               <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
             </tr>
           )
