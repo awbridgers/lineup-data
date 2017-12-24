@@ -5,35 +5,16 @@ import config from './config.js'
 import * as firebase from 'firebase'
 import Dropdown from './dropDown.js';
 import roster from './roster.js'
+import convert from "convert-seconds"
 
 const fixTime = seconds => {
-  let secs = Math.round(seconds);
-
-  if (secs < 0) throw new Error('Seconds must be positive');
-
-  if (secs < 60) {
-    if (secs < 10) return "0:0" + secs;
-
-    return "0:" + secs;
+  let secs = convert(seconds).seconds
+  if(secs < 10){
+    secs = "0" + secs;
   }
-
-  let minuteDivisor = secs % (60 * 60);
-  let minutes = Math.floor(minuteDivisor / 60);
-
-  let secondDivisor = minuteDivisor % 60;
-  let remSecs = Math.ceil(secondDivisor);
-
-  if (remSecs < 10 && remSecs > 0) remSecs = "0" + remSecs;
-  if (remSecs === 0) remSecs = remSecs + "0";
-
-  let time = {
-    m: minutes,
-    s: remSecs
-  };
-
-  return time.m + ":" + time.s;
-};
-
+  const minutes = convert(seconds).minutes + (convert(seconds).hours*60);
+  return minutes + ":" + secs;
+}
 let testArray = (array) => array.forEach((x) => console.log(x));
 class Data {
   constructor(lineup, pointsFor, pointsAgainst,time) {
@@ -102,7 +83,7 @@ class App extends Component {
       if(this.state.playerArray.length === 0){
         this.makePlayerArray();
       }
-      this.setState({dataType: "player"})
+      this.setState({dataType: "player", sortType: "net"})
     }
     else{
       this.setState({dataType: "lineup"})
@@ -169,6 +150,7 @@ class App extends Component {
     }
   }
   render() {
+    testArray(this.state.playerArray);
     //console.log(this.state.dataArray.length)
     return (
       <div className="App">

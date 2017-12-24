@@ -4,6 +4,7 @@
   "homepage": "https://awbridgers.github.io/lineup-data",
   "private": true,
   "dependencies": {
+    "convert-seconds": "^1.0.1",
     "firebase": "^4.6.2",
     "gh-pages": "^1.1.0",
     "react": "^16.2.0",
