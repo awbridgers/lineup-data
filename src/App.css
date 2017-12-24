@@ -83,3 +83,12 @@ tr:last-child td:last-child {
   top: -60px;
   font-size: 16px
 }
+.type{
+position:absolute;
+right:40px;
+top: 40px;
+width: 85px;
+height: 29px;
+background-color: #A9A9A9;
+border: none;
+}

@@ -4,6 +4,7 @@ import './App.css';
 import config from './config.js'
 import * as firebase from 'firebase'
 import Dropdown from './dropDown.js';
+import roster from './roster.js'
 
 const fixTime = seconds => {
   let secs = Math.round(seconds);
@@ -53,14 +54,21 @@ let findLineup = (array, lineup) => {
   });
   return index;
 }
+const setUpName = (array) =>{
+  roster.forEach((name) =>{
+    array.push(new Data (name, 0, 0, 0));
+  })
+}
 
 class App extends Component {
   constructor(){
     super();
 
     this.ref = firebase.database().ref();
-    this.state = {dataArray: []};
+    this.state = {dataArray: [], playerArray: [], dataType: 'lineup'};
     this.sortTable = this.sortTable.bind(this);
+    this.makePlayerArray = this.makePlayerArray.bind(this);
+    this.switchData = this.switchData.bind(this);
     this.sortType = "net";
 
   }
@@ -89,9 +97,49 @@ class App extends Component {
        this.setState({dataArray: array});
      })
   }
+  switchData(){
+    if(this.state.dataType === "lineup"){
+      if(this.state.playerArray.length === 0){
+        this.makePlayerArray();
+      }
+      this.setState({dataType: "player"})
+    }
+    else{
+      this.setState({dataType: "lineup"})
+    }
+  }
+  makePlayerArray(){
+    let tempArray =[];
+    let playerArray =[];
+    setUpName(tempArray)   //add all of the players to the array for searching
+    //for each player, search the lineups for them and add the data to their own
+    tempArray.forEach((player)=> {
+      this.state.dataArray.forEach((data)=>{
+        if(data.lineup.includes(player.lineup)){
+          player.pointsFor += data.pointsFor;
+          player.pointsAgainst += data.pointsAgainst;
+          player.time += data.time;
+        }
+      });
+    });
+    //remove any players that did not play
+    tempArray.forEach((data,i) =>{
+      if(data.time != 0 && data.pointsFor != 0 && data.pointsAgainst != 0){
+        playerArray.push(tempArray[i]);
+      }
+    })
+    playerArray.sort((a,b)=> {return(a.pointsFor-a.pointsAgainst)-(b.pointsFor-b.pointsAgainst)}).reverse();
+    this.setState({playerArray: playerArray});
+  }
   sortTable(e){
-    const type = e.target.id;
+    let type = e.target.id;
     let array = this.state.dataArray;
+    let playerSort = false;
+    if(type.charAt(type.length-1) === "p"){
+      playerSort = true;
+      array = this.state.playerArray
+      type = type.slice(0, -1)
+    }
     if(type === this.sortType){         //if the sort type is the same, reverse the order
       array.reverse();
     }
@@ -113,7 +161,12 @@ class App extends Component {
         this.sortType = "time";
       }
     }
-    this.setState({dataArray: array})
+    if(playerSort){
+      this.setState({playerArray: array})
+    }
+    else{
+      this.setState({dataArray: array})
+    }
   }
   render() {
     //console.log(this.state.dataArray.length)
@@ -124,29 +177,58 @@ class App extends Component {
           <h1>Season Total</h1>
           </div>
           <Dropdown name = "Season Total"></Dropdown>
+            {this.state.dataType === "lineup" &&
+              <button className = "type" onClick = {this.switchData}>By Player</button>}
+            {this.state.dataType === "player" &&
+              <button className = "type" onClick = {this.switchData}>By Lineup</button>}
         </header>
         <div sytle = {{textAlign: 'center'}}>
-        <table>
-          <tbody>
-            <tr>
-              <th>Lineup</th>
-              <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortTable}>Time</th>
-              <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortTable}>PF</th>
-              <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortTable}>PA</th>
-              <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortTable}>+/-</th>
-            </tr>
-        {this.state.dataArray.map((x,i) => {
-          return (
-            <tr key ={i} style = {{fontSize: "calc(8px + .8vw)",  fontFamily: "Tahoma, Verdana, Segoe, sans-serif", height: "58px"}}>
-              <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
-            </tr>
-          )
-        })
-        }
-        </tbody>
-        </table>
+          {(this.state.dataType === 'player' &&
+            <table>
+              <tbody>
+                <tr>
+                    <th>Player</th>
+                    <th  style = {{width: "14%"}}className = "click" id = "timep" onClick = {this.sortTable}>Time</th>
+                    <th  style = {{width: "10%"}}className = "click" id = "pfp" onClick = {this.sortTable}>PF</th>
+                    <th  style = {{width: "10%"}}className = "click" id = "pap" onClick = {this.sortTable}>PA</th>
+                    <th style = {{width: "10%"}}className = "click" id = "netp" onClick = {this.sortTable}>+/-</th>
+
+                </tr>
+            {this.state.playerArray.map((x,i) => {
+              return (
+                <tr key ={i} style = {{height: "58px", fontSize: "calc(8px + .8vw)", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
+                  <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
+                </tr>
+              )
+            })
+            }
+            </tbody>
+            </table>
+          )}
+          {(this.state.dataType === 'lineup' &&
+          <table>
+            <tbody>
+              <tr>
+                  <th>Lineup</th>
+                  <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortTable}>Time</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortTable}>PF</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortTable}>PA</th>
+                  <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortTable}>+/-</th>
+
+              </tr>
+          {this.state.dataArray.map((x,i) => {
+            return (
+              <tr key ={i} style = {{height: "58px", fontSize: "calc(8px + .8vw)", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
+                <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
+              </tr>
+            )
+          })
+          }
+          </tbody>
+          </table>
+        )}
       </div>
-      </div>
+    </div>
     );
   }
 }
