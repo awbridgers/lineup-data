@@ -55,9 +55,11 @@ export default class Game extends Component {
     super(props);
     this.ref = firebase.database().ref(this.props.gameName);
     this.state = {dataArray: [], wakeScore: 0, oppScore: 0, loading:true, dataType: "lineup", playerArray:[]};
-    this.sortTable = this.sortTable.bind(this);
     this.ascending = true;
-    this.sortType = "net";
+    this.sortLineupTable = this.sortLineupTable.bind(this);
+    this.sortPlayerTable = this.sortPlayerTable.bind(this);
+    this.sortLineupType = 'net';
+    this.sortPlayerType = 'net';
     this.opponent = fixName(this.props.gameName);
     this.switchData = this.switchData.bind(this);
     this.makePlayerArray = this.makePlayerArray.bind(this);
@@ -94,83 +96,102 @@ export default class Game extends Component {
      });
      //remove any players that did not play
      tempArray.forEach((data,i) =>{
-       if(data.time != 0 && data.pointsFor != 0 && data.pointsAgainst != 0){
+       if(data.time === 0 && data.pointsFor === 0 && data.pointsAgainst === 0){
+         //do nothing
+       }
+       else{
          playerArray.push(tempArray[i]);
        }
      })
      playerArray.sort((a,b)=> {return(a.pointsFor-a.pointsAgainst)-(b.pointsFor-b.pointsAgainst)}).reverse();
      this.setState({playerArray: playerArray});
    }
-  sortTable(e){
-    let type = e.target.id;
-    let array = this.state.dataArray;
-    let playerSort = false;
-    if(type.charAt(type.length-1) === "p"){
-      playerSort = true;
-      array = this.state.playerArray
-      type = type.slice(0, -1)
-    }
-    if(type === this.sortType){         //if the sort type is the same, reverse the order
-      array.reverse();
-    }
-    else{
-      if(type === "net"){
-        array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
-        this.sortType = "net";
-      }
-      else if (type === "pf"){
-        array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
-        this.sortType = "pf";
-      }
-      else if(type === "pa"){
-        array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
-        this.sortType = "pa";
-      }
-      else if (type === "time"){
-        array.sort((a,b)=>{return (b.time) - (a.time)});
-        this.sortType = "time";
-      }
-    }
-    if(playerSort){
-      this.setState({playerArray: array})
-    }
-    else{
-      this.setState({dataArray: array})
-    }
-  }
+   sortLineupTable(e){
+     let type = e.target.id;
+     let array = this.state.dataArray;
+     if(type === this.sortLineupType){         //if the sort type is the same, reverse the order
+       array.reverse();
+     }
+     else{
+       if(type === "net"){
+         array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
+         this.sortLineupType = "net";
+       }
+       else if (type === "pf"){
+         array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
+         this.sortLineupType = "pf";
+       }
+       else if(type === "pa"){
+         array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
+         this.sortLineupType = "pa";
+       }
+       else if (type === "time"){
+         array.sort((a,b)=>{return (b.time) - (a.time)});
+         this.sortLineupType = "time";
+       }
+     }
+       this.setState({dataArray: array});
+   }
+   sortPlayerTable(e){
+     let type = e.target.id;
+     let array = this.state.playerArray;
+     if(type === this.sortPlayerType){         //if the sort type is the same, reverse the order
+       array.reverse();
+     }
+     else{
+       if(type === "net"){
+         array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
+         this.sortPlayerType = "net";
+       }
+       else if (type === "pf"){
+         array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
+         this.sortPlayerType = "pf";
+       }
+       else if(type === "pa"){
+         array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
+         this.sortPlayerType = "pa";
+       }
+       else if (type === "time"){
+         array.sort((a,b)=>{return (b.time) - (a.time)});
+         this.sortPlayerType = "time";
+       }
+     }
+       this.setState({playerArray: array});
+   }
   switchData(){
     if(this.state.dataType === "lineup"){
       if(this.state.playerArray.length === 0){
         this.makePlayerArray();
       }
-      this.setState({dataType: "player"})
+      this.setState({dataType: "player"});
     }
     else{
-      this.setState({dataType: "lineup"})
+      this.setState({dataType: "lineup"});
     }
   }
   render(){
     return (
       <div className="App">
         <header className="App-header">
-          <div style = {{position: "relative", top: "-30px", fontSize: "25px"}}><p>Wake Forest: {this.state.wakeScore}</p>
-          <p style ={{position: "relative", top: "-28px", marginBottom: "5px"}}>{fixName(this.props.gameName)}: {this.state.oppScore}</p>
-          {this.state.dataType === "lineup" &&
-            <button className = "type" onClick = {this.switchData}>By Player</button>}
-          {this.state.dataType === "player" &&
-            <button className = "type" onClick = {this.switchData}>By Lineup</button>}
-          </div>
+          <div style = {{position: "relative", top: "-20px", fontSize: "25px"}}><p>Wake Forest: {this.state.wakeScore}</p>
+          <p style ={{position: "relative", top: "-28px", marginBottom: "-10px"}}>{fixName(this.props.gameName)}: {this.state.oppScore}</p>
           <Dropdown></Dropdown>
+        </div>
+
+            {this.state.dataType === "lineup" &&
+              <button className = "type" onClick = {this.switchData}>View Players</button>}
+            {this.state.dataType === "player" &&
+              <button className = "type" onClick = {this.switchData}>View Lineups</button>}
         </header>
         {(this.state.dataType === 'player' &&
           <table>
             <tbody>
               <tr>
                   <th>Player</th>
-                  <th  style = {{width: "14%"}}className = "click" id = "timep" onClick = {this.sortTable}>Time</th>
-                  <th  style = {{width: "10%"}}className = "click" id = "pfp" onClick = {this.sortTable}>PF</th>
-                  <th  style = {{width: "10%"}}className = "click" id = "pap" onClick = {this.sortTable}>PA</th>
-                  <th style = {{width: "10%"}}className = "click" id = "netp" onClick = {this.sortTable}>+/-</th>
+                  <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortPlayerTable}>Time</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortPlayerTable}>PF</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortPlayerTable}>PA</th>
+                  <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortPlayerTable}>+/-</th>
 
               </tr>
           {this.state.playerArray.map((x,i) => {
@@ -189,10 +210,10 @@ export default class Game extends Component {
           <tbody>
             <tr>
                 <th>Lineup</th>
-                <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortTable}>Time</th>
-                <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortTable}>PF</th>
-                <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortTable}>PA</th>
-                <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortTable}>+/-</th>
+                <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortLineupTable}>Time</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortLineupTable}>PF</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortLineupTable}>PA</th>
+                <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortLineupTable}>+/-</th>
 
             </tr>
         {this.state.dataArray.map((x,i) => {

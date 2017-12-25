@@ -47,10 +47,13 @@ class App extends Component {
 
     this.ref = firebase.database().ref();
     this.state = {dataArray: [], playerArray: [], dataType: 'lineup'};
-    this.sortTable = this.sortTable.bind(this);
+    this.sortLineupTable = this.sortLineupTable.bind(this);
+    this.sortPlayerTable = this.sortPlayerTable.bind(this);
     this.makePlayerArray = this.makePlayerArray.bind(this);
     this.switchData = this.switchData.bind(this);
-    this.sortType = "net";
+    this.sortLineupType = 'net';
+    this.sortPlayerType = 'net';
+
 
   }
   componentDidMount(){
@@ -83,7 +86,7 @@ class App extends Component {
       if(this.state.playerArray.length === 0){
         this.makePlayerArray();
       }
-      this.setState({dataType: "player", sortType: "net"})
+      this.setState({dataType: "player"});
     }
     else{
       this.setState({dataType: "lineup"})
@@ -112,57 +115,73 @@ class App extends Component {
     playerArray.sort((a,b)=> {return(a.pointsFor-a.pointsAgainst)-(b.pointsFor-b.pointsAgainst)}).reverse();
     this.setState({playerArray: playerArray});
   }
-  sortTable(e){
+  sortLineupTable(e){
     let type = e.target.id;
     let array = this.state.dataArray;
-    let playerSort = false;
-    if(type.charAt(type.length-1) === "p"){
-      playerSort = true;
-      array = this.state.playerArray
-      type = type.slice(0, -1)
-    }
-    if(type === this.sortType){         //if the sort type is the same, reverse the order
+    if(type === this.sortLineupType){         //if the sort type is the same, reverse the order
       array.reverse();
     }
     else{
       if(type === "net"){
         array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
-        this.sortType = "net";
+        this.sortLineupType = "net";
       }
       else if (type === "pf"){
         array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
-        this.sortType = "pf";
+        this.sortLineupType = "pf";
       }
       else if(type === "pa"){
         array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
-        this.sortType = "pa";
+        this.sortLineupType = "pa";
       }
       else if (type === "time"){
         array.sort((a,b)=>{return (b.time) - (a.time)});
-        this.sortType = "time";
+        this.sortLineupType = "time";
       }
     }
-    if(playerSort){
-      this.setState({playerArray: array})
+      this.setState({dataArray: array});
+  }
+  sortPlayerTable(e){
+    let type = e.target.id;
+    let array = this.state.playerArray;
+    if(type === this.sortPlayerType){         //if the sort type is the same, reverse the order
+      array.reverse();
     }
     else{
-      this.setState({dataArray: array})
+      if(type === "net"){
+        array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
+        this.sortPlayerType = "net";
+      }
+      else if (type === "pf"){
+        array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
+        this.sortPlayerType = "pf";
+      }
+      else if(type === "pa"){
+        array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
+        this.sortPlayerType = "pa";
+      }
+      else if (type === "time"){
+        array.sort((a,b)=>{return (b.time) - (a.time)});
+        this.sortPlayerType = "time";
+      }
     }
+      this.setState({playerArray: array});
   }
   render() {
-    testArray(this.state.playerArray);
+    //testArray(this.state.playerArray);
     //console.log(this.state.dataArray.length)
     return (
       <div className="App">
         <header className="App-header">
-          <div style = {{height: "90px", textAlign: "center", position: "relative", top: "-10px"}}>
+          <div style = {{height: "90px", textAlign: "center", position: "relative"}}>
           <h1>Season Total</h1>
-          </div>
           <Dropdown name = "Season Total"></Dropdown>
+          </div>
             {this.state.dataType === "lineup" &&
-              <button className = "type" onClick = {this.switchData}>By Player</button>}
+              <button className = "type" onClick = {this.switchData}>View Players</button>}
             {this.state.dataType === "player" &&
-              <button className = "type" onClick = {this.switchData}>By Lineup</button>}
+              <button className = "type" onClick = {this.switchData}>View Lineups</button>}
+
         </header>
         <div sytle = {{textAlign: 'center'}}>
           {(this.state.dataType === 'player' &&
@@ -170,10 +189,10 @@ class App extends Component {
               <tbody>
                 <tr>
                     <th>Player</th>
-                    <th  style = {{width: "14%"}}className = "click" id = "timep" onClick = {this.sortTable}>Time</th>
-                    <th  style = {{width: "10%"}}className = "click" id = "pfp" onClick = {this.sortTable}>PF</th>
-                    <th  style = {{width: "10%"}}className = "click" id = "pap" onClick = {this.sortTable}>PA</th>
-                    <th style = {{width: "10%"}}className = "click" id = "netp" onClick = {this.sortTable}>+/-</th>
+                    <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortPlayerTable}>Time</th>
+                    <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortPlayerTable}>PF</th>
+                    <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortPlayerTable}>PA</th>
+                    <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortPlayerTable}>+/-</th>
 
                 </tr>
             {this.state.playerArray.map((x,i) => {
@@ -192,10 +211,10 @@ class App extends Component {
             <tbody>
               <tr>
                   <th>Lineup</th>
-                  <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortTable}>Time</th>
-                  <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortTable}>PF</th>
-                  <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortTable}>PA</th>
-                  <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortTable}>+/-</th>
+                  <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortLineupTable}>Time</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortLineupTable}>PF</th>
+                  <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortLineupTable}>PA</th>
+                  <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortLineupTable}>+/-</th>
 
               </tr>
           {this.state.dataArray.map((x,i) => {

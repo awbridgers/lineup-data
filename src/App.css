@@ -78,17 +78,21 @@ tr:last-child td:last-child {
   font-size: calc(10px + .65vw);
 }
 .select {
-  position: relative;
   margin: auto;
-  top: -60px;
-  font-size: 16px
+  font-size: 16px;
+  position: relative;
+  top: -20px;
 }
 .type{
-position:absolute;
-right:40px;
-top: 40px;
-width: 85px;
-height: 29px;
+position: absolute;
+text-align: center;
+font-size: calc(8px + .65vw);
+-webkit-appearance: none;
+top: 8%;
+right: 6%;
+width: calc(55px + 1vw);
+height: calc(35px + 1vw);
 background-color: #A9A9A9;
 border: none;
+cursor: pointer;
 }
