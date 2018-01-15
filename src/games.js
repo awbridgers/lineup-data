@@ -50,6 +50,19 @@ const fixName = (string) => {
   return string.join("");
 }
 
+const adjustName = (string) => {
+  string = Array.from(string);      //convert string to array
+  string.forEach((x,i) => {       //itereate through
+    if(x === '_'){                //if x is a -, change it to a space
+      string[i] = " ";
+    }
+    else if (x === "@"){
+      string[i] = "";
+    }
+  })
+  return string.join("");
+}
+
 export default class Game extends Component {
   constructor(props){
     super(props);
@@ -174,7 +187,7 @@ export default class Game extends Component {
       <div className="App">
         <header className="App-header">
           <div style = {{position: "relative", top: "-20px", fontSize: "25px"}}><p>Wake Forest: {this.state.wakeScore}</p>
-          <p style ={{position: "relative", top: "-28px", marginBottom: "-10px"}}>{fixName(this.props.gameName)}: {this.state.oppScore}</p>
+          <p style ={{position: "relative", top: "-28px", marginBottom: "-10px"}}>{adjustName(this.props.gameName)}: {this.state.oppScore}</p>
           <Dropdown></Dropdown>
         </div>
 
