@@ -24,7 +24,17 @@ class Data {
     this.time = parseInt(time,10);
   }
 }
-
+const totalStats = (array) => {
+  let time = 0;
+  let pf = 0;
+  let pa = 0;
+  array.forEach((lineup)=>{
+    time += lineup.time;
+    pf += lineup.pointsFor;
+    pa += lineup.pointsAgainst;
+  });
+  return {time: time, pointsFor: pf, pointsAgainst: pa};
+}
 let findLineup = (array, lineup) => {
   let index = -1
   array.forEach((x,i) => {
@@ -40,16 +50,62 @@ const setUpName = (array) =>{
     array.push(new Data (name, 0, 0, 0));
   })
 }
+const checkRoster = (array) => {
+  let isIncluded = true;
+  array.forEach((name)=>{
+    if(roster.includes(name) || name === ""){
+      //do nothing
+    }
+    else{
+      isIncluded = false;
+    }
+  });
+  return isIncluded;
+}
+
+class Finder extends Component {
+  constructor(){
+    super();
+    this.handleInput = this.handleInput.bind(this);
+    this.state = {player1: "", player2: "", player3: "", player4: "", player5: ""}
+  }
+  handleInput(e){
+    this.setState({[e.target.name]: e.target.value});
+  }
+  render(){
+    return(
+    <div className = "finder">
+      <div>
+      <h2>Lineup Finder</h2>
+      <p>Enter up to 5 players to find a specific lineup. Leave the input blank if it is unused.</p>
+        <p><b>Player 1: <input type="text" onChange = {this.props.handleInput} name = "player1" value = {this.props.player1}/></b></p>
+        <p><b>Player 2: <input type="text" onChange = {this.props.handleInput} name = "player2" value = {this.props.player2}/></b></p>
+        <p><b>Player 3: <input type="text" onChange = {this.props.handleInput} name = "player3" value = {this.props.player3}/></b></p>
+        <p><b>Player 4: <input type="text" onChange = {this.props.handleInput} name = "player4" value = {this.props.player4}/></b></p>
+        <p><b>Player 5: <input type="text" onChange = {this.props.handleInput} name = "player5" value = {this.props.player5}/></b></p>
+        <p style = {{position: "relative", left: "35px"}}><button className = "lineupSubmit" type = "button" onClick = {this.props.onClick}>Submit</button>
+        <button className = "lineupSubmit" type = "button" onClick = {this.props.cancel}>Cancel</button></p>
+      </div>
+    </div>
+  )}
+}
 
 class App extends Component {
   constructor(){
     super();
 
     this.ref = firebase.database().ref();
-    this.state = {dataArray: [], playerArray: [], dataType: 'lineup'};
+    this.state = {dataArray: [], playerArray: [], dataType: 'lineup', finder: false,
+      player1: "", player2: "", player3: "", player4: "", player5: "", finderArray:[]};
     this.sortLineupTable = this.sortLineupTable.bind(this);
     this.sortPlayerTable = this.sortPlayerTable.bind(this);
     this.makePlayerArray = this.makePlayerArray.bind(this);
+    this.cancel = this.cancel.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.sortFinderTable = this.sortFinderTable.bind(this);
+    this.lineupFinder = this.lineupFinder.bind(this);
+    this.activateFinder = this.activateFinder.bind(this);
+    this.back = this.back.bind(this);
     this.switchData = this.switchData.bind(this);
     this.sortLineupType = 'net';
     this.sortPlayerType = 'net';
@@ -167,6 +223,65 @@ class App extends Component {
     }
       this.setState({playerArray: array});
   }
+  sortFinderTable(e){
+    let type = e.target.id;
+    let array = this.state.finderArray;
+    if(type === this.sortFinderType){         //if the sort type is the same, reverse the order
+      array.reverse();
+    }
+    else{
+      if(type === "net"){
+        array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
+        this.sortFinderType = "net";
+      }
+      else if (type === "pf"){
+        array.sort((a,b)=>{return (b.pointsFor) - (a.pointsFor)});
+        this.sortFinderType = "pf";
+      }
+      else if(type === "pa"){
+        array.sort((a,b)=>{return (b.pointsAgainst) - (a.pointsAgainst)});
+        this.sortFinderType = "pa";
+      }
+      else if (type === "time"){
+        array.sort((a,b)=>{return (b.time) - (a.time)});
+        this.sortFinderType = "time";
+      }
+    }
+      this.setState({FinderArray: array});
+  }
+  activateFinder(){
+    this.setState({finder:true});
+  }
+  handleInput(e){
+    this.setState({[e.target.name]: e.target.value});
+  }
+  lineupFinder(){
+    let tempArray = [this.state.player1,this.state.player2,this.state.player3,this.state.player4,this.state.player5]
+    let fixedArray =[];
+    tempArray.forEach((name,i) => {
+      if(name !=""){
+        fixedArray.push(tempArray[i]);
+      }
+    })
+
+    if(!checkRoster(fixedArray)){
+      alert("One of the players is misspelled or not a member of the team");
+    }
+    else{
+      let finderArray =[];
+      this.state.dataArray.forEach((lineup) => {
+        if(fixedArray.every(name => lineup.lineup.includes(name))){
+          finderArray.push(lineup);
+        }});
+        this.setState({finderArray: finderArray, dataType: "finder",finder: false});
+      }
+    }
+    back(){
+      this.setState({dataType: 'lineup', finder:false});
+    }
+    cancel(){
+      this.setState({finder:false});
+    }
   render() {
     //testArray(this.state.playerArray);
     //console.log(this.state.dataArray.length)
@@ -181,8 +296,12 @@ class App extends Component {
               <button className = "type" onClick = {this.switchData}>View Players</button>}
             {this.state.dataType === "player" &&
               <button className = "type" onClick = {this.switchData}>View Lineups</button>}
-
+            <button className = "finderButton" onClick = {this.activateFinder}>Lineup Finder</button>
         </header>
+        {this.state.finder && <Finder onClick = {this.lineupFinder} cancel = {this.cancel}
+          player1 = {this.state.player1}   player2 = {this.state.player2} player3 = {this.state.player3}
+          player4 = {this.state.player4}   player5 = {this.state.player5}
+          handleInput = {this.handleInput}/>}
         <div sytle = {{textAlign: 'center'}}>
           {(this.state.dataType === 'player' &&
             <table>
@@ -228,6 +347,34 @@ class App extends Component {
           </tbody>
           </table>
         )}
+        {(this.state.dataType === 'finder' &&
+        <div>
+        <table>
+          <tbody>
+            <tr>
+                <th>Lineup</th>
+                <th  style = {{width: "14%"}}className = "click" id = "time" onClick = {this.sortFinderTable}>Time</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pf" onClick = {this.sortFinderTable}>PF</th>
+                <th  style = {{width: "10%"}}className = "click" id = "pa" onClick = {this.sortFinderTable}>PA</th>
+                <th style = {{width: "10%"}}className = "click" id = "net" onClick = {this.sortFinderTable}>+/-</th>
+
+            </tr>
+        {this.state.finderArray.map((x,i) => {
+          return (
+            <tr key ={i} style = {{height: "58px", fontSize: "calc(8px + .8vw)", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
+              <td>{x.lineup}</td><td>{fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
+            </tr>
+          )
+        })}
+        <tr style = {{height: "58px", fontSize: "calc(8px + .8vw)", fontFamily: "Tahoma, Verdana, Segoe, sans-serif"}}>
+        <td>Total</td><td>{fixTime(totalStats(this.state.finderArray).time)}</td><td>{totalStats(this.state.finderArray).pointsFor}</td>
+        <td>{totalStats(this.state.finderArray).pointsAgainst}</td><td>{totalStats(this.state.finderArray).pointsFor - totalStats(this.state.finderArray).pointsAgainst}</td>
+        </tr>
+        </tbody>
+        </table>
+        <button className = "back" onClick = {this.back}>Back</button>
+        </div>
+      )}
       </div>
     </div>
     );

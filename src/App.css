@@ -1,5 +1,7 @@
 .App {
   background-color: black;
+  min-height: 100vh;
+
 
 }
 
@@ -95,4 +97,43 @@ height: calc(35px + 1vw);
 background-color: #A9A9A9;
 border: none;
 cursor: pointer;
+}
+
+.finderButton{
+  position: absolute;
+  text-align: center;
+  font-size: calc(8px + .65vw);
+  -webkit-appearance: none;
+  top: 8%;
+  left: 6%;
+  width: calc(55px + 1vw);
+  height: calc(35px + 1vw);
+  background-color: #A9A9A9;
+  border: none;
+  cursor: pointer;
+}
+.finder{
+  height: 400px;
+  width:800px;
+  background-color: #DAA520;
+  margin: auto;
+  position: fixed;
+  left:0%;
+  right: 0%;
+  color: black;
+  text-align: center;
+}
+
+.back{
+  position: absolute;
+  text-align: center;
+  font-size: calc(8px + .65vw);
+  -webkit-appearance: none;
+  top: 8%;
+  right: 6%;
+  width: calc(55px + 1vw);
+  height: calc(35px + 1vw);
+  background-color: #A9A9A9;
+  border: none;
+  cursor: pointer;
 }
