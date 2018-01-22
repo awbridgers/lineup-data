@@ -113,8 +113,10 @@ cursor: pointer;
   cursor: pointer;
 }
 .finder{
-  height: 400px;
-  width:800px;
+  height: 60vh;
+  width: 40vw;
+  min-height: 400px;
+  min-width: 400px;
   background-color: #DAA520;
   margin: auto;
   position: fixed;
@@ -122,6 +124,9 @@ cursor: pointer;
   right: 0%;
   color: black;
   text-align: center;
+}
+.finderText{
+  font-size: 16px;
 }
 
 .back{

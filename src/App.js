@@ -63,7 +63,7 @@ const checkRoster = (array) => {
   return isIncluded;
 }
 
-class Finder extends Component {
+export class Finder extends Component {
   constructor(){
     super();
     this.handleInput = this.handleInput.bind(this);
@@ -78,11 +78,11 @@ class Finder extends Component {
       <div>
       <h2>Lineup Finder</h2>
       <p>Enter up to 5 players to find a specific lineup. Leave the input blank if it is unused.</p>
-        <p><b>Player 1: <input type="text" onChange = {this.props.handleInput} name = "player1" value = {this.props.player1}/></b></p>
-        <p><b>Player 2: <input type="text" onChange = {this.props.handleInput} name = "player2" value = {this.props.player2}/></b></p>
-        <p><b>Player 3: <input type="text" onChange = {this.props.handleInput} name = "player3" value = {this.props.player3}/></b></p>
-        <p><b>Player 4: <input type="text" onChange = {this.props.handleInput} name = "player4" value = {this.props.player4}/></b></p>
-        <p><b>Player 5: <input type="text" onChange = {this.props.handleInput} name = "player5" value = {this.props.player5}/></b></p>
+        <p><b>Player 1: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player1" value = {this.props.player1}/></b></p>
+        <p><b>Player 2: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player2" value = {this.props.player2}/></b></p>
+        <p><b>Player 3: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player3" value = {this.props.player3}/></b></p>
+        <p><b>Player 4: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player4" value = {this.props.player4}/></b></p>
+        <p><b>Player 5: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player5" value = {this.props.player5}/></b></p>
         <p style = {{position: "relative", left: "35px"}}><button className = "lineupSubmit" type = "button" onClick = {this.props.onClick}>Submit</button>
         <button className = "lineupSubmit" type = "button" onClick = {this.props.cancel}>Cancel</button></p>
       </div>
