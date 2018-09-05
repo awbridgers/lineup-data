@@ -54,6 +54,7 @@ let fixName = (string) => {
       <select className = "select" defaultValue = "select" onChange = {this.handleSelect}>
         <option disabled value = "select"> -- select a game -- </option>
         <option value = "">Season Total</option>
+        <option value = "Acc-Totals">ACC Totals</option>
         {this.state.gameList.map((x,i)=> {
           return (
             <option key = {i} value = {x.name}>{fixName(x.name)}</option>

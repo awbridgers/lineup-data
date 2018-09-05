@@ -7,6 +7,7 @@ import {HashRouter as Router, Route, Switch, Link} from 'react-router-dom';
 import config from './config.js'
 import * as firebase from 'firebase'
 import Games from "./games.js";
+import Acc from './acc.jsx'
 
 firebase.initializeApp(config);
 
@@ -34,6 +35,7 @@ export default class Routing extends Component{
       <Router>
         <div>
         <Route exact path ="/" component = {App} />
+        <Route exact path = "/Acc-Totals" component = {Acc} />
         {this.state.teamArray.map((x,i) => {
           return (
             <Route key={i} path = {"/"+x} render={props => <Games gameName = {x} {...props} />} />
