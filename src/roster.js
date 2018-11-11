@@ -1,21 +1,19 @@
 let roster = [
   "Brandon Childress",
-  "Keyshawn Woods",
-  "Donovan Mitchell",
-  "Doral Moore",
-  "Mitchell Wilbekin",
-  "Melo Eggleston",
-  "Bryant Crawford",
-  "Terrence Thompson",
+  "Isaiah Mucius",
+  "Sharone Wright",
+  "Torry Johnson",
+  "Jaylen Hoard",
+  "Andrien White",
+  "Michael Wynn",
+  "Jamie Lewis",
   "Chaundee Brown",
-  "Sam Japhet-Mathias",
+  "Blake Buchanan",
   "Olivier Sarr",
-  "Rich Washington",
+  "Ikenna Smart",
   "Sunday Okeke",
   "Anthony Bilas",
   "Aaron Spivey",
-  "Troy Rike",
-  "Britton Anderson"
 
 ];
 
