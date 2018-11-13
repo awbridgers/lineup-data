@@ -9,7 +9,7 @@ import * as firebase from 'firebase'
 import Dropdown from './dropDown.js';
 import roster from "./roster.js"
 import convert from 'convert-seconds';
-
+import Finder from './finder.jsx'
 
 import logo from './logo.svg';
 
@@ -99,32 +99,6 @@ const adjustName = (string) => {
   return string.join("");
 }
 
- class Finder extends Component {
-  constructor(){
-    super();
-    this.handleInput = this.handleInput.bind(this);
-    this.state = {player1: "", player2: "", player3: "", player4: "", player5: ""}
-  }
-  handleInput(e){
-    this.setState({[e.target.name]: e.target.value});
-  }
-  render(){
-    return(
-    <div className = "finder">
-      <div>
-      <h2>Lineup Finder</h2>
-      <p>Enter up to 5 players to find a specific lineup. Leave the input blank if it is unused.</p>
-        <p><b>Player 1: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player1" value = {this.props.player1}/></b></p>
-        <p><b>Player 2: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player2" value = {this.props.player2}/></b></p>
-        <p><b>Player 3: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player3" value = {this.props.player3}/></b></p>
-        <p><b>Player 4: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player4" value = {this.props.player4}/></b></p>
-        <p><b>Player 5: <input className = "finderText" type="text" onChange = {this.props.handleInput} name = "player5" value = {this.props.player5}/></b></p>
-        <p style = {{position: "relative", left: "35px"}}><button className = "lineupSubmit" type = "button" onClick = {this.props.onClick}>Submit</button>
-        <button className = "lineupSubmit" type = "button" onClick = {this.props.cancel}>Cancel</button></p>
-      </div>
-    </div>
-  )}
-}
 
 export default class Game extends Component {
   constructor(props){
