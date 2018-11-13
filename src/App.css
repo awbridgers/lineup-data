@@ -36,6 +36,7 @@ table {
   width: 100%;
   table-layout: fixed;
   text-align: center;
+  padding-bottom: 10px;
 }
 th,
 td {
@@ -55,17 +56,17 @@ tr:first-child th:last-child {
   border-top-right-radius: 6px;
 }
 td {
-  border-right: 1px solid #c6c9cc;
-  border-bottom: 1px solid #c6c9cc;
+  border-right: 1px solid black;
+  border-bottom: 1px solid black;
 }
 td:first-child {
   border-left: 1px solid #c6c9cc;
 }
 tr:nth-child(even) td {
-  background: #A9A9A9;
+  background: #808080;
 }
 tr:nth-child(odd) td {
-  background: white;
+  background: #D3D3D3;
 }
 tr:last-child td:first-child {
   border-bottom-left-radius: 6px;
@@ -75,7 +76,18 @@ tr:last-child td:last-child {
 }
 .click{
   cursor: pointer;
-  font-size: calc(10px + .65vw);
+  font-size: 18px;
+  width: 10%;
+
+}
+.lineupTable td, .playerTable td, .finderTable td{
+  font-weight: bold;
+  height: 58px;
+  font-size: 18px;
+  font-family: "Tahoma"
+}
+#pre{
+  white-space: pre;
 }
 .select {
   margin: auto;
