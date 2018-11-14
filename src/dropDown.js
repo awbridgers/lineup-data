@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-import config from './config.js'
 import * as firebase from 'firebase'
-import {HashRouter as Router, Route, Switch, Link, Redirect, withRouter} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 class Game {
   constructor(name,order){
@@ -11,7 +9,6 @@ class Game {
     this.order = order;
   }
 }
-let testArray = (array) => array.forEach((x) => console.log(x));
 let fixName = (string) => {
   string = Array.from(string);      //convert string to array
   string.forEach((x,i) => {       //itereate through
@@ -22,7 +19,7 @@ let fixName = (string) => {
   return string.join("");         //join the array back to a string a return
 }
 
- class Dropdown extends Component {
+ export class Dropdown extends Component {
   constructor(){
     super();
     //this.db = firebase.initializeApp(config);
