@@ -1,10 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as firebase from 'firebase'
-import Dropdown from './dropDown.js';
-import roster from './roster.js'
 import convert from "convert-seconds"
-import Finder from './finder.jsx'
+
 
 
 
@@ -40,11 +37,13 @@ export default class DataTable extends Component{
   }
   returnOffRating = (player) =>{
     const rating = Math.round((player.pointsFor/player.possFor)*100)
-    return isFinite(rating) ? rating : 1
+    //for the purposes of sorting, if the offRating is infinite or NaN, return a small number (so its always last)
+    return isFinite(rating) ? rating : -1
   }
   returnDefRating = (player) =>{
     const rating = Math.round((player.pointsAgainst/player.possAgainst)*100)
-    return isFinite(rating) ? rating : 1
+    //for the purposes of sorting def Rating, infinity or NaN should return a big number (goes last in sort for Def Rating)
+    return isFinite(rating) ? rating : 1000
   }
   render(){
     return(
@@ -67,7 +66,7 @@ export default class DataTable extends Component{
             return (
               <tr key ={i}>
                 <td>{x.lineup}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
-                  <td>{x.reboundsFor-x.reboundsAgainst}</td><td>{this.returnOffRating(x)}</td>
+                  <td>{x.reboundsFor-x.reboundsAgainst}</td><td>{x.possFor > 0 ? this.returnOffRating(x) : 'N/A'}</td>
                   <td>{this.returnDefRating(x)}</td>
               </tr>
             )
@@ -96,8 +95,8 @@ export default class DataTable extends Component{
           return (
             <tr key ={i}>
               <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td>
-              <td>{x.pointsFor-x.pointsAgainst}</td><td>{x.reboundsFor-x.reboundsAgainst}</td><td>{this.returnOffRating(x)}</td>
-              <td>{this.returnDefRating(x)}</td>
+              <td>{x.pointsFor-x.pointsAgainst}</td><td>{x.reboundsFor-x.reboundsAgainst}</td><td>{x.possFor > 0 ? this.returnOffRating(x) : 'N/A'}</td>
+              <td>{x.possAgainst > 0 ? this.returnDefRating(x) : 'N/A'}</td>
             </tr>
           )
         })

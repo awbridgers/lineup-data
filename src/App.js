@@ -3,7 +3,6 @@ import './App.css';
 import * as firebase from 'firebase'
 import Dropdown from './dropDown.js';
 import roster from './roster.js'
-import convert from "convert-seconds"
 import Finder from './finder.jsx'
 import DataTable from './dataTable.jsx';
 
@@ -226,11 +225,13 @@ class App extends Component {
   }
   returnOffRating = (player) =>{
     const rating = Math.round((player.pointsFor/player.possFor)*100)
-    return isFinite(rating) ? rating : 1
+    //for the purposes of sorting, if the offRating is infinite or NaN, return a small number (so its always last)
+    return isFinite(rating) ? rating : -1
   }
   returnDefRating = (player) =>{
     const rating = Math.round((player.pointsAgainst/player.possAgainst)*100)
-    return isFinite(rating) ? rating : 1
+    //for the purposes of sorting def Rating, infinity or NaN should return a big number (goes last in sort for Def Rating)
+    return isFinite(rating) ? rating : 1000
   }
   render() {
     return (
