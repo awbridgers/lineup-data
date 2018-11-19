@@ -120,7 +120,7 @@ class App extends Component {
     });
     //remove any players that did not play
     tempArray.forEach((data,i) =>{
-      if(data.time !== 0 && data.pointsFor !== 0 && data.pointsAgainst !== 0){
+      if(data.time !== 0){
         playerArray.push(tempArray[i]);
       }
     })
@@ -191,7 +191,7 @@ class App extends Component {
 
   activateFinder = () => {
     this.setState({finder:true});
-    console.log(this.state.finder)
+    //console.log(this.state.finder)
   }
   handleInput = (e) =>{
     this.setState({[e.target.name]: e.target.value});
