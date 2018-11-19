@@ -4,17 +4,26 @@
   "homepage": "https://awbridgers.github.io/lineup-data",
   "private": true,
   "jest": {
-    "snapshotSerializers": ["enzyme-to-json/serializer"]
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
   },
   "dependencies": {
     "convert-seconds": "^1.0.1",
+    "deep-extend": "^0.6.0",
     "firebase": "^4.6.2",
     "gh-pages": "^1.1.0",
+    "hoek": "^6.0.3",
+    "lodash": "^4.17.11",
+    "merge": "^1.2.1",
+    "randomatic": "^3.1.1",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-router-dom": "^4.2.2",
     "sec-to-min": "^1.0.1",
-    "sixty-sixty": "^2.0.0"
+    "sixty-sixty": "^2.0.0",
+    "sshpk": "^1.15.2",
+    "url-parse": "^1.4.4"
   },
   "devDependencies": {
     "enzyme": "^3.7.0",
