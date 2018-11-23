@@ -4,6 +4,7 @@ import Dropdown from './dropDown.js';
 import roster from "./roster.js"
 import Finder from './finder.jsx'
 import DataTable from './dataTable.jsx'
+import { connect } from 'react-redux';
 
 
 
@@ -63,7 +64,7 @@ const adjustName = (string) => {
 }
 
 
-export default class Game extends Component {
+class Game extends Component {
   constructor(props){
     super(props);
     this.ref = firebase.database().ref(this.props.gameName);
@@ -277,3 +278,10 @@ export default class Game extends Component {
     );
   }
 }
+
+const mapStateToProps = state =>({
+  lineups: state.lineupData
+})
+
+
+export default connect(mapStateToProps)(Game);

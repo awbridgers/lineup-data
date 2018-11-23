@@ -5,6 +5,9 @@ import Dropdown from './dropDown.js';
 import roster from './roster.js'
 import Finder from './finder.jsx'
 import DataTable from './dataTable.jsx';
+import { connect } from 'react-redux';
+import { changeDataType, lineupFinder } from './actions/index.js'
+
 
 
 class Data {
@@ -87,7 +90,6 @@ class App extends Component {
          });
          })
         array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
-
        this.setState({dataArray: array});
        this.makePlayerArray();
      })
@@ -95,9 +97,11 @@ class App extends Component {
   switchData = () =>{
     if(this.state.dataType === "lineup"){
       this.setState({dataType: "player"});
+      this.props.changeDataType('player')
     }
     else{
       this.setState({dataType: "lineup"})
+      this.props.changeDataType('lineup')
     }
   }
   makePlayerArray = () => {
@@ -128,6 +132,7 @@ class App extends Component {
     this.setState({playerArray: playerArray});
   }
   sortLineupTable = (e, dataType) =>{
+    // console.log(e.target.id)
     let type = e.target.id;
     let array;
     switch(dataType){
@@ -198,12 +203,7 @@ class App extends Component {
   }
   lineupFinder = () =>{
     let tempArray = [this.state.player1,this.state.player2,this.state.player3,this.state.player4,this.state.player5]
-    let fixedArray =[];
-    tempArray.forEach((name,i) => {
-      if(name !== ""){
-        fixedArray.push(tempArray[i]);
-      }
-    })
+    let fixedArray = tempArray.filter((name) => name!== '');
 
     if(!checkRoster(fixedArray)){
       alert("One of the players is misspelled or not a member of the team");
@@ -214,11 +214,16 @@ class App extends Component {
         if(fixedArray.every(name => lineup.lineup.includes(name))){
           finderArray.push(lineup);
         }});
+      let reduxArray = this.props.lineups.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
+      this.props.addLineupFinderInfo(reduxArray)
+
         this.setState({finderArray: finderArray, dataType: "finder",finder: false});
+        this.props.changeDataType('finder');
       }
     }
   back = () =>{
     this.setState({dataType: 'lineup', finder:false});
+    this.props.changeDataType('lineup')
   }
   cancel = () =>{
     this.setState({finder:false});
@@ -266,5 +271,15 @@ class App extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch =>({
+  changeDataType: (dt) => dispatch(changeDataType(dt)),
+  addLineupFinderInfo: (lineupArray) => dispatch(lineupFinder(lineupArray))
+})
 
-export default App;
+const mapStateToProps = state =>({
+  lineups: state.lineupData,
+  dataType: state.dataType
+})
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

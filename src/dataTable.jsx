@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import './App.css';
 import convert from "convert-seconds"
+import { connect } from 'react-redux';
 
 
 
 
-export default class DataTable extends Component{
+class DataTable extends Component{
   fixTime = (seconds) =>{
     let secs = convert(seconds).seconds
     if(secs < 10){
@@ -142,3 +143,9 @@ export default class DataTable extends Component{
     </div>
   )}
 }
+
+const mapStateToProps = state =>({
+  lineups: state.lineupData
+})
+
+export default connect()(DataTable)
