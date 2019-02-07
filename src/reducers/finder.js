@@ -6,3 +6,13 @@ export const finder = (state =[], action) =>{
     return state;
   }
 }
+
+
+export const finderActive = (state = false, action)=>{
+  switch(action.type){
+    case 'CHANGE_FINDER_ACTIVE':
+      return action.payload;
+    default:
+      return state;
+  }
+}

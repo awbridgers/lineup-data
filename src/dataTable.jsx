@@ -2,11 +2,35 @@ import React, { Component } from 'react';
 import './App.css';
 import convert from "convert-seconds"
 import { connect } from 'react-redux';
+import { changeSortType, chooseGame } from './actions/index.js'
+import { withRouter } from 'react-router'
 
 
 
 
 class DataTable extends Component{
+  sort = (a,b,array)=>{
+    let sortType = this.props.sortType[array].sortType
+    switch (sortType){
+      case 'time':
+        return b.time-a.time;
+      case 'net':
+        return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst);
+      case 'pf':
+        return b.pointsFor - a.pointsFor;
+      case 'pa':
+        return b.pointsAgainst - a.pointsAgainst
+      case 'reb':
+        return (b.reboundsFor - b.reboundsAgainst) - (a.reboundsFor - a.reboundsAgainst)
+      case 'offRating':
+        return this.returnOffRating(b)- this.returnOffRating(a);
+      case 'defRating':
+        return this.returnDefRating(a) - this.returnDefRating(b);
+      default:
+        return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst)
+    }
+
+  }
   fixTime = (seconds) =>{
     let secs = convert(seconds).seconds
     if(secs < 10){
@@ -46,7 +70,26 @@ class DataTable extends Component{
     //for the purposes of sorting def Rating, infinity or NaN should return a big number (goes last in sort for Def Rating)
     return isFinite(rating) ? rating : 1000
   }
+  sortClick = (e)=> {
+    const prevSort = this.props.sortType[this.props.dataType].sortType;
+    const newSort = e.target.id;
+    this.props.changeSortType(prevSort, newSort, this.props.dataType);
+  }
   render(){
+    let lineupArray = [], playerArray = [];
+    if(this.props.gameName === ''){
+      lineupArray = (this.props.sortType.lineup.reverse) ? this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup')).reverse() :
+         this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup'));
+      playerArray = (this.props.sortType.player.reverse) ? this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player')).reverse() :
+          this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player'))
+    }
+    else{
+      lineupArray = this.props.sortType.lineup.reverse ? this.props.individualGames[this.props.gameName].lineup.sort((a,b)=>this.sort(a,b,'lineup')).reverse() :
+        this.props.individualGames[this.props.gameName].lineup.sort((a,b)=>this.sort(a,b,'lineup'))
+      playerArray = this.props.sortType.player.reverse ? this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player')).reverse() :
+        this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player'))
+
+    }
     return(
       <div sytle = {{textAlign: 'center'}}>
         {(this.props.dataType === 'player' &&
@@ -54,16 +97,16 @@ class DataTable extends Component{
             <tbody>
               <tr>
                   <th>Player</th>
-                  <th  className = "click" id = "time" onClick = {(e) => {this.props.sort(e, 'player')}}>Time</th>
-                  <th  className = "click" id = "pf" onClick = {(e) => {this.props.sort(e, 'player')}}>Points For</th>
-                  <th  className = "click" id = "pa" onClick = {(e) => {this.props.sort(e, 'player')}}>Points Against</th>
-                  <th  className = "click" id = "net" onClick = {(e) => {this.props.sort(e, 'player')}}>Points +/-</th>
-                  <th  className = "click" id = "reb" onClick = {(e) => {this.props.sort(e, 'player')}}>Rebounds +/-</th>
-                  <th  className = "click" id = "offRating" onClick = {(e) => {this.props.sort(e, 'player')}}>Off Rating</th>
-                  <th  className = "click" id = "defRating" onClick = {(e) => {this.props.sort(e, 'player')}}>Def Rating</th>
+                  <th  className = "click" id = "time" onClick = {this.sortClick}>Time</th>
+                  <th  className = "click" id = "pf" onClick = {this.sortClick}>Points For</th>
+                  <th  className = "click" id = "pa" onClick = {this.sortClick}>Points Against</th>
+                  <th  className = "click" id = "net" onClick = {this.sortClick}>Points +/-</th>
+                  <th  className = "click" id = "reb" onClick = {this.sortClick}>Rebounds +/-</th>
+                  <th  className = "click" id = "offRating" onClick = {this.sortClick}>Off Rating</th>
+                  <th  className = "click" id = "defRating" onClick = {this.sortClick}>Def Rating</th>
 
               </tr>
-          {this.props.playerArray.map((x,i) => {
+          {playerArray.map((x,i) => {
             return (
               <tr key ={i}>
                 <td>{x.lineup}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
@@ -81,26 +124,26 @@ class DataTable extends Component{
           <tbody>
             <tr>
                 <th>Lineup</th>
-                <th  className = "click" id = "time" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Time</th>
-                <th  className = "click" id = "pf" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Points For</th>
-                <th  className = "click" id = "pa" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Points Against</th>
-                <th  className = "click" id = "net" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Points +/-</th>
-                <th  className = "click" id = "reb" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Rebounds +/-</th>
-                <th  className = "click" id = "offRating" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Off Rating</th>
-                <th  className = "click" id = "defRating" onClick = {(e) => {this.props.sort(e, 'lineup')}}>Def Rating</th>
+                <th  className = "click" id = "time" onClick = {this.sortClick}>Time</th>
+                <th  className = "click" id = "pf" onClick = {this.sortClick}>Points For</th>
+                <th  className = "click" id = "pa" onClick = {this.sortClick}>Points Against</th>
+                <th  className = "click" id = "net" onClick = {this.sortClick}>Points +/-</th>
+                <th  className = "click" id = "reb" onClick = {this.sortClick}>Rebounds +/-</th>
+                <th  className = "click" id = "offRating" onClick = {this.sortClick}>Off Rating</th>
+                <th  className = "click" id = "defRating" onClick = {this.sortClick}>Def Rating</th>
 
 
 
             </tr>
-        {this.props.dataArray.map((x,i) => {
-          return (
-            <tr key ={i}>
-              <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td>
-              <td>{x.pointsFor-x.pointsAgainst}</td><td>{x.reboundsFor-x.reboundsAgainst}</td><td>{x.possFor > 0 ? this.returnOffRating(x) : 'N/A'}</td>
-              <td>{x.possAgainst > 0 ? this.returnDefRating(x) : 'N/A'}</td>
-            </tr>
-          )
-        })
+        {lineupArray.map((x,i) => {
+            return (
+              <tr key ={i}>
+                <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td>
+                <td>{x.pointsFor-x.pointsAgainst}</td><td>{x.reboundsFor-x.reboundsAgainst}</td><td>{x.possFor > 0 ? this.returnOffRating(x) : 'N/A'}</td>
+                <td>{x.possAgainst > 0 ? this.returnDefRating(x) : 'N/A'}</td>
+              </tr>
+            )
+          })
         }
         </tbody>
         </table>
@@ -111,13 +154,13 @@ class DataTable extends Component{
         <tbody>
           <tr>
               <th>Lineup</th>
-              <th className = "click" id = "time" onClick = {(e) => {this.props.sort(e, 'finder')}}>Time</th>
-              <th className = "click" id = "pf" onClick = {(e) => {this.props.sort(e, 'finder')}}>Points For</th>
-              <th className = "click" id = "pa" onClick = {(e) => {this.props.sort(e, 'finder')}}>Points Against</th>
-              <th className = "click" id = "net" onClick = {(e) => {this.props.sort(e, 'finder')}}>Points +/-</th>
-              <th className = "click" id = "reb" onClick = {(e) => {this.props.sort(e, 'finder')}}>Rebounds +/-</th>
-              <th className = "click" id = "offRating" onClick = {(e) => {this.props.sort(e, 'finder')}}>Off Rating</th>
-              <th className = "click" id = "defRating" onClick = {(e) => {this.props.sort(e, 'finder')}}>Def Rating</th>
+              <th className = "click" id = "time" onClick = {this.sortClick}>Time</th>
+              <th className = "click" id = "pf" onClick = {this.sortClick}>Points For</th>
+              <th className = "click" id = "pa" onClick = {this.sortClick}>Points Against</th>
+              <th className = "click" id = "net" onClick = {this.sortClick}>Points +/-</th>
+              <th className = "click" id = "reb" onClick = {this.sortClick}>Rebounds +/-</th>
+              <th className = "click" id = "offRating" onClick = {this.sortClick}>Off Rating</th>
+              <th className = "click" id = "defRating" onClick = {this.sortClick}>Def Rating</th>
 
           </tr>
       {this.props.finderArray.map((x,i) => {
@@ -144,8 +187,18 @@ class DataTable extends Component{
   )}
 }
 
-const mapStateToProps = state =>({
-  lineups: state.lineupData
+const mapDispatchToProps = dispatch =>({
+changeSortType : (prevSort, newSort, sortBy) => dispatch(changeSortType(prevSort, newSort, sortBy)),
+changeGame: (game)=> dispatch(chooseGame(game))
 })
 
-export default connect()(DataTable)
+const mapStateToProps = state =>({
+  dataArray: state.lineupData.lineup,
+  playerArray: state.lineupData.player,
+  gameName: state.gameName,
+  dataType: state.dataType,
+  sortType: state.sort,
+  individualGames: state.individualGames
+})
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataTable))

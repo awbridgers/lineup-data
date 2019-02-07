@@ -1,16 +1,17 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
+import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk';
-import { lineupData } from './reducers/gameData.js';
-import { individualGames } from './reducers/individualGames.js'
-import { addData } from './actions/index.js';
-import { dataType } from './reducers/dataType.js'
-import { finder } from './reducers/finder.js'
-import * as firebase from 'firebase'
+import * as firebase from 'firebase';
+import rootReducer from './reducers/index.js';
+import { createBrowserHistory } from 'history';
+import {addData} from './actions/index.js'
+import { routerMiddleware } from 'connected-react-router'
+
+export const history = createBrowserHistory();
 
 const store = createStore(
-  combineReducers({lineupData, individualGames, dataType, finder}),
+  rootReducer(history),
   undefined,
-  compose(applyMiddleware(thunk),  window.devToolsExtension ? window.devToolsExtension() : f => f)
+  compose(applyMiddleware(routerMiddleware(history),thunk),  window.devToolsExtension ? window.devToolsExtension() : f => f)
 )
 store.dispatch(addData(firebase.database()))
 

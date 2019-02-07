@@ -1,42 +1,17 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as firebase from 'firebase'
-import Dropdown from './dropDown.js';
 import roster from './roster.js'
 import Finder from './finder.jsx'
 import DataTable from './dataTable.jsx';
 import { connect } from 'react-redux';
-import { changeDataType, lineupFinder } from './actions/index.js'
+import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
+import { withRouter } from 'react-router'
 
 
 
-class Data {
-  constructor(lineup, pointsFor, pointsAgainst,time, reboundsFor, reboundsAgainst, possFor, possAgainst) {
-    this.lineup = lineup;
-    this.pointsFor = parseInt(pointsFor,10);
-    this.pointsAgainst = parseInt(pointsAgainst,10);
-    this.time = parseInt(time,10);
-    this.reboundsFor = parseInt(reboundsFor, 10);
-    this.reboundsAgainst = parseInt(reboundsAgainst,10);
-    this.possFor = parseInt(possFor, 10);
-    this.possAgainst = parseInt(possAgainst,10);
-  }
-}
-let findLineup = (array, lineup) => {
-  let index = -1
-  array.forEach((x,i) => {
-    if(x.lineup === lineup)
-    {
-      index = i;
-    }
-  });
-  return index;
-}
-const setUpName = (array) =>{
-  roster.forEach((name) =>{
-    array.push(new Data (name, 0, 0, 0,0,0,0,0));
-  })
-}
+
+
+
 const checkRoster = (array) => {
   let isIncluded = true;
   array.forEach((name)=>{
@@ -55,81 +30,21 @@ const checkRoster = (array) => {
 class App extends Component {
   constructor(){
     super();
-
-    this.ref = firebase.database().ref();
     this.state = {dataArray: [], playerArray: [], dataType: 'lineup', finder: false,
       player1: "", player2: "", player3: "", player4: "", player5: "", finderArray:[]};
     this.sortLineupType = 'net';
     this.sortArrayType = 'lineup';
-
-
   }
-  componentDidMount(){
-     this.getData = this.ref.once('value').then((snapshot) => {
-       let array =[];
 
-       snapshot.forEach((childSnapshot) => {
-         //console.log(childSnapshot.key)
-         childSnapshot.child('lineups').forEach((x) => {
-           //console.log(x.val());
-           let temp = new Data (x.key, x.val().pointsFor, x.val().pointsAgainst, x.val().time,
-            x.val().reboundsFor, x.val().reboundsAgainst, x.val().possFor, x.val().possAgainst);
-           let index = findLineup(array,temp.lineup)
-           if(index === -1){
-             array.push(temp);
-           }
-           else{
-             array[index].pointsFor += temp.pointsFor;
-             array[index].pointsAgainst += temp.pointsAgainst;
-             array[index].time += temp.time;
-             array[index].reboundsFor += temp.reboundsFor;
-             array[index].reboundsAgainst += temp.reboundsAgainst;
-             array[index].possFor += temp.possFor;
-             array[index].possAgainst += temp.possAgainst;
-           }
-         });
-         })
-        array.sort((a,b)=>{return (a.pointsFor-a.pointsAgainst) - (b.pointsFor -b.pointsAgainst)}).reverse();
-       this.setState({dataArray: array});
-       this.makePlayerArray();
-     })
-  }
   switchData = () =>{
     if(this.state.dataType === "lineup"){
-      this.setState({dataType: "player"});
+      //this.setState({dataType: "player"});
       this.props.changeDataType('player')
     }
     else{
-      this.setState({dataType: "lineup"})
+      //this.setState({dataType: "lineup"})
       this.props.changeDataType('lineup')
     }
-  }
-  makePlayerArray = () => {
-    let tempArray =[];
-    let playerArray =[];
-    setUpName(tempArray)   //add all of the players to the array for searching
-    //for each player, search the lineups for them and add the data to their own
-    tempArray.forEach((player)=> {
-      this.state.dataArray.forEach((data)=>{
-        if(data.lineup.includes(player.lineup)){
-          player.pointsFor += data.pointsFor;
-          player.pointsAgainst += data.pointsAgainst;
-          player.time += data.time;
-          player.reboundsFor += data.reboundsFor;
-          player.reboundsAgainst += data.reboundsAgainst;
-          player.possFor += data.possFor;
-          player.possAgainst += data.possAgainst;
-        }
-      });
-    });
-    //remove any players that did not play
-    tempArray.forEach((data,i) =>{
-      if(data.time !== 0){
-        playerArray.push(tempArray[i]);
-      }
-    })
-    playerArray.sort((a,b)=> {return(a.pointsFor-a.pointsAgainst)-(b.pointsFor-b.pointsAgainst)}).reverse();
-    this.setState({playerArray: playerArray});
   }
   sortLineupTable = (e, dataType) =>{
     // console.log(e.target.id)
@@ -241,27 +156,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <div className = 'header'>
-            <div>
-              <button className = "finderButton" onClick = {this.activateFinder}>Lineup Finder</button>
-            </div>
-            <div className = 'title'>
-              <h1>Season Total</h1>
-              <Dropdown/>
-            </div>
-            <div>
-              {this.state.dataType === "lineup" &&
-                <button className = "type" onClick = {this.switchData}>View Players</button>}
-              {this.state.dataType === "player" &&
-                <button className = "type" onClick = {this.switchData}>View Lineups</button>}
-              {this.state.dataType=== 'finder' &&
-                <button className = "back" onClick = {this.back}>Back</button>}
-            </div>
-          </div>
-        </header>
-          <DataTable dataType = {this.state.dataType} dataArray = {this.state.dataArray}
-              playerArray = {this.state.playerArray} finderArray = {this.state.finderArray} sort ={this.sortLineupTable}/>
+        {this.props.dataLoaded && <DataTable />}
 
         {this.state.finder && <Finder onClick = {this.lineupFinder} cancel = {this.cancel}
           player1 = {this.state.player1}   player2 = {this.state.player2} player3 = {this.state.player3}
@@ -273,12 +168,15 @@ class App extends Component {
 }
 const mapDispatchToProps = dispatch =>({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
-  addLineupFinderInfo: (lineupArray) => dispatch(lineupFinder(lineupArray))
+  addLineupFinderInfo: (lineupArray) => dispatch(lineupFinder(lineupArray)),
+  changeFinder: (active)=> dispatch(changeFinderActive(active))
 })
 
 const mapStateToProps = state =>({
   lineups: state.lineupData,
-  dataType: state.dataType
+  dataType: state.dataType,
+  dataLoaded: state.dataLoaded,
+  finderActive: state.finderActive
 })
 
 

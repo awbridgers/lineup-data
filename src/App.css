@@ -168,10 +168,10 @@ h1{
   font-weight: bold;
 }
 .gameScore{
-  margin-bottom: 15px;
+  margin-bottom: 18px;
 }
-.title{
-
+.title h1 {
+  padding-bottom: 5px;
 }
 
 
