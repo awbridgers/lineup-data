@@ -110,30 +110,28 @@ class App extends Component {
   }
 
   activateFinder = () => {
-    this.setState({finder:true});
-    //console.log(this.state.finder)
+    this.props.changeFinder(!this.props.finderActive)
   }
   handleInput = (e) =>{
     this.setState({[e.target.name]: e.target.value});
   }
   lineupFinder = () =>{
+    //add all the input names to array and filter out any spaces left blank
     let tempArray = [this.state.player1,this.state.player2,this.state.player3,this.state.player4,this.state.player5]
     let fixedArray = tempArray.filter((name) => name!== '');
 
+    //make sure the players are on the team!
     if(!checkRoster(fixedArray)){
       alert("One of the players is misspelled or not a member of the team");
     }
     else{
       let finderArray =[];
-      this.state.dataArray.forEach((lineup) => {
-        if(fixedArray.every(name => lineup.lineup.includes(name))){
-          finderArray.push(lineup);
-        }});
-      let reduxArray = this.props.lineups.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
-      this.props.addLineupFinderInfo(reduxArray)
-
-        this.setState({finderArray: finderArray, dataType: "finder",finder: false});
-        this.props.changeDataType('finder');
+      let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
+      let reduxArray = fromWhichArray.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
+      const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
+      this.props.addLineupFinderInfo(reduxArrayFilter)
+      this.props.changeFinder(false);
+      this.props.changeDataType('finder');
       }
     }
   back = () =>{
@@ -158,7 +156,7 @@ class App extends Component {
       <div className="App">
         {this.props.dataLoaded && <DataTable />}
 
-        {this.state.finder && <Finder onClick = {this.lineupFinder} cancel = {this.cancel}
+        {this.props.finderActive && <Finder onClick = {this.lineupFinder}
           player1 = {this.state.player1}   player2 = {this.state.player2} player3 = {this.state.player3}
           player4 = {this.state.player4}   player5 = {this.state.player5}
           handleInput = {this.handleInput}/>}
@@ -173,10 +171,12 @@ const mapDispatchToProps = dispatch =>({
 })
 
 const mapStateToProps = state =>({
-  lineups: state.lineupData,
+  lineups: state.lineupData.lineup,
   dataType: state.dataType,
   dataLoaded: state.dataLoaded,
-  finderActive: state.finderActive
+  finderActive: state.finderActive,
+  gameName: state.gameName,
+  individualGames: state.individualGames,
 })
 
 

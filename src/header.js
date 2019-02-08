@@ -2,19 +2,15 @@ import React, { Component } from 'react';
 import Dropdown from './dropDown.js'
 import roster from './roster.js'
 import { connect } from 'react-redux'
-import { changeDataType, chooseGame } from './actions/index.js'
+import { changeDataType, chooseGame, changeFinderActive } from './actions/index.js'
 import { withRouter } from 'react-router'
 
 
 class Header extends Component {
-  constructor(props){
-    super(props)
-    this.State = { player1: "", player2: "", player3: "", player4: "", player5: "", finder: false}
 
-  }
   activateFinder = () => {
-    this.setState({finder:true});
-    //console.log(this.state.finder)
+    //set finderActive to the opposite of what it is
+    this.props.changeFinder(!this.props.finderActive)
   }
   handleInput = (e) =>{
     this.setState({[e.target.name]: e.target.value});
@@ -61,7 +57,6 @@ class Header extends Component {
     }
   }
   back = () =>{
-    this.setState({finder:false});
     this.props.changeDataType('lineup')
   }
   cancel = () =>{
@@ -109,6 +104,7 @@ class Header extends Component {
 const mapDispatchToProps = dispatch => ({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
   changeGame: (game)=> dispatch(chooseGame(game)),
+  changeFinder: (active)=> dispatch(changeFinderActive(active)),
 
 })
 const mapStateToProps = state =>({
@@ -116,7 +112,8 @@ const mapStateToProps = state =>({
   gameName: state.gameName,
   individualGames: state.individualGames,
   path: state.router.location.pathname,
-  dataLoaded: state.dataLoaded
+  dataLoaded: state.dataLoaded,
+  finderActive: state.finderActive
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

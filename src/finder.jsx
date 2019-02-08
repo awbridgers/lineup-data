@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { changeFinderActive } from './actions/index.js';
 
 const Finder = (props) =>(
   <div className = "finder">
@@ -11,9 +13,14 @@ const Finder = (props) =>(
       <p><b>Player 4: <input className = "finderText" type="text" onChange = {props.handleInput} name = "player4" value = {props.player4}/></b></p>
       <p><b>Player 5: <input className = "finderText" type="text" onChange = {props.handleInput} name = "player5" value = {props.player5}/></b></p>
       <p style = {{position: "relative", left: "35px"}}><button className = "lineupSubmit" type = "button" onClick = {props.onClick}>Submit</button>
-      <button className = "lineupSubmit" type = "button" onClick = {props.cancel}>Cancel</button></p>
+      <button className = "lineupSubmit" type = "button" onClick = {props.cancelFinder}>Cancel</button></p>
     </div>
   </div>
   )
 
-export default Finder
+const mapDispatchToProps = dispatch =>({
+  cancelFinder: ()=> dispatch(changeFinderActive(false)),
+})
+
+
+export default connect(null,mapDispatchToProps)(Finder);

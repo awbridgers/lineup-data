@@ -76,8 +76,11 @@ class DataTable extends Component{
     this.props.changeSortType(prevSort, newSort, this.props.dataType);
   }
   render(){
-    let lineupArray = [], playerArray = [];
+    //create 2 arrays for the lineup and player data. This way, when sorted, the original data isnt messed up
+    let lineupArray = [], playerArray = [], finderArray = [];
+    //Season totals
     if(this.props.gameName === ''){
+      //set the arrays to fiter out no possessions and sort accordingly
       lineupArray = (this.props.sortType.lineup.reverse) ? this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup')).reverse() :
          this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup'));
       playerArray = (this.props.sortType.player.reverse) ? this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player')).reverse() :
@@ -88,8 +91,9 @@ class DataTable extends Component{
         this.props.individualGames[this.props.gameName].lineup.sort((a,b)=>this.sort(a,b,'lineup'))
       playerArray = this.props.sortType.player.reverse ? this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player')).reverse() :
         this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player'))
-
     }
+    finderArray = this.props.sortType.finder.reverse ? this.props.finderArray.sort((a,b,)=>this.sort(a,b,'finder')).reverse() :
+      this.props.finderArray.sort((a,b)=>this.sort(a,b,'finder'));
     return(
       <div sytle = {{textAlign: 'center'}}>
         {(this.props.dataType === 'player' &&
@@ -163,7 +167,7 @@ class DataTable extends Component{
               <th className = "click" id = "defRating" onClick = {this.sortClick}>Def Rating</th>
 
           </tr>
-      {this.props.finderArray.map((x,i) => {
+      {finderArray.map((x,i) => {
         return (
           <tr key ={i}>
             <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
@@ -195,6 +199,7 @@ changeGame: (game)=> dispatch(chooseGame(game))
 const mapStateToProps = state =>({
   dataArray: state.lineupData.lineup,
   playerArray: state.lineupData.player,
+  finderArray: state.finder,
   gameName: state.gameName,
   dataType: state.dataType,
   sortType: state.sort,
