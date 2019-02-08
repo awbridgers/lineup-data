@@ -30,7 +30,8 @@
     "sec-to-min": "^1.0.1",
     "sixty-sixty": "^2.0.0",
     "sshpk": "^1.15.2",
-    "url-parse": "^1.4.4"
+    "url-parse": "^1.4.4",
+    "webpack-dev-server": "^3.1.14"
   },
   "devDependencies": {
     "enzyme": "^3.7.0",
