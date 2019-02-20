@@ -9,12 +9,12 @@
     ]
   },
   "dependencies": {
-    "connected-react-router": "^5.0.1",
+    "connected-react-router": "^6.3.1",
     "convert-seconds": "^1.0.1",
     "cryptiles": "^4.1.3",
     "deep-extend": "^0.6.0",
-    "firebase": "^4.13.1",
-    "gh-pages": "^1.2.0",
+    "firebase": "^5.8.2",
+    "gh-pages": "^2.0.1",
     "history": "^4.7.2",
     "hoek": "^6.1.2",
     "lodash": "^4.17.11",
@@ -23,7 +23,7 @@
     "randomatic": "^3.1.1",
     "react": "^16.8.1",
     "react-dom": "^16.8.1",
-    "react-redux": "^5.1.1",
+    "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
@@ -37,7 +37,7 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
     "enzyme-to-json": "^3.3.5",
-    "react-scripts": "1.0.17",
+    "react-scripts": "^2.1.5",
     "react-test-renderer": "^16.8.1"
   },
   "scripts": {
@@ -47,5 +47,11 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  }
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
