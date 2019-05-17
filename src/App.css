@@ -1,7 +1,6 @@
 .App {
   background-color: black;
   min-height: 100vh;
-  min-width: 678px;
 
 
 }
@@ -29,7 +28,7 @@
   to { transform: rotate(360deg); }
 
 }
-table {
+.lineupTable {
   margin-left: auto;
   margin-right: auto;
   border-collapse: separate;
@@ -48,7 +47,7 @@ th {
   background: #42444e;
   color: #fff;
   text-align: center;
-  font-size: calc(10px + .65vw);
+  font-size: 18px;
 }
 tr:first-child th:first-child {
   border-top-left-radius: 6px;
@@ -78,8 +77,9 @@ tr:last-child td:last-child {
 .click{
   cursor: pointer;
   font-size: 18px;
-  width: 10%;
-
+}
+.lineupHeader{
+  width:25%;
 }
 .lineupTable td, .playerTable td, .finderTable td{
   font-weight: bold;
@@ -102,12 +102,15 @@ h1{
   font-size: 16px;
   font-weight: bold;
   -webkit-appearance: none;
-  width: 100px;
+  width: 90px;
   height: 50px;
   background-color: #808080;
   border: none;
   cursor: pointer;
+  vertical-align: middle;
+  margin: 5px;
 }
+
 
 .finderButton{
   text-align: center;
@@ -119,6 +122,7 @@ h1{
   background-color: #808080;
   border: none;
   cursor: pointer;
+  vertical-align: middle;
 }
 .finder{
   height: 60vh;
@@ -157,10 +161,14 @@ h1{
 
 .header, .gamesHeader{
   display: flex;
-  width: 98%;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   margin: auto;
+}
+.headerButtonContainer{
+  width: 210px;
+  background: green;
 }
 
 #wakeScore, #oppScore{
@@ -175,6 +183,24 @@ h1{
 }
 
 
-@media all and (max-device-width: 667px){
+
+
+@media only screen and (max-width: 500px){
   /* mobile layout here */
+  th, .click {
+    font-size: 11px;
+    word-spacing: 50px;
+  }
+
+  .lineupTable td, .playerTable td, .finderTable td{
+    font-weight: bold;
+    font-size: 11px;
+    font-family: "Tahoma"
+  }
+  .lineupHeader{
+    width: 24%;
+  }
+  #pre{
+    font-size: 10px;
+  }
 }

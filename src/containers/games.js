@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import roster from "./roster.js"
+import roster from "../roster.js"
 import Finder from './finder.jsx'
 import DataTable from './dataTable.jsx'
 import { connect } from 'react-redux';
@@ -27,7 +27,7 @@ class Game extends Component {
     this.state = {finder: false,
       player1: "", player2: "", player3: "", player4: "", player5: "", finderArray:[]};
   }
-  
+
    switchData = () => {
      if(this.props.dataType === "lineup"){
        if(this.state.playerArray.length === 0){

@@ -6,6 +6,7 @@ import { dataType } from './dataType.js'
 import { finder, finderActive } from './finder.js'
 import { dataLoaded} from './dataLoaded.js'
 import { sort } from './sort.js'
+import {infoType} from './infoType.js'
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 
@@ -20,6 +21,7 @@ const rootReducer = (history) => combineReducers({
   finderActive,
   dataLoaded,
   sort,
+  infoType,
 })
 
 export default rootReducer

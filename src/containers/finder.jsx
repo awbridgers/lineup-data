@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { changeFinderActive } from './actions/index.js';
+import { changeFinderActive } from '../actions/index.js';
 
 const Finder = (props) =>(
   <div className = "finder">

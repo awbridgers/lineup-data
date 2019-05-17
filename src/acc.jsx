@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import './App.css';
-import * as firebase from 'firebase'
-import Dropdown from './dropDown.js';
+import firebase from 'firebase/app';
+import 'firebase/database'
+import Dropdown from './containers/dropDown.js';
 import roster from './roster.js'
-import Finder from './finder.jsx';
-import DataTable from './dataTable.jsx'
+import Finder from './containers/finder.jsx';
+import DataTable from './containers/dataTable.jsx'
 
 class Data {
   constructor(lineup, pointsFor, pointsAgainst,time) {

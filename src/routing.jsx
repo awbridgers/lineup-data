@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import App from './App';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
-import * as firebase from 'firebase'
-import Games from "./games.js";
+import firebase from 'firebase/app';
+import 'firebase/database'
+import Games from "./containers/games.js";
 import Acc from './acc.jsx'
 import config from './config.js'
 import { connect } from 'react-redux'
-import Header from './header.js'
+import Header from './containers/header.js'
 import { chooseGame } from './actions/index.js'
 
 

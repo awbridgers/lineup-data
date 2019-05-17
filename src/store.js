@@ -1,17 +1,19 @@
-import { createStore, applyMiddleware, compose } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk';
-import * as firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/database';
 import rootReducer from './reducers/index.js';
 import { createBrowserHistory } from 'history';
 import {addData} from './actions/index.js'
 import { routerMiddleware } from 'connected-react-router'
+import { composeWithDevTools} from 'redux-devtools-extension'
 
 export const history = createBrowserHistory();
 
 const store = createStore(
   rootReducer(history),
   undefined,
-  compose(applyMiddleware(routerMiddleware(history),thunk),  window.devToolsExtension ? window.devToolsExtension() : f => f)
+  composeWithDevTools(applyMiddleware(routerMiddleware(history),thunk))
 )
 store.dispatch(addData(firebase.database()))
 

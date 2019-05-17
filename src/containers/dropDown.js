@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './App.css';
+import '../App.css';
 import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
-import { chooseGame } from './actions/index.js'
+import { chooseGame } from '../actions/index.js'
 
 
 

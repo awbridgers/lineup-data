@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Dropdown from './dropDown.js'
-import roster from './roster.js'
+import roster from '../roster.js'
 import { connect } from 'react-redux'
-import { changeDataType, chooseGame, changeFinderActive } from './actions/index.js'
+import { changeDataType, chooseGame, changeFinderActive, changeInfoType } from '../actions/index.js'
 import { withRouter } from 'react-router'
+
 
 
 class Header extends Component {
@@ -40,14 +41,14 @@ class Header extends Component {
       this.state.dataArray.forEach((lineup) => {
         if(fixedArray.every(name => lineup.lineup.includes(name))){
           finderArray.push(lineup);
-        }});
-      let reduxArray = this.props.lineups.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
-      this.props.addLineupFinderInfo(reduxArray)
-
-        this.setState({finderArray: finderArray, dataType: "finder",finder: false});
-        this.props.changeDataType('finder');
-      }
+        }
+      });
+    let reduxArray = this.props.lineups.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
+    this.props.addLineupFinderInfo(reduxArray)
+    this.setState({finderArray: finderArray, dataType: "finder",finder: false});
+    this.props.changeDataType('finder');
     }
+  }
   switchData = () =>{
     if(this.props.dataType === "lineup"){
       this.props.changeDataType('player')
@@ -59,6 +60,14 @@ class Header extends Component {
   back = () =>{
     this.props.changeDataType('lineup')
   }
+  switchType = () =>{
+    if(this.props.infoType === 'overview'){
+      this.props.changeInfoType('advanced')
+    }
+    else if(this.props.infoType === 'advanced'){
+      this.props.changeInfoType('overview')
+    }
+  }
   cancel = () =>{
     this.setState({finder:false});
   }
@@ -67,7 +76,7 @@ class Header extends Component {
       <div>
         <header className="App-header">
           <div className = 'header'>
-            <div>
+            <div className = 'headerButtonContainer'>
               <button className = "finderButton" onClick = {this.activateFinder}>Lineup Finder</button>
             </div>
             {(this.props.gameName === '' || this.props.gameName === 'Acc-Totals') &&
@@ -87,11 +96,11 @@ class Header extends Component {
                 <Dropdown default = {this.props.gameName}/>
               </div>
             }
-            <div>
-              {this.props.dataType === "lineup" &&
-                <button className = "type" onClick = {this.switchData}>View Players</button>}
-              {this.props.dataType === "player" &&
-                <button className = "type" onClick = {this.switchData}>View Lineups</button>}
+            <div className = 'headerButtonContainer'>
+              <button className = 'type' onClick = {this.switchType}>
+              {`${this.props.infoType === 'overview' ? 'Advanced' : 'Overview'}`}</button>
+              <button className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
+                "View Players": "View Lineups"}`}</button>
               {this.props.dataType=== 'finder' &&
                 <button className = "back" onClick = {this.back}>Back</button>}
             </div>
@@ -105,6 +114,7 @@ const mapDispatchToProps = dispatch => ({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
   changeGame: (game)=> dispatch(chooseGame(game)),
   changeFinder: (active)=> dispatch(changeFinderActive(active)),
+  changeInfoType: (infoType)=> dispatch(changeInfoType(infoType)),
 
 })
 const mapStateToProps = state =>({
@@ -113,7 +123,8 @@ const mapStateToProps = state =>({
   individualGames: state.individualGames,
   path: state.router.location.pathname,
   dataLoaded: state.dataLoaded,
-  finderActive: state.finderActive
+  finderActive: state.finderActive,
+  infoType: state.infoType
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
