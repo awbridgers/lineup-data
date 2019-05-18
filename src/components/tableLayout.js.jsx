@@ -56,7 +56,7 @@ const TableLayout = (props)=>(
         <th  data-tip = 'points allowed/100poss' className = "click" id = "drtg" onClick = {(e)=>props.sort(e)}>DRtg</th>
         <th  data-tip = '% of available rebounds grabbed by offense' className = "click" id = "orb%" onClick = {(e)=>props.sort(e)}>ORb%</th>
         <th  data-tip = '% of available rebounds grabbed by defense' className = "click" id = "drb%" onClick = {(e)=>props.sort(e)}>DRb%</th>
-        <th  data-tip = '% of FGM on assists' className = "click" id = "a/fgm" onClick = {(e)=>props.sort(e)}>AST%</th>
+        <th  data-tip = '% of FGM on assists' className = "click" id = "ast%" onClick = {(e)=>props.sort(e)}>AST%</th>
         <th  data-tip = 'assists per possession' className = "click" id = "a/poss" onClick = {(e)=>props.sort(e)}>A/Poss</th>
         <th  data-tip = '% of poss<br />ending with TO' className = "click" id = "tov%" onClick = {(e)=>props.sort(e)}>TOV%</th>
       </tr>

@@ -39,7 +39,19 @@ class DataTable extends Component{
       case '3p%def':
         return (a.madeThreesAgainst/a.attemptedThreesAgainst) - (b.madeThreesAgainst/b.attemptedThreesAgainst);
       case 'a/t':
-        return (b.assistsFor/b.turnoversFor) - (a.assistsFor/a.turnoversFor)
+        return (b.assistsFor/b.turnoversFor) - (a.assistsFor/a.turnoversFor);
+      case 'poss':
+        return ((b.possFor + b.possAgainst)/2) - ((a.possFor + a.possAgainst)/2);
+      case 'orb%':
+        return ((b.offRebFor)/(b.offRebFor + b.defRebAgainst)) - ((a.offRebFor)/(a.offRebFor + a.defRebAgainst));
+      case 'drb%':
+        return ((b.defRebFor)/(b.defRebFor + b.offRebAgainst)) - ((a.defRebFor)/(a.defRebFor + a.offRebAgainst));
+      case 'ast%':
+        return (b.assistsFor/(b.madeTwosFor + b.madeThreesFor)) - (a.assistsFor/(a.madeTwosFor + a.madeThreesFor));
+      case 'a/poss':
+        return (b.assistsFor/((b.possFor + b.possAgainst)/2)) - (a.assistsFor/((a.possFor + a.possAgainst)/2));
+      case 'tov%':
+        return (b.turnoversFor/((b.possFor + b.possAgainst)/2)) - (a.turnoversFor/((a.possFor + a.possAgainst)/2))
       default:
         return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst)
     }
