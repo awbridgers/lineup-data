@@ -122,35 +122,10 @@ class DataTable extends Component{
         {(this.props.dataType === 'lineup' &&
           <TableLayout array = {lineupArray} sort = {this.sortClick}
             fixTime = {this.fixTime} total = {lineupTotal} type = {this.props.infoType}/>)}
-      {(this.props.dataType === 'finder' &&
-      <div>
-      <table className = 'finderTable'>
-        <tbody>
-          <tr>
-              <th>Lineup</th>
-              <th className = "click" id = "time" onClick = {this.sortClick}>Time</th>
-              <th className = "click" id = "pf" onClick = {this.sortClick}>Points For</th>
-              <th className = "click" id = "pa" onClick = {this.sortClick}>Points Against</th>
-              <th className = "click" id = "net" onClick = {this.sortClick}>Points +/-</th>
-              <th className = "click" id = "reb" onClick = {this.sortClick}>Rebounds +/-</th>
-              <th className = "click" id = "offRating" onClick = {this.sortClick}>Off Rating</th>
-              <th className = "click" id = "defRating" onClick = {this.sortClick}>Def Rating</th>
-
-          </tr>
-      {finderArray.map((x,i) => {
-        return (
-          <tr key ={i}>
-            <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td><td>{this.fixTime(x.time)}</td><td>{x.pointsFor}</td><td>{x.pointsAgainst}</td><td>{x.pointsFor-x.pointsAgainst}</td>
-              <td>{x.reboundsFor-x.reboundsAgainst}</td><td>{this.returnOffRating(x)}</td>
-              <td>{this.returnDefRating(x)}</td>
-          </tr>
-        )
-      })}
-
-      </tbody>
-      </table>
-      </div>
-    )}
+        {(this.props.dataType === 'finder' &&
+          <TableLayout array = {finderArray} sort = {this.sortClick} fixTime = {this.fixTime}
+            total = {finderTotal} type = {this.props.infoType} />  
+      )}
     </div>
   )}
 }

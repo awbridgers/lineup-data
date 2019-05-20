@@ -7,9 +7,10 @@ import { connect } from 'react-redux';
 import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
 
 const checkRoster = (array) => {
+  let lowerRoster = roster.map(player=>player.toLowerCase());
   let isIncluded = true;
   array.forEach((name)=>{
-    if(roster.includes(name) || name === ""){
+    if(lowerRoster.includes(name.toLowerCase()) || name === ""){
       //do nothing
     }
     else{
@@ -58,9 +59,13 @@ class App extends Component {
       alert("One of the players is misspelled or not a member of the team");
     }
     else{
-      //let finderArray =[];
+      //choose the overall array for totals or individual game array for just a game
       let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
-      let reduxArray = fromWhichArray.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
+      //filter and return only lineups where every chosen player is in the lineup
+      let reduxArray = fromWhichArray.filter((lineup)=>{
+        return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase()))
+      })
+      //filter out any lineups with 0 possessions
       const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
       this.props.addLineupFinderInfo(reduxArrayFilter)
       this.props.changeFinder(false);

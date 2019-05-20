@@ -147,18 +147,6 @@ h1{
   font-weight: bold;
 }
 
-.back{
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  -webkit-appearance: none;
-  width: 100px;
-  height: 50px;
-  background-color: #808080;
-  border: none;
-  cursor: pointer;
-}
-
 .header, .gamesHeader{
   display: flex;
   width: 100%;

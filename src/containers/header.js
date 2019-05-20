@@ -99,10 +99,11 @@ class Header extends Component {
             <div className = 'headerButtonContainer'>
               <button className = 'type' onClick = {this.switchType}>
               {`${this.props.infoType === 'overview' ? 'Advanced' : 'Overview'}`}</button>
+            {this.props.dataType !== 'finder' &&
               <button className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
-                "View Players": "View Lineups"}`}</button>
+                "View Players": "View Lineups"}`}</button>}
               {this.props.dataType=== 'finder' &&
-                <button className = "back" onClick = {this.back}>Back</button>}
+                <button className = "type" onClick = {this.back}>Back</button>}
             </div>
           </div>
         </header>

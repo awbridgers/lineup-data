@@ -35,7 +35,7 @@ const TableLayout = (props)=>(
           })
         }
         <tr>
-          <td>Total</td>
+          <td id ='pre'>{`Total \n (${props.array.length} lineups)`}</td>
           <td>{props.fixTime(props.total.time)}</td>
           <td>{props.total.pointsFor - props.total.pointsAgainst}</td>
           <td>{(props.total.offRebFor + props.total.defRebFor) - (props.total.offRebAgainst + props.total.defRebAgainst)}</td>
@@ -77,7 +77,7 @@ const TableLayout = (props)=>(
         })
       }
       <tr>
-        <td>Total</td>
+          <td id = 'pre'>{`Total \n (${props.array.length} lineups)`}</td>
           <td>{Math.floor((props.total.possFor+props.total.possAgainst)/2)}</td>
           <td>{Math.round((props.total.pointsFor/((props.total.possFor+props.total.possAgainst)/2))*100)}</td>
           <td>{Math.round((props.total.pointsAgainst/((props.total.possFor+props.total.possAgainst)/2))*100)}</td>
