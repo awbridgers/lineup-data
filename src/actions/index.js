@@ -4,30 +4,15 @@ import Data from '../lineupClass.js'
 
 
 const updateStats = (lineup, temp) => {
-  Object.keys(lineup).forEach((lineupProperty)=>{
-    Object.keys(temp).forEach((tempProperty)=>{
-      if(lineupProperty === 'lineup' || typeof(lineup[lineupProperty])==='function'){
-        //do nothing
-      }
-      else{
-        if(lineupProperty === tempProperty){
-          lineup[lineupProperty] += temp[tempProperty]
-        }
-      }
-    })
+  Object.keys(lineup).forEach((prop)=>{
+    if(prop === 'lineup'){
+      //do nothing
+    }
+    else{
+      lineup[prop] += temp[prop];
+    }
   })
 }
-let findLineup = (array, lineup) => {
-  let index = -1
-  array.forEach((x,i) => {
-    if(x.lineup === lineup)
-    {
-      index = i;
-    }
-  });
-  return index;
-}
-
 
 
 export const addData = (database) => {
@@ -52,7 +37,7 @@ export const addData = (database) => {
         individualGames.push(temp);
 
         //now check to see if the lineup is unique to the total stats
-        let index = findLineup(totalStats,temp.lineup)
+        let index = totalStats.findIndex((lineup)=>lineup.lineup === temp.lineup)
         //if the lineup doesn't exist, push it to the total array
         if(index === -1){
           totalStats.push(temp);
