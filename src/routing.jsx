@@ -3,8 +3,6 @@ import App from './App';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import firebase from 'firebase/app';
 import 'firebase/database'
-import Games from "./containers/games.js";
-import Acc from './acc.jsx'
 import config from './config.js'
 import { connect } from 'react-redux'
 import Header from './containers/header.js'
@@ -31,13 +29,7 @@ class Routing extends Component{
         <div>
           <Route path = "/" component = {Header} />
           <Route exact path ="/" component = {App} />
-          <Route exact path = "/Acc-Totals" component = {Acc} />
-          {Object.keys(this.props.individualGames).map((game,i) =>{
-              return(
-                <Route key ={i} exact path = {'/' + game} component = {Games} />
-              )
-            })
-          }
+          <Route exact path = "/Acc-Totals" component = {App} />
         </div>
       </Router>
     )
