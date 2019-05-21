@@ -26,7 +26,7 @@ class DataTable extends Component{
         return ((b.offRebFor + b.defRebFor)-(b.offRebAgainst + b.defRebAgainst)) -
           ((a.offRebFor + a.defRebFor)-(a.offRebAgainst + a.defRebAgainst))
       case 'ortg':
-        return (b.pointsFor/((b.possFor + b.possAgainst)/2)) - (a.pointsFor/(a.possFor + a.possAgainst)/2);
+        return (b.pointsFor/((b.possFor + b.possAgainst)/2)) - (a.pointsFor/((a.possFor + a.possAgainst)/2));
       case 'drtg':
         return (a.pointsAgainst/((a.possFor + a.possAgainst)/2)) - (b.pointsAgainst/((b.possFor + b.possAgainst)/2));
       case 'fg%':
@@ -124,7 +124,7 @@ class DataTable extends Component{
             fixTime = {this.fixTime} total = {lineupTotal} type = {this.props.infoType}/>)}
         {(this.props.dataType === 'finder' &&
           <TableLayout array = {finderArray} sort = {this.sortClick} fixTime = {this.fixTime}
-            total = {finderTotal} type = {this.props.infoType} />  
+            total = {finderTotal} type = {this.props.infoType} />
       )}
     </div>
   )}
