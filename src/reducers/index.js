@@ -9,6 +9,7 @@ import { sort } from './sort.js'
 import {infoType} from './infoType.js'
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
+import { accData } from './accData.js'
 
 const rootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -22,6 +23,7 @@ const rootReducer = (history) => combineReducers({
   dataLoaded,
   sort,
   infoType,
+  accData,
 })
 
 export default rootReducer
