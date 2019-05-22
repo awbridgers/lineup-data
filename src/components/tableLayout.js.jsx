@@ -87,7 +87,7 @@ const TableLayout = (props)=>(
           <td>{parseFloat((props.total.assistsFor/((props.total.possFor+props.total.possAgainst)/2))).toFixed(3)}</td>
           <td>{Math.round((props.total.turnoversFor/((props.total.possFor+props.total.possAgainst)/2))*100)}%</td>
       </tr>
-      <ReactTooltip effect = 'solid' delayShow = {1000} multiline = {true}/>
+      <ReactTooltip wrapper = 'span' effect = 'solid' delayShow = {1000} multiline = {true}/>
     </tbody>
   }
   </table>

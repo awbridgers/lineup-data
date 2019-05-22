@@ -1,3 +1,4 @@
+import lineupClass from './lineupClass.js'
 let roster = [
   "Brandon Childress",
   "Isaiah Mucius",
@@ -16,5 +17,11 @@ let roster = [
   "Aaron Spivey",
 
 ];
+let classArray = [];
+roster.forEach((name)=>{
+  classArray.push(new lineupClass(name))
+});
+
+export const rosterClass = classArray;
 
 export default roster;

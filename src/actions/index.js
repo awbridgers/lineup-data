@@ -1,42 +1,41 @@
 import roster from '../roster.js';
 import { push } from 'connected-react-router'
 import Data from '../lineupClass.js'
-
-
-const updateStats = (lineup, temp) => {
-  Object.keys(lineup).forEach((lineupProperty)=>{
-    Object.keys(temp).forEach((tempProperty)=>{
-      if(lineupProperty === 'lineup' || typeof(lineup[lineupProperty])==='function'){
-        //do nothing
-      }
-      else{
-        if(lineupProperty === tempProperty){
-          lineup[lineupProperty] += temp[tempProperty]
-        }
+//------------------------------------Lazy Code---------------------------------
+const setPlayerStats = (array) => {
+  let playerArray = [];
+  roster.forEach((player)=>{
+    let playerObject = new Data(player)
+    array.forEach((lineup)=>{
+      //lineup just refers to a single player in this case
+      //if the lineup includes the players name
+      if(lineup.lineup.includes(player)){
+        updateStats(playerObject, lineup);
       }
     })
+    playerArray.push(playerObject);
+  })
+  return playerArray
+}
+const updateStats = (lineup, temp) => {
+  Object.keys(lineup).forEach((prop)=>{
+    if(prop === 'lineup'){
+      //do nothing
+    }
+    else{
+      lineup[prop] += temp[prop];
+    }
   })
 }
-let findLineup = (array, lineup) => {
-  let index = -1
-  array.forEach((x,i) => {
-    if(x.lineup === lineup)
-    {
-      index = i;
-    }
-  });
-  return index;
-}
-
-
-
+//--------------------------ACTIONS START HERE----------------------------------
 export const addData = (database) => {
   return dispatch => database.ref().once('value').then((snapshot) => {
     //go through each game in the database and get the info
     let totalStats =[];
-    let playerArray = [];
+    let accStats = [];
     snapshot.forEach((game) => {
-      let individualGames = [], individualGamesPlayerArray = [];
+      let individualGames = [];
+      let accGame = game.child('accGame').val();
       game.child('lineups').forEach((x) => {
         //copy the object from firebase, add the lineup and some calculations for ease
         let temp = {...x.val(),
@@ -51,8 +50,9 @@ export const addData = (database) => {
         //since each lineup is unique per game, just push the lineup to the indigames array
         individualGames.push(temp);
 
-        //now check to see if the lineup is unique to the total stats
-        let index = findLineup(totalStats,temp.lineup)
+        //now check to see if the lineup is unique to the total stats/acc
+        let index = totalStats.findIndex((lineup)=>lineup.lineup === temp.lineup);
+        let accIndex = accStats.findIndex((lineup)=>lineup.lineup === temp.lineup);
         //if the lineup doesn't exist, push it to the total array
         if(index === -1){
           totalStats.push(temp);
@@ -63,48 +63,39 @@ export const addData = (database) => {
           updateStats(newObject,temp);
           totalStats[index] = newObject;
         }
-      });
-      //ALL LINEUPS FOR THE GAME HAVE BEEN ADDED
-      //now add the player stats for each game
-      roster.forEach((name)=>{
-        let wakePlayer = new Data(name)
-        individualGames.forEach((player)=>{
-          //if the lineup includes the players name, add it to existing player stats
-          if(player.lineup.includes(name)){
-            updateStats(wakePlayer, player);
+        //if the game is an acc game, we need to add it to the array somewhere
+        if(accGame){
+          //if the lineup doesn't already exist, push
+          if(accIndex === -1){
+            accStats.push(temp);
           }
-        })
-        //after all the stats are updated for the player, push the player to array
-        individualGamesPlayerArray.push(wakePlayer)
-      })
-      //now that the lineup and player data for the game are added,
-      //add the individual game data to the store
+          //if the lineup does exist, update its stats
+          else{
+            let newObject = {...accStats[index]};
+            updateStats(newObject, temp);
+            accStats[index] = newObject
+          }
+        }
+      });
+      //once through each lineup for the game, add the game to the store
       dispatch({
         type:'STORE_INDIVIDUAL_GAME',
         payload: {
           lineup: individualGames,
-          player:individualGamesPlayerArray.filter((player)=>player.time !==0),
+          player:setPlayerStats(individualGames).filter((player)=>player.time !==0),
           order: game.child('order').val(),
           score: game.child('score').val()},
         game: game.key
       })
     })
-    //do the same as before but with the total season stats for players
-    roster.forEach((name)=>{
-      let wakePlayer = new Data(name);
-      totalStats.forEach((lineup)=>{
-        if(lineup.lineup.includes(name)){
-          updateStats(wakePlayer, lineup);
-        }
-      })
-      playerArray.push(wakePlayer)
-    })
-    //and add the total season stats to the store
+    //once through all lineups of all games, add the totals to the store
     dispatch({
       type: 'STORE_DATA',
       payload: {
         lineup: totalStats,
-        player: playerArray.filter((player)=>player.time !==0)
+        player: setPlayerStats(totalStats).filter((player)=>player.time !==0),
+        accLineup: accStats,
+        accPlayer: setPlayerStats(accStats).filter((player)=>player.time !==0)
       }
     });
   },(err)=>{
