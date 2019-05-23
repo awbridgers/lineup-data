@@ -11,6 +11,9 @@ import lineupClass from '../lineupClass.js'
 
 
 class DataTable extends Component{
+  componentDidUpdate(){
+
+  }
   sort = (a,b,array)=>{
     let sortType = this.props.sortType[array].sortType
     switch (sortType){
@@ -91,46 +94,41 @@ class DataTable extends Component{
   }
 
   render(){
-
-    //create 3 arrays for the lineup, finder and player data. This way, when sorted, the original data isnt messed up
-    let lineupArray = [], playerArray = [], finderArray = [];
-    //Season totals
+    let lineupArray, playerArray;
     if(this.props.gameName === ''){
-      //set the arrays to fiter out no possessions and sort accordingly
-      lineupArray = (this.props.sortType.lineup.reverse) ? this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup')).reverse() :
-         this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup'));
-      playerArray = (this.props.sortType.player.reverse) ? this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player')).reverse() :
-          this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player'))
+      lineupArray = this.props.lineupTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
+      playerArray = this.props.playerTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
     }
     else if(this.props.gameName === 'Acc-Totals'){
-      lineupArray = (this.props.sortType.lineup.reverse) ? this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup')).reverse() :
-         this.props.dataArray.filter(x => x.possFor!== 0 && x.possAgainst!==0).sort((a,b)=>this.sort(a,b, 'lineup'));
-      playerArray = (this.props.sortType.player.reverse) ? this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player')).reverse() :
-          this.props.playerArray.sort((a,b)=>this.sort(a,b, 'player'))
+      lineupArray = this.props.accLineupTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
+      playerArray = this.props.accPlayerTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
     }
     else{
-      lineupArray = this.props.sortType.lineup.reverse ? this.props.individualGames[this.props.gameName].lineup.sort((a,b)=>this.sort(a,b,'lineup')).reverse() :
-        this.props.individualGames[this.props.gameName].lineup.sort((a,b)=>this.sort(a,b,'lineup'))
-      playerArray = this.props.sortType.player.reverse ? this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player')).reverse() :
-        this.props.individualGames[this.props.gameName].player.sort((a,b)=>this.sort(a,b,'player'))
+      lineupArray = this.props.individualGames[this.props.gameName].lineup;
+      playerArray = this.props.individualGames[this.props.gameName].player;
     }
-    finderArray = this.props.sortType.finder.reverse ? this.props.finderArray.sort((a,b,)=>this.sort(a,b,'finder')).reverse() :
+    //handle sorting here
+    lineupArray.sort((a,b)=>this.sort(a,b,'lineup'));
+    playerArray.sort((a,b)=>this.sort(a,b,'player'));
+    //reverse if needed
+    lineupArray = this.props.sortType.lineup.reverse ? lineupArray.reverse() : lineupArray;
+    playerArray = this.props.sortType.player.reverse ? playerArray.reverse() : playerArray;
+
+    let finderArray = this.props.sortType.finder.reverse ? this.props.finderArray.sort((a,b,)=>this.sort(a,b,'finder')).reverse() :
       this.props.finderArray.sort((a,b)=>this.sort(a,b,'finder'));
-      let lineupTotal = this.totalStats(lineupArray);
-      let playerTotal = this.totalStats(playerArray);
-      let finderTotal = this.totalStats(finderArray);
+
     return(
       <div>
         {(this.props.dataType === 'player' &&
           <TableLayout array = {playerArray} sort = {this.sortClick}
-            fixTime = {this.fixTime} total = {playerTotal} type = {this.props.infoType}/>
+            fixTime = {this.fixTime} total = {this.totalStats(playerArray)} type = {this.props.infoType}/>
         )}
         {(this.props.dataType === 'lineup' &&
           <TableLayout array = {lineupArray} sort = {this.sortClick}
-            fixTime = {this.fixTime} total = {lineupTotal} type = {this.props.infoType}/>)}
+            fixTime = {this.fixTime} total = {this.totalStats(lineupArray)} type = {this.props.infoType}/>)}
         {(this.props.dataType === 'finder' &&
           <TableLayout array = {finderArray} sort = {this.sortClick} fixTime = {this.fixTime}
-            total = {finderTotal} type = {this.props.infoType} />
+            total = {this.totalStats(finderArray)} type = {this.props.infoType} />
       )}
     </div>
   )}
@@ -142,14 +140,16 @@ changeGame: (game)=> dispatch(chooseGame(game))
 })
 
 const mapStateToProps = state =>({
-  dataArray: state.lineupData.lineup,
-  playerArray: state.lineupData.player,
+  lineupTotal: state.lineupData.lineup,
+  playerTotal: state.lineupData.player,
   finderArray: state.finder,
   gameName: state.gameName,
   dataType: state.dataType,
   sortType: state.sort,
   individualGames: state.individualGames,
   infoType: state.infoType,
+  accLineupTotal: state.accData.lineup,
+  accPlayerTotal: state.accData.player,
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataTable))

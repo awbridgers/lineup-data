@@ -6,15 +6,12 @@ import { chooseGame } from '../actions/index.js'
 
 
 
- export class Dropdown extends Component {
+export class Dropdown extends Component {
 
-
-
-handleSelect = (event) =>{
-  let selection = event.target.value;
-  this.props.changeGame(selection)
-}
-
+  handleSelect = (event) =>{
+    let selection = event.target.value;
+    this.props.changeGame(selection)
+  }
 
   render(){
     let gameArray = Object.keys(this.props.individualGames).sort((a,b)=>this.props.individualGames[a].order - this.props.individualGames[b].order)
@@ -22,7 +19,7 @@ handleSelect = (event) =>{
       <select className = "select" value = 'select' onChange = {this.handleSelect}>
         <option disabled hidden value = "select"> -- select a game -- </option>
         <option value = "">Season Total</option>
-        <option disabled value = "Acc-Totals">ACC Totals</option>
+        <option  value = "Acc-Totals">ACC Totals</option>
         {gameArray.map((x,i)=> {
           return (
             <option key = {i} value = {x}>{x.replace(/_/g, ' ')}</option>
