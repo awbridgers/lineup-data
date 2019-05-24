@@ -1,5 +1,5 @@
 
-export const lineupData = (state =['TEST'], action) =>{
+export const lineupData = (state =[], action) =>{
   switch(action.type){
     case 'STORE_DATA':
       return {

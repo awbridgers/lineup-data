@@ -1,4 +1,18 @@
-export const sort = (state = {}, action)=>{
+const defaultState = {
+  lineup:{
+  sortType: 'net',
+  reverse: false
+  },
+  player:{
+    sortType: 'net',
+    reverse: false
+  },
+  finder:{
+    sortType: 'net',
+    reverse: false
+  }
+}
+export const sort = (state = defaultState, action)=>{
   switch(action.type){
     case 'CHANGE_SORT_TYPE':
       if(action.prevSort === action.newSort){
@@ -18,19 +32,6 @@ export const sort = (state = {}, action)=>{
         }
       }
     default:
-      return {
-        lineup:{
-          sortType: 'net',
-          reverse: false
-        },
-        player:{
-          sortType: 'net',
-          reverse: false
-        },
-        finder:{
-          sortType: 'net',
-          reverse: false
-        }
-      }
-    }
+      return state;
+  }
 }
