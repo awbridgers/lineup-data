@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Dropdown from './dropDown.js'
-import roster from '../roster.js'
+import {roster} from '../lineupClass.js'
 import { connect } from 'react-redux'
 import { changeDataType, chooseGame, changeFinderActive, changeInfoType } from '../actions/index.js'
 import { withRouter } from 'react-router'

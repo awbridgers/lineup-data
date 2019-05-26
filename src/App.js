@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import roster from './roster.js'
+import {roster} from './lineupClass.js'
 import Finder from './containers/finder.jsx'
 import DataTable from './containers/dataTable.jsx';
 import { connect } from 'react-redux';

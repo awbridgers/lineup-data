@@ -1,3 +1,4 @@
+
 export default class Data {
   constructor(name){
     this.lineup = name;
@@ -27,4 +28,47 @@ export default class Data {
     this.totalShotsFor = 0;
     this.totalShotsAgainst = 0;
   }
+}
+export const roster = [
+  "Brandon Childress",
+  "Isaiah Mucius",
+  "Sharone Wright",
+  "Torry Johnson",
+  "Jaylen Hoard",
+  "Andrien White",
+  "Michael Wynn",
+  "Jamie Lewis",
+  "Chaundee Brown",
+  "Blake Buchanan",
+  "Olivier Sarr",
+  "Ikenna Smart",
+  "Sunday Okeke",
+  "Anthony Bilas",
+  "Aaron Spivey",
+
+];
+export const setPlayerStats = (array) => {
+  let playerArray = [];
+  roster.forEach((player)=>{
+    let playerObject = new Data(player)
+    array.forEach((lineup)=>{
+      //lineup just refers to a single player in this case
+      //if the lineup includes the players name
+      if(lineup.lineup.includes(player)){
+        updateStats(playerObject, lineup);
+      }
+    })
+    playerArray.push(playerObject);
+  })
+  return playerArray
+}
+export const updateStats = (lineup, temp) => {
+  Object.keys(lineup).forEach((prop)=>{
+    if(prop === 'lineup'){
+      //do nothing
+    }
+    else{
+      lineup[prop] += temp[prop];
+    }
+  })
 }

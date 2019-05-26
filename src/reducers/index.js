@@ -1,7 +1,6 @@
 import { lineupData } from './gameData.js';
 import { individualGames } from './individualGames.js'
 import { gameName } from './gameName.js'
-import { addData } from '../actions/index.js';
 import { dataType } from './dataType.js'
 import { finder, finderActive } from './finder.js'
 import { dataLoaded} from './dataLoaded.js'
@@ -16,7 +15,6 @@ const rootReducer = (history) => combineReducers({
   lineupData,
   individualGames,
   gameName,
-  addData,
   dataType,
   finder,
   finderActive,
