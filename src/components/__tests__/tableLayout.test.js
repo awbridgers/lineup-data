@@ -3,6 +3,7 @@ import React from 'react'
 import lineupClass from '../../lineupClass.js'
 import { shallow } from 'enzyme';
 
+//props for the tablelayout component
 const props = {
   type: 'overview',
   array: [new lineupClass('Player1-Player2')],
