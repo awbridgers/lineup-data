@@ -10,7 +10,7 @@ import lineupClass from '../lineupClass.js'
 
 
 
-class DataTable extends Component{
+export class DataTable extends Component{
   componentDidUpdate(){
 
   }
@@ -54,7 +54,7 @@ class DataTable extends Component{
       case 'a/poss':
         return (b.assistsFor/((b.possFor + b.possAgainst)/2)) - (a.assistsFor/((a.possFor + a.possAgainst)/2));
       case 'tov%':
-        return (b.turnoversFor/((b.possFor + b.possAgainst)/2)) - (a.turnoversFor/((a.possFor + a.possAgainst)/2))
+        return (a.turnoversFor/((a.possFor + a.possAgainst)/2)) - (b.turnoversFor/((b.possFor + b.possAgainst)/2))
       default:
         return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst)
     }
@@ -77,16 +77,7 @@ class DataTable extends Component{
     })
     return initialStats
   }
-  returnOffRating = (player) =>{
-    const rating = Math.round((player.pointsFor/player.possFor)*100)
-    //for the purposes of sorting, if the offRating is infinite or NaN, return a small number (so its always last)
-    return isFinite(rating) ? rating : -1
-  }
-  returnDefRating = (player) =>{
-    const rating = Math.round((player.pointsAgainst/player.possAgainst)*100)
-    //for the purposes of sorting def Rating, infinity or NaN should return a big number (goes last in sort for Def Rating)
-    return isFinite(rating) ? rating : 1000
-  }
+
   sortClick = (e)=> {
     const prevSort = this.props.sortType[this.props.dataType].sortType;
     const newSort = e.target.id;

@@ -72,3 +72,35 @@ export const updateStats = (lineup, temp) => {
     }
   })
 }
+
+//create some lineups for testing purposes
+export class testLineup {
+  constructor(forValue, oppValue){
+    this.lineup = 'player 1-player 2';
+    this.time = forValue;
+    this.pointsFor = forValue;
+    this.pointsAgainst = oppValue;
+    this.defRebFor = forValue;
+    this.defRebAgainst = oppValue;
+    this.offRebFor = forValue;
+    this.offRebAgainst = oppValue;
+    this.madeTwosFor = forValue;
+    this.madeTwosAgainst = oppValue;
+    this.attemptedTwosFor = 10;
+    this.attemptedTwosAgainst = 10;
+    this.madeThreesFor = forValue;
+    this.madeThreesAgainst = oppValue;
+    this.attemptedThreesFor = 10;
+    this.attemptedThreesAgainst = 10;
+    this.assistsFor = forValue;
+    this.assistsAgainst = oppValue;
+    this.turnoversFor = 5;
+    this.turnoversAgainst = 5
+    this.ftaFor = forValue;
+    this.ftaAgainst = forValue;
+    this.possFor = forValue;
+    this.possAgainst = oppValue;
+    this.totalShotsFor = 20;
+    this.totalShotsAgainst = 20;
+  }
+}
