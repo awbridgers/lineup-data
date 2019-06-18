@@ -31,7 +31,6 @@ export class Dropdown extends Component {
 }
 const mapStateToProps = state => ({
   individualGames: state.individualGames,
-  gameName: state.gameName
 })
 const mapDispatchToProps = dispatch =>({
   changeGame: (game)=> dispatch(chooseGame(game))
