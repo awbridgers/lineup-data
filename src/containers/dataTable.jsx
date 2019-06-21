@@ -125,12 +125,12 @@ export class DataTable extends Component{
   )}
 }
 
-const mapDispatchToProps = dispatch =>({
+export const mapDispatchToProps = dispatch =>({
 changeSortType : (prevSort, newSort, sortBy) => dispatch(changeSortType(prevSort, newSort, sortBy)),
 changeGame: (game)=> dispatch(chooseGame(game))
 })
 
-const mapStateToProps = state =>({
+export const mapStateToProps = state =>({
   lineupTotal: state.lineupData.lineup,
   playerTotal: state.lineupData.player,
   finderArray: state.finder,

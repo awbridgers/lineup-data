@@ -1,5 +1,5 @@
 import React from 'react'
-import {DataTable} from '../dataTable.jsx';
+import {DataTable, mapStateToProps, mapDispatchToProps} from '../dataTable.jsx';
 import { shallow } from 'enzyme'
 import lineupClass, {testLineup} from '../../lineupClass.js';
 
@@ -48,6 +48,7 @@ props.accPlayerTotal[0].possAgainst +=1;
 props.accLineupTotal[0].possFor +=1;
 props.accLineupTotal[0].possAgainst +=1;
 
+const store = props;
 
 describe('dataTable container',()=>{
   let wrapper;
@@ -187,9 +188,14 @@ describe('dataTable container',()=>{
     wrapper.setProps({sortType:{...props.sortType, lineup: {sortType: 'net',reverse: true}}});
     expect(wrapper.find('TableLayout').props().array).toEqual([
     testLineup3, testLineup2, testLineup1])
+    wrapper.setProps({sortType:{...props.sortType, player: {sortType: 'net',reverse: true}}});
+    wrapper.setProps({playerTotal:[testLineup1,testLineup2], dataType: 'player'})
+    expect(wrapper.find('TableLayout').props().array).toEqual([
+      testLineup2,testLineup1])
   })
   it('fixes the time correctly',()=>{
     expect(wrapper.instance().fixTime(5)).toEqual('0:05');
+    expect(wrapper.instance().fixTime(55)).toEqual('0:55');
     expect(wrapper.instance().fixTime(69)).toEqual('1:09');
     expect(wrapper.instance().fixTime(3669)).toEqual('61:09');
   })
@@ -236,5 +242,50 @@ describe('dataTable container',()=>{
     expect(wrapper.find('TableLayout').props().array).toEqual([
       testLineup3, testLineup2, testLineup1
     ])
+  })
+})
+
+describe('connected dataTable component',()=>{
+  beforeEach(()=>{
+    jest.clearAllMocks();
+  })
+  it('connects the state to props',()=>{
+    const store = {
+      lineupData: {
+        lineup: [testLineup1],
+        player: 'playerTotal'
+      },
+      finder: ['test','finder'],
+      gameName: '',
+      dataType: 'lineup',
+      sort:'sort Test',
+      individualGames: 'individualGames',
+      infoType: 'overview',
+      accData:{
+        lineup: [testLineup1],
+        player: 'accPlayer'
+      }
+    }
+    expect(mapStateToProps(store).lineupTotal).toEqual([testLineup1]);
+    expect(mapStateToProps(store).playerTotal).toEqual('playerTotal');
+    expect(mapStateToProps(store).finderArray).toEqual(['test','finder']);
+    expect(mapStateToProps(store).gameName).toEqual('');
+    expect(mapStateToProps(store).dataType).toEqual('lineup');
+    expect(mapStateToProps(store).sortType).toEqual('sort Test');
+    expect(mapStateToProps(store).individualGames).toEqual('individualGames');
+    expect(mapStateToProps(store).infoType).toEqual('overview');
+    expect(mapStateToProps(store).accLineupTotal).toEqual([testLineup1]);
+    expect(mapStateToProps(store).accPlayerTotal).toEqual('accPlayer');
+  })
+  it('matches dispatch to props',()=>{
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).changeSortType('prevSort','newSort','sortBy');
+    mapDispatchToProps(dispatch).changeGame('game');
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: 'CHANGE_SORT_TYPE',
+      prevSort: 'prevSort',
+      newSort: 'newSort',
+      array: 'sortBy'
+    })
   })
 })

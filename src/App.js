@@ -31,21 +31,6 @@ class App extends Component {
     this.sortArrayType = 'lineup';
   }
 
-  switchData = () =>{
-    if(this.state.dataType === "lineup"){
-      //this.setState({dataType: "player"});
-      this.props.changeDataType('player')
-    }
-    else{
-      //this.setState({dataType: "lineup"})
-      this.props.changeDataType('lineup')
-    }
-  }
-
-
-  activateFinder = () => {
-    this.props.changeFinder(!this.props.finderActive)
-  }
   handleInput = (e) =>{
     this.setState({[e.target.name]: e.target.value});
   }
@@ -72,13 +57,6 @@ class App extends Component {
       this.props.changeDataType('finder');
       }
     }
-  back = () =>{
-    this.setState({dataType: 'lineup', finder:false});
-    this.props.changeDataType('lineup')
-  }
-  cancel = () =>{
-    this.setState({finder:false});
-  }
   render() {
     return (
       <div className="App">

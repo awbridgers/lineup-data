@@ -7,47 +7,11 @@ import { withRouter } from 'react-router'
 
 
 
-class Header extends Component {
+export class Header extends Component {
 
   activateFinder = () => {
     //set finderActive to the opposite of what it is
     this.props.changeFinder(!this.props.finderActive)
-  }
-  handleInput = (e) =>{
-    this.setState({[e.target.name]: e.target.value});
-  }
-  checkRoster = (array) => {
-    let isIncluded = true;
-    array.forEach((name)=>{
-      if(roster.includes(name) || name === ""){
-        //do nothing
-      }
-      else{
-        isIncluded = false;
-      }
-    });
-    return isIncluded;
-  }
-
-  lineupFinder = () =>{
-    let tempArray = [this.state.player1,this.state.player2,this.state.player3,this.state.player4,this.state.player5]
-    let fixedArray = tempArray.filter((name) => name!== '');
-
-    if(!this.checkRoster(fixedArray)){
-      alert("One of the players is misspelled or not a member of the team");
-    }
-    else{
-      let finderArray =[];
-      this.state.dataArray.forEach((lineup) => {
-        if(fixedArray.every(name => lineup.lineup.includes(name))){
-          finderArray.push(lineup);
-        }
-      });
-    let reduxArray = this.props.lineups.filter((lineup)=> fixedArray.every(name => lineup.lineup.includes(name)))
-    this.props.addLineupFinderInfo(reduxArray)
-    this.setState({finderArray: finderArray, dataType: "finder",finder: false});
-    this.props.changeDataType('finder');
-    }
   }
   switchData = () =>{
     if(this.props.dataType === "lineup"){
@@ -67,9 +31,6 @@ class Header extends Component {
     else if(this.props.infoType === 'advanced'){
       this.props.changeInfoType('overview')
     }
-  }
-  cancel = () =>{
-    this.setState({finder:false});
   }
   render(){
     return (
@@ -97,13 +58,13 @@ class Header extends Component {
               </div>
             }
             <div className = 'headerButtonContainer'>
-              <button className = 'type' onClick = {this.switchType}>
+              <button id = 'switchType' className = 'type' onClick = {this.switchType}>
               {`${this.props.infoType === 'overview' ? 'Advanced' : 'Overview'}`}</button>
             {this.props.dataType !== 'finder' &&
-              <button className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
+              <button id = 'switchData' className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
                 "View Players": "View Lineups"}`}</button>}
               {this.props.dataType=== 'finder' &&
-                <button className = "type" onClick = {this.back}>Back</button>}
+                <button id = 'back' className = "type" onClick = {this.back}>Back</button>}
             </div>
           </div>
         </header>

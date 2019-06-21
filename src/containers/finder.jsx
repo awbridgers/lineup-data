@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { changeFinderActive } from '../actions/index.js';
 
-const Finder = (props) =>(
+export const Finder = (props) =>(
   <div className = "finder">
     <div>
       <h2>Lineup Finder</h2>
