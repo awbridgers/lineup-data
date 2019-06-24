@@ -18,7 +18,7 @@ export const Finder = (props) =>(
   </div>
   )
 
-const mapDispatchToProps = dispatch =>({
+export const mapDispatchToProps = dispatch =>({
   cancelFinder: ()=> dispatch(changeFinderActive(false)),
 })
 

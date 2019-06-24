@@ -1,6 +1,10 @@
 import React from 'react';
-import {Dropdown} from '../dropDown.js';
+import  {Dropdown, mapStateToProps, mapDispatchToProps} from '../dropDown.js';
 import { shallow } from 'enzyme';
+import thunk from 'redux-thunk';
+import configureMockStore from 'redux-mock-store'
+
+
 
 const props = {
   individualGames: {
@@ -38,5 +42,28 @@ describe('Dropdown container',()=>{
   })
   it('formats the name correctly',()=>{
     expect(wrapper.find('option').last().text()).toEqual('game 3')
+  })
+})
+describe('connected Dropdown',()=>{
+  it('matches state to props',()=>{
+    const store = {
+      individualGames: {
+        game1: 'game1',
+        game2: 'game2'
+      }
+    }
+    expect(mapStateToProps(store).individualGames).toEqual({
+      game1: 'game1',
+      game2: 'game2'
+    })
+  })
+  it('matches dispatch to props',()=>{
+    const mockStore = configureMockStore([thunk])
+    const store = mockStore({gameName: 'game'});
+    mapDispatchToProps(store.dispatch).changeGame('newGame');
+    expect(store.getActions()).toEqual(expect.arrayContaining([{
+      type: 'SELECT_GAME',
+      game: 'newGame'
+    }]))
   })
 })

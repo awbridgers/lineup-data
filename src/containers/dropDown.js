@@ -29,10 +29,10 @@ export class Dropdown extends Component {
     )
   }
 }
-const mapStateToProps = state => ({
+export const mapStateToProps = state => ({
   individualGames: state.individualGames,
 })
-const mapDispatchToProps = dispatch =>({
+export const mapDispatchToProps = dispatch =>({
   changeGame: (game)=> dispatch(chooseGame(game))
 })
 

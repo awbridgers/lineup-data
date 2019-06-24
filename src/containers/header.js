@@ -28,7 +28,7 @@ export class Header extends Component {
     if(this.props.infoType === 'overview'){
       this.props.changeInfoType('advanced')
     }
-    else if(this.props.infoType === 'advanced'){
+    else{
       this.props.changeInfoType('overview')
     }
   }
@@ -72,14 +72,14 @@ export class Header extends Component {
     )
   }
 }
-const mapDispatchToProps = dispatch => ({
+export const mapDispatchToProps = dispatch => ({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
   changeGame: (game)=> dispatch(chooseGame(game)),
   changeFinder: (active)=> dispatch(changeFinderActive(active)),
   changeInfoType: (infoType)=> dispatch(changeInfoType(infoType)),
 
 })
-const mapStateToProps = state =>({
+export const mapStateToProps = state =>({
   dataType: state.dataType,
   gameName: state.gameName,
   individualGames: state.individualGames,

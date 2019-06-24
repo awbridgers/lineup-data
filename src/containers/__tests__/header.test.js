@@ -1,8 +1,10 @@
 import React from 'react';
-import { Header } from '../header.js';
+import { Header, mapStateToProps, mapDispatchToProps } from '../header.js';
 import { shallow } from 'enzyme';
 import Dropdown from '../dropDown.js'
 import TableLayout from '../../components/tableLayout.js.jsx'
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 
 const props = {
   dataType: 'lineup',
@@ -86,5 +88,63 @@ describe('Header container',()=>{
     expect(wrapper.find('#switchData').text()).toEqual('View Lineups');
     wrapper.setProps({dataType: 'finder'});
     expect(wrapper.find('#back')).toBeDefined();
+  })
+})
+
+describe('connected Header',()=>{
+  it('matches state to props',()=>{
+    const state = {
+      dataType: 'lineup',
+      gameName: 'game',
+      router: {
+        location: {
+          pathname: 'game'
+        }
+      },
+      dataLoaded: true,
+      finderActive: false,
+      infoType: 'overview',
+      individualGames: {
+        game1: 'game1',
+        game2: 'game2'
+      }
+    }
+    expect(mapStateToProps(state).dataType).toEqual('lineup');
+    expect(mapStateToProps(state).gameName).toEqual('game');
+    expect(mapStateToProps(state).path).toEqual('game');
+    expect(mapStateToProps(state).dataLoaded).toEqual(true);
+    expect(mapStateToProps(state).finderActive).toEqual(false);
+    expect(mapStateToProps(state).infoType).toEqual('overview');
+    expect(mapStateToProps(state).individualGames).toEqual({
+      game1: 'game1',
+      game2: 'game2'
+    })
+  })
+  it('maps dispatch to props',()=>{
+    const mockStore = configureMockStore([thunk]);
+    const store = mockStore({});
+    mapDispatchToProps(store.dispatch).changeDataType('lineup');
+    mapDispatchToProps(store.dispatch).changeGame('game');
+    mapDispatchToProps(store.dispatch).changeFinder(true);
+    mapDispatchToProps(store.dispatch).changeInfoType('advanced');
+    const expectedActions = [
+      {
+        type: 'CHANGE_DATA_TYPE',
+        dataType: 'lineup'
+      },
+      {
+        type: 'SELECT_GAME',
+        game: 'game'
+      },
+      {
+        type: 'CHANGE_FINDER_ACTIVE',
+        payload: true
+      },
+      {
+        type: 'CHANGE_INFO_TYPE',
+        infoType: 'advanced'
+      }
+    ]
+    expect(store.getActions()).toEqual(expect.arrayContaining(expectedActions))
   })
 })

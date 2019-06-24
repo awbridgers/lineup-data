@@ -1,5 +1,5 @@
 import React from 'react';
-import {Finder} from '../finder.jsx';
+import {Finder, mapDispatchToProps} from '../finder.jsx';
 import { shallow } from 'enzyme';
 
 const props = {
@@ -30,5 +30,14 @@ describe('Finder container',()=>{
   it('runs the handle input function',()=>{
     wrapper.find('input').first().simulate('change',{target:{value: 'test'}});
     expect(props.handleInput).toHaveBeenCalled();
+  })
+})
+
+describe('connected Finder',()=>{
+  const dispatch = jest.fn();
+  mapDispatchToProps(dispatch).cancelFinder();
+  expect(dispatch.mock.calls[0][0]).toEqual({
+    type: 'CHANGE_FINDER_ACTIVE',
+    payload: false
   })
 })
