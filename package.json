@@ -4,6 +4,12 @@
   "homepage": "https://awbridgers.github.io/lineup-data",
   "private": true,
   "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/src/serviceWorker.js",
+      "!<rootDir>/src/index.js"
+    ],
     "snapshotSerializers": [
       "enzyme-to-json/serializer"
     ]

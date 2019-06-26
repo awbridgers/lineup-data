@@ -10,7 +10,7 @@ import {setPlayerStats, updateStats} from './lineupClass.js'
 
 export const history = createBrowserHistory();
 
-const store = createStore(
+export const store = createStore(
   rootReducer(history),
   undefined,
   composeWithDevTools(applyMiddleware(routerMiddleware(history),thunk))

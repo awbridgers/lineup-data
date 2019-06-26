@@ -6,29 +6,24 @@ import DataTable from './containers/dataTable.jsx';
 import { connect } from 'react-redux';
 import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
 
-const checkRoster = (array) => {
-  let lowerRoster = roster.map(player=>player.toLowerCase());
-  let isIncluded = true;
-  array.forEach((name)=>{
-    if(lowerRoster.includes(name.toLowerCase()) || name === ""){
-      //do nothing
-    }
-    else{
-      isIncluded = false;
-    }
-  });
-  return isIncluded;
-}
-
-
-
-class App extends Component {
+export class App extends Component {
   constructor(){
     super();
     this.state = {dataArray: [], playerArray: [], dataType: 'lineup', finder: false,
       player1: "", player2: "", player3: "", player4: "", player5: "", finderArray:[]};
-    this.sortLineupType = 'net';
-    this.sortArrayType = 'lineup';
+  }
+  checkRoster = (array) => {
+    let lowerRoster = roster.map(player=>player.toLowerCase());
+    let isIncluded = true;
+    array.forEach((name)=>{
+      if(lowerRoster.includes(name.toLowerCase()) || name === ""){
+        //do nothing
+      }
+      else{
+        isIncluded = false;
+      }
+    });
+    return isIncluded;
   }
 
   handleInput = (e) =>{
@@ -40,7 +35,7 @@ class App extends Component {
     let fixedArray = tempArray.filter((name) => name!== '');
 
     //make sure the players are on the team!
-    if(!checkRoster(fixedArray)){
+    if(!this.checkRoster(fixedArray)){
       alert("One of the players is misspelled or not a member of the team");
     }
     else{
@@ -70,13 +65,13 @@ class App extends Component {
     );
   }
 }
-const mapDispatchToProps = dispatch =>({
+export const mapDispatchToProps = dispatch =>({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
   addLineupFinderInfo: (lineupArray) => dispatch(lineupFinder(lineupArray)),
   changeFinder: (active)=> dispatch(changeFinderActive(active))
 })
 
-const mapStateToProps = state =>({
+export const mapStateToProps = state =>({
   lineups: state.lineupData.lineup,
   dataType: state.dataType,
   dataLoaded: state.dataLoaded,
