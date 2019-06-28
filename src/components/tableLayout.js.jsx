@@ -25,11 +25,11 @@ const TableLayout = (props)=>(
               <td>{props.fixTime(x.time)}</td>
               <td>{x.pointsFor-x.pointsAgainst}</td>
               <td>{(x.offRebFor+x.defRebFor) - (x.defRebAgainst + x.offRebAgainst)}</td>
-              <td>{Math.round(((x.madeThreesFor + x.madeTwosFor)/x.totalShotsFor)*100)}%</td>
-              <td>{Math.round(((x.madeThreesAgainst + x.madeTwosAgainst)/x.totalShotsAgainst)*100)}%</td>
-              <td>{Math.round((x.madeThreesFor/x.attemptedThreesFor)*100)}%</td>
-              <td>{Math.round((x.madeThreesAgainst/x.attemptedThreesAgainst)*100)}%</td>
-              <td>{parseFloat(x.assistsFor/x.turnoversFor).toFixed(2)}</td>
+              <td>{x.totalShotsFor === 0 ? '-' : `${Math.round(((x.madeThreesFor + x.madeTwosFor)/x.totalShotsFor)*100)}%`}</td>
+              <td>{x.totalShotsAgainst === 0 ? '-' : `${Math.round(((x.madeThreesAgainst + x.madeTwosAgainst)/x.totalShotsAgainst)*100)}%`}</td>
+              <td>{x.attemptedThreesFor === 0 ? '-' : `${Math.round((x.madeThreesFor/x.attemptedThreesFor)*100)}%`}</td>
+              <td>{x.attemptedThreesAgainst===0 ? '-':`${Math.round((x.madeThreesAgainst/x.attemptedThreesAgainst)*100)}%`}</td>
+              <td>{x.turnoversFor === 0 ? '-': parseFloat(x.assistsFor/x.turnoversFor).toFixed(2)}</td>
             </tr>
             )
           })
@@ -64,14 +64,14 @@ const TableLayout = (props)=>(
         return (
           <tr key ={i}>
             <td id = 'pre'>{x.lineup.replace(/-/g, '\n')}</td>
-            <td>{Math.floor((x.possFor+x.possAgainst)/2)}</td>
-            <td>{Math.round((x.pointsFor/((x.possFor+x.possAgainst)/2))*100)}</td>
-            <td>{Math.round((x.pointsAgainst/((x.possFor+x.possAgainst)/2))*100)}</td>
-            <td>{Math.round((x.offRebFor)/(x.offRebFor + x.defRebAgainst)*100)}%</td>
-            <td>{Math.round((x.defRebFor)/(x.defRebFor + x.offRebAgainst)*100)}%</td>
-            <td>{Math.round((x.assistsFor/(x.madeTwosFor + x.madeThreesFor))*100)}%</td>
-            <td>{parseFloat((x.assistsFor/((x.possFor+x.possAgainst)/2))).toFixed(3)}</td>
-            <td>{Math.round((x.turnoversFor/((x.possFor+x.possAgainst)/2))*100)}%</td>
+            <td>{Math.ceil((x.possFor+x.possAgainst)/2)}</td>
+            <td>{((x.possFor+x.possAgainst)/2) ===0 ? '-': Math.round((x.pointsFor/((x.possFor+x.possAgainst)/2))*100)}</td>
+            <td>{((x.possFor+x.possAgainst)/2) ===0 ? '-': Math.round((x.pointsAgainst/((x.possFor+x.possAgainst)/2))*100)}</td>
+            <td>{x.offRebFor + x.defRebAgainst === 0 ? '-': `${Math.round((x.offRebFor)/(x.offRebFor + x.defRebAgainst)*100)}%`}</td>
+            <td>{(x.defRebFor + x.offRebAgainst) === 0 ? '-':`${Math.round((x.defRebFor)/(x.defRebFor + x.offRebAgainst)*100)}%`}</td>
+            <td>{(x.madeTwosFor + x.madeThreesFor)===0 ? '-': `${Math.round((x.assistsFor/(x.madeTwosFor + x.madeThreesFor))*100)}%`}</td>
+            <td>{((x.possFor+x.possAgainst)/2) ===0 ? '-': parseFloat((x.assistsFor/((x.possFor+x.possAgainst)/2))).toFixed(3)}</td>
+            <td>{((x.possFor+x.possAgainst)/2) ===0 ? '-': Math.round((x.turnoversFor/((x.possFor+x.possAgainst)/2))*100)}%</td>
           </tr>
           )
         })

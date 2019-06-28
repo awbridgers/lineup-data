@@ -29,31 +29,141 @@ export class DataTable extends Component{
         return ((b.offRebFor + b.defRebFor)-(b.offRebAgainst + b.defRebAgainst)) -
           ((a.offRebFor + a.defRebFor)-(a.offRebAgainst + a.defRebAgainst))
       case 'ortg':
+        if(!isFinite(b.pointsFor/((b.possFor + b.possAgainst)/2)) && !isFinite(a.pointsFor/((a.possFor + a.possAgainst)/2))){
+          return 0;
+        }
+        if(!isFinite(b.pointsFor/((b.possFor + b.possAgainst)/2))){
+          return -1;
+        }
+        if(!isFinite(a.pointsFor/((a.possFor + a.possAgainst)/2))){
+          return 1;
+        }
         return (b.pointsFor/((b.possFor + b.possAgainst)/2)) - (a.pointsFor/((a.possFor + a.possAgainst)/2));
       case 'drtg':
+        if(!isFinite(b.pointsAgainst/((b.possFor + b.possAgainst)/2)) && !isFinite(a.pointsAgainst/((a.possFor + a.possAgainst)/2))){
+          return 0;
+        }
+        if(!isFinite(b.pointsAgainst/((b.possFor + b.possAgainst)/2))){
+          return -1;
+        }
+        if(!isFinite(a.pointsAgainst/((a.possFor + a.possAgainst)/2))){
+          return 1;
+        }
         return (a.pointsAgainst/((a.possFor + a.possAgainst)/2)) - (b.pointsAgainst/((b.possFor + b.possAgainst)/2));
       case 'fg%':
+        if(!isFinite((a.madeTwosFor + a.madeThreesFor)/a.totalShotsFor) && !isFinite(
+          (b.madeTwosFor + b.madeThreesFor)/b.totalShotsFor)){
+            return 0;
+          }
+        if(!isFinite((a.madeTwosFor + a.madeThreesFor)/a.totalShotsFor)){
+          return 1;
+        }
+        if(!isFinite((b.madeTwosFor + b.madeThreesFor)/b.totalShotsFor)){
+          return -1;
+        }
         return ((b.madeTwosFor + b.madeThreesFor)/b.totalShotsFor) - ((a.madeTwosFor + a.madeThreesFor)/a.totalShotsFor);
       case 'fg%def':
+        if(!isFinite((a.madeTwosAgainst + a.madeThreesAgainst)/a.totalShotsAgainst) && !isFinite(
+          (b.madeTwosAgainst + b.madeThreesAgainst)/b.totalShotsAgainst)){
+            return 0;
+          }
+        if(!isFinite((a.madeTwosAgainst + a.madeThreesAgainst)/a.totalShotsAgainst)){
+          return 1;
+        }
+        if(!isFinite((b.madeTwosAgainst + b.madeThreesAgainst)/b.totalShotsAgainst)){
+          return -1;
+        }
         return ((a.madeTwosAgainst + a.madeThreesAgainst)/a.totalShotsAgainst) -
             ((b.madeTwosAgainst + b.madeThreesAgainst)/b.totalShotsAgainst);
       case '3p%':
+        if(a.attemptedThreesFor=== 0 && b.attemptedThreesFor === 0){
+          return 0;
+        }
+        if(a.attemptedThreesFor === 0){
+          return 1;
+        }
+        if(b.attemptedThreesFor=== 0){
+          return -1;
+        }
         return (b.madeThreesFor/b.attemptedThreesFor) - (a.madeThreesFor/a.attemptedThreesFor);
       case '3p%def':
+        if(a.attemptedThreesAgainst === 0 && b.attemptedThreesAgainst === 0){
+          return 0;
+        }
+        if(a.attemptedThreesAgainst === 0){
+          return 1;
+        }
+        if(b.attemptedThreesAgainst === 0){
+          return -1;
+        }
         return (a.madeThreesAgainst/a.attemptedThreesAgainst) - (b.madeThreesAgainst/b.attemptedThreesAgainst);
       case 'a/t':
+        if(!isFinite(b.assistsFor/b.turnoversFor) && !isFinite(a.assistsFor/a.turnoversFor)){
+          return 0;
+        }
+        if(!isFinite(b.assistsFor/b.turnoversFor)){
+          return -1;
+        }
+        if(!isFinite(a.assistsFor/a.turnoversFor)){
+          return 1;
+        }
         return (b.assistsFor/b.turnoversFor) - (a.assistsFor/a.turnoversFor);
       case 'poss':
         return ((b.possFor + b.possAgainst)/2) - ((a.possFor + a.possAgainst)/2);
       case 'orb%':
+        if(!isFinite(b.offRebFor/(b.offRebFor + b.defRebAgainst)) && !isFinite(a.offRebFor/(a.offRebFor + a.defRebAgainst))){
+          return 0;
+        }
+        if(!isFinite(b.offRebFor/(b.offRebFor + b.defRebAgainst))){
+          return -1;
+        }
+        if(!isFinite(a.offRebFor/(a.offRebFor + a.defRebAgainst))){
+          return 1;
+        }
         return ((b.offRebFor)/(b.offRebFor + b.defRebAgainst)) - ((a.offRebFor)/(a.offRebFor + a.defRebAgainst));
       case 'drb%':
+        if(!isFinite(b.defRebFor/(b.defRebFor + b.offRebAgainst)) && !isFinite(a.defRebFor/(a.defRebFor + a.offRebAgainst))){
+          return 0;
+        }
+        if(!isFinite(b.defRebFor/(b.defRebFor + b.offRebAgainst))){
+          return -1;
+        }
+        if(!isFinite(a.defRebFor/(a.defRebFor + a.offRebAgainst))){
+          return 1;
+        }
         return ((b.defRebFor)/(b.defRebFor + b.offRebAgainst)) - ((a.defRebFor)/(a.defRebFor + a.offRebAgainst));
       case 'ast%':
+        if(!isFinite(b.assistsFor/(b.madeTwosFor + b.madeThreesFor)) && !isFinite(a.assistsFor/(a.madeTwosFor + a.madeThreesFor))){
+          return 0;
+        }
+        if(!isFinite(b.assistsFor/(b.madeTwosFor + b.madeThreesFor))){
+          return -1;
+        }
+        if(!isFinite(a.assistsFor/(a.madeTwosFor + a.madeThreesFor))){
+          return 1;
+        }
         return (b.assistsFor/(b.madeTwosFor + b.madeThreesFor)) - (a.assistsFor/(a.madeTwosFor + a.madeThreesFor));
       case 'a/poss':
+        if(!isFinite(b.assistsFor/((b.possFor + b.possAgainst)/2)) && !isFinite(a.assistsFor/((a.possFor + a.possAgainst)/2))){
+          return 0;
+        }
+        if(!isFinite(b.assistsFor/((b.possFor + b.possAgainst)/2))){
+          return -1;
+        }
+        if(!isFinite(a.assistsFor/((a.possFor + a.possAgainst)/2))){
+          return 1;
+        }
         return (b.assistsFor/((b.possFor + b.possAgainst)/2)) - (a.assistsFor/((a.possFor + a.possAgainst)/2));
       case 'tov%':
+        if(!isFinite(b.turnoversFor/((b.possFor + b.possAgainst)/2)) && !isFinite(a.turnoversFor/((a.possFor + a.possAgainst)/2))){
+          return 0;
+        }
+        if(!isFinite(b.turnoversFor/((b.possFor + b.possAgainst)/2))){
+          return -1;
+        }
+        if(!isFinite(a.turnoversFor/((a.possFor + a.possAgainst)/2))){
+          return 1;
+        }
         return (a.turnoversFor/((a.possFor + a.possAgainst)/2)) - (b.turnoversFor/((b.possFor + b.possAgainst)/2))
       default:
         return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst)

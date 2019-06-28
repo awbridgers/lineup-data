@@ -28,8 +28,7 @@ class Routing extends Component{
       <Router>
         <div>
           <Route path = "/" component = {Header} />
-          <Route exact path ="/" component = {App} />
-          <Route exact path = "/Acc-Totals" component = {App} />
+          <Route path ="/" component = {App} />
         </div>
       </Router>
     )
