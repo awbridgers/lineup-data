@@ -1,35 +1,21 @@
 .App {
   background-color: black;
   min-height: 100vh;
-  min-width: 678px;
 
 
 }
 
 .App-header {
   background-color: black;
-  height: 75px;
+  height: auto;
   padding-top: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 10px;
   color: white;
   width:100%;
   text-align: center;
 }
 
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-
-}
-table {
+.lineupTable {
   margin-left: auto;
   margin-right: auto;
   border-collapse: separate;
@@ -39,7 +25,7 @@ table {
   text-align: center;
   padding-bottom: 10px;
 }
-th,
+
 td {
   padding: 6px 2px;
   word-wrap: break-word;
@@ -48,7 +34,9 @@ th {
   background: #42444e;
   color: #fff;
   text-align: center;
-  font-size: calc(10px + .65vw);
+  font-size: 18px;
+  height: 50px;
+  word-wrap: break-word;
 }
 tr:first-child th:first-child {
   border-top-left-radius: 6px;
@@ -78,8 +66,9 @@ tr:last-child td:last-child {
 .click{
   cursor: pointer;
   font-size: 18px;
-  width: 10%;
-
+}
+.lineupHeader{
+  width:25%;
 }
 .lineupTable td, .playerTable td, .finderTable td{
   font-weight: bold;
@@ -102,12 +91,15 @@ h1{
   font-size: 16px;
   font-weight: bold;
   -webkit-appearance: none;
-  width: 100px;
+  width: 90px;
   height: 50px;
   background-color: #808080;
   border: none;
   cursor: pointer;
+  vertical-align: middle;
+  margin: 5px;
 }
+
 
 .finderButton{
   text-align: center;
@@ -119,6 +111,7 @@ h1{
   background-color: #808080;
   border: none;
   cursor: pointer;
+  vertical-align: middle;
 }
 .finder{
   height: 60vh;
@@ -143,38 +136,138 @@ h1{
   font-weight: bold;
 }
 
-.back{
-  text-align: center;
-  font-size: 16px;
-  font-weight: bold;
-  -webkit-appearance: none;
-  width: 100px;
-  height: 50px;
-  background-color: #808080;
-  border: none;
-  cursor: pointer;
-}
-
 .header, .gamesHeader{
   display: flex;
-  width: 98%;
+  width: 100%;
   align-items: center;
   justify-content: space-between;
   margin: auto;
+}
+.headerButtonContainer{
+  width: 210px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 #wakeScore, #oppScore{
   font-size: 20px;
   font-weight: bold;
+  flex-grow: 1;
 }
-.gameScore{
-  margin-bottom: 15px;
-}
+
+
 .title{
-
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 90px;
+}
+.dropdown{
+  margin-top: auto;
 }
 
 
-@media all and (max-device-width: 667px){
+
+
+@media only screen
+  and (max-width: 667px) and (orientation:portrait){
   /* mobile layout here */
+  th, .click {
+    font-size: 11px;
+    word-spacing: 50px;
+    height: 27px;
+  }
+  th, td {
+    padding: 6px 0px;
+  }
+  .App-header {
+    padding-top: 0px;
+    height: auto;
+    padding-bottom: 5px;
+
+  }
+  .header, .gamesHeader{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin: auto;
+  }
+
+  .lineupTable td, .playerTable td, .finderTable td{
+    font-weight: bold;
+    font-size: 10px;
+    font-family: "Tahoma"
+  }
+  .lineupTable{
+    table-layout: auto;
+  }
+
+
+
+  #pre{
+    font-size: 10px;
+    font-weight: bold;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .headerButtonContainer{
+    width: auto;
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .type{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    width: 90px;
+    height: 50px;
+    background-color: #808080;
+    border: none;
+    cursor: pointer;
+    margin: auto;
+    margin: 5px;
+  }
+  .finderButton{
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-appearance: none;
+    width: 90px;
+    height: 50px;
+    background-color: #808080;
+    border: none;
+    cursor: pointer;
+  }
+  #oppScore{
+    flex-grow: 1;
+  }
+  #wakeScore{
+    flex-grow: 1;
+  }
+
+  .title h1{
+    font-size: 1.75em;
+  }
+
+}
+
+@media only screen and (max-width: 667px) and (orientation: landscape){
+  .lineupTable td, .playerTable td, .finderTable td {
+    font-weight: bold;
+    font-size: 16px;
+    font-family: "Tahoma"
+  }
+  th, .click{
+    font-size: 16px;
+    height:40px;
+  }
+  #pre{
+    font-size: 16px;
+  }
 }
