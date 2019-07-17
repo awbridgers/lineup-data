@@ -12,11 +12,11 @@ const TableLayout = (props)=>(
           <th  className = "click" id = "time" onClick = {(e)=>props.sort(e)}>Time</th>
           <th  className = "click" id = "net" onClick = {(e)=>props.sort(e)}>Pts +/-</th>
           <th  className = "click" id = "reb" onClick = {(e)=>props.sort(e)}>Reb +/-</th>
-          <th  className = "click" id = "fg%" onClick = {(e)=>props.sort(e)}>FG%</th>
+          <th  className = "click" id = "fg%" onClick = {(e)=>props.sort(e)}>FG% </th>
           <th  className = "click" id = "fg%def" onClick = {(e)=>props.sort(e)}>FG% Def</th>
-          <th  className = "click" id = "3p%" onClick = {(e)=>props.sort(e)}>3P%</th>
+          <th  className = "click" id = "3p%" onClick = {(e)=>props.sort(e)}>3P% </th>
           <th  className = "click" id = "3p%def" onClick = {(e)=>props.sort(e)}>3P% Def</th>
-          <th  className = "click" id = "a/t" onClick = {(e)=>props.sort(e)}>A/T</th>
+          <th  className = "click" id = "a/t" onClick = {(e)=>props.sort(e)}>A/TO</th>
         </tr>
         {props.array.map((x,i) => {
           return (
@@ -54,8 +54,8 @@ const TableLayout = (props)=>(
         <th  data-tip = 'estimated number of possessions' className = "click" id = "poss" onClick = {(e)=>props.sort(e)}>Poss</th>
         <th  data-tip = 'points/100 poss' className = "click" id = "ortg" onClick = {(e)=>props.sort(e)}>ORtg</th>
         <th  data-tip = 'points allowed/100poss' className = "click" id = "drtg" onClick = {(e)=>props.sort(e)}>DRtg</th>
-        <th  data-tip = '% of available rebounds grabbed by offense' className = "click" id = "orb%" onClick = {(e)=>props.sort(e)}>ORb%</th>
-        <th  data-tip = '% of available rebounds grabbed by defense' className = "click" id = "drb%" onClick = {(e)=>props.sort(e)}>DRb%</th>
+        <th  data-tip = '% of available rebounds grabbed by offense' className = "click" id = "orb%" onClick = {(e)=>props.sort(e)}>ORb% </th>
+        <th  data-tip = '% of available rebounds grabbed by defense' className = "click" id = "drb%" onClick = {(e)=>props.sort(e)}>DRb% </th>
         <th  data-tip = '% of FGM on assists' className = "click" id = "ast%" onClick = {(e)=>props.sort(e)}>AST%</th>
         <th  data-tip = 'assists per possession' className = "click" id = "a/poss" onClick = {(e)=>props.sort(e)}>A/Poss</th>
         <th  data-tip = '% of poss<br />ending with TO' className = "click" id = "tov%" onClick = {(e)=>props.sort(e)}>TOV%</th>

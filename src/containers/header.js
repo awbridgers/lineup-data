@@ -42,18 +42,20 @@ export class Header extends Component {
             {(this.props.gameName === '' || this.props.gameName === 'Acc-Totals') &&
               <div className = 'title'>
                 <h1>Season Total</h1>
-                <Dropdown/>
+                <div className = 'dropdown'>
+                  <Dropdown/>
+                </div>
               </div>
             }
             {(this.props.gameName !== '' && this.props.gameName !== 'Acc-Totals' && this.props.dataLoaded) &&
-              <div className = 'inline'>
-                <div className = 'gameScore'>
+                <div className = 'title'>
                   <div id = 'wakeScore'>Wake Forest: {this.props.individualGames[this.props.gameName].score.wake}</div>
                   <div id = 'oppScore'>
                     {this.props.gameName.replace(/_/g, ' ')}: {this.props.individualGames[this.props.gameName].score.opp}
                   </div>
+                <div className = 'dropdown'>
+                  <Dropdown default = {this.props.gameName}/>
                 </div>
-                <Dropdown default = {this.props.gameName}/>
               </div>
             }
             <div className = 'headerButtonContainer'>
