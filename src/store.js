@@ -8,7 +8,7 @@ import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools} from 'redux-devtools-extension'
 import {setPlayerStats, updateStats} from './lineupClass.js'
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({basename: '/lineup-data/'});
 
 export const store = createStore(
   rootReducer(history),

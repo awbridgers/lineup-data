@@ -41,7 +41,7 @@ export class Header extends Component {
             </div>
             {(this.props.gameName === '' || this.props.gameName === 'Acc-Totals') &&
               <div className = 'title'>
-                <h1>Season Total</h1>
+                <h1>{`${this.props.gameName === '' ? 'Season': 'ACC'}`} Total</h1>
                 <div className = 'dropdown'>
                   <Dropdown/>
                 </div>

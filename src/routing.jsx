@@ -25,7 +25,7 @@ class Routing extends Component{
   }
   render(){
     return (
-      <Router>
+      <Router basename = '/lineup-data'>
         <div>
           <Route path = "/" component = {Header} />
           <Route path ="/" component = {App} />
