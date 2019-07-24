@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
-import { chooseGame } from '../actions/index.js'
+import { chooseGame, changeGlossaryActive } from '../actions/index.js'
 
 
 
@@ -10,6 +10,9 @@ export class Dropdown extends Component {
 
   handleSelect = (event) =>{
     let selection = event.target.value;
+    if(this.props.glossary){
+      this.props.changeGlossaryActive(false);
+    }
     this.props.changeGame(selection)
   }
 
@@ -31,9 +34,11 @@ export class Dropdown extends Component {
 }
 export const mapStateToProps = state => ({
   individualGames: state.individualGames,
+  glossary: state.glossary,
 })
 export const mapDispatchToProps = dispatch =>({
-  changeGame: (game)=> dispatch(chooseGame(game))
+  changeGame: (game)=> dispatch(chooseGame(game)),
+  changeGlossaryActive: (active)=> dispatch(changeGlossaryActive(active)),
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dropdown));

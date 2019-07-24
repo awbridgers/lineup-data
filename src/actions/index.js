@@ -40,3 +40,7 @@ export const changeInfoType = (infoType) =>({
   type: 'CHANGE_INFO_TYPE',
   infoType
 })
+export const changeGlossaryActive = (active)=>({
+  type: 'CHANGE_GLOSSARY_ACTIVE',
+  payload: active
+})

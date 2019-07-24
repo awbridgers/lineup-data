@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import Dropdown from './dropDown.js'
 import { connect } from 'react-redux'
-import { changeDataType, chooseGame, changeFinderActive, changeInfoType } from '../actions/index.js'
+import {
+  changeDataType,
+  chooseGame,
+  changeFinderActive,
+  changeInfoType,
+  changeGlossaryActive
+} from '../actions/index.js'
 import { withRouter } from 'react-router'
 
 
@@ -31,13 +37,17 @@ export class Header extends Component {
       this.props.changeInfoType('overview')
     }
   }
+  activateGlossary = () =>{
+    this.props.changeGlossaryActive(!this.props.glossary);
+  }
   render(){
     return (
       <div>
         <header className="App-header">
           <div className = 'header'>
             <div className = 'headerButtonContainer'>
-              <button className = "finderButton" onClick = {this.activateFinder}>Lineup Finder</button>
+              <button className = "type" onClick = {this.activateFinder}>Lineup Finder</button>
+              <button className = "type" onClick = {this.activateGlossary}>{`${this.props.glossary ? 'Back' : 'Glossary'}`}</button>
             </div>
             {(this.props.gameName === '' || this.props.gameName === 'Acc-Totals') &&
               <div className = 'title'>
@@ -65,7 +75,7 @@ export class Header extends Component {
               <button id = 'switchData' className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
                 "View Players": "View Lineups"}`}</button>}
               {this.props.dataType=== 'finder' &&
-                <button id = 'back' className = "type" onClick = {this.back}>Back</button>}
+                <button id = 'back' className = "type" onClick = {this.back}>Deactivate Finder</button>}
             </div>
           </div>
         </header>
@@ -78,7 +88,7 @@ export const mapDispatchToProps = dispatch => ({
   changeGame: (game)=> dispatch(chooseGame(game)),
   changeFinder: (active)=> dispatch(changeFinderActive(active)),
   changeInfoType: (infoType)=> dispatch(changeInfoType(infoType)),
-
+  changeGlossaryActive: (active)=> dispatch(changeGlossaryActive(active)),
 })
 export const mapStateToProps = state =>({
   dataType: state.dataType,
@@ -87,7 +97,8 @@ export const mapStateToProps = state =>({
   path: state.router.location.pathname,
   dataLoaded: state.dataLoaded,
   finderActive: state.finderActive,
-  infoType: state.infoType
+  infoType: state.infoType,
+  glossary: state.glossary,
 
 })
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

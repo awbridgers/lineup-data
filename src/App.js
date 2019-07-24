@@ -3,6 +3,7 @@ import './App.css';
 import {roster} from './lineupClass.js'
 import Finder from './containers/finder.jsx'
 import DataTable from './containers/dataTable.jsx';
+import {Glossary} from './components/glossary.js';
 import { connect } from 'react-redux';
 import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
 
@@ -53,10 +54,12 @@ export class App extends Component {
       }
     }
   render() {
+    if(this.props.glossary){
+      return <div className = 'App'><Glossary /></div>
+    }
     return (
       <div className="App">
         {this.props.dataLoaded && <DataTable />}
-
         {this.props.finderActive && <Finder onClick = {this.lineupFinder}
           player1 = {this.state.player1}   player2 = {this.state.player2} player3 = {this.state.player3}
           player4 = {this.state.player4}   player5 = {this.state.player5}
@@ -68,7 +71,7 @@ export class App extends Component {
 export const mapDispatchToProps = dispatch =>({
   changeDataType: (dt) => dispatch(changeDataType(dt)),
   addLineupFinderInfo: (lineupArray) => dispatch(lineupFinder(lineupArray)),
-  changeFinder: (active)=> dispatch(changeFinderActive(active))
+  changeFinder: (active)=> dispatch(changeFinderActive(active)),
 })
 
 export const mapStateToProps = state =>({
@@ -78,6 +81,7 @@ export const mapStateToProps = state =>({
   finderActive: state.finderActive,
   gameName: state.gameName,
   individualGames: state.individualGames,
+  glossary: state.glossary
 })
 
 

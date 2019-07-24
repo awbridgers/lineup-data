@@ -9,6 +9,7 @@ import {infoType} from './infoType.js'
 import { combineReducers } from 'redux'
 import { connectRouter } from 'connected-react-router'
 import { accData } from './accData.js'
+import { glossary } from './glossary.js'
 
 const rootReducer = (history) => combineReducers({
   router: connectRouter(history),
@@ -22,6 +23,7 @@ const rootReducer = (history) => combineReducers({
   sort,
   infoType,
   accData,
+  glossary,
 })
 
 export default rootReducer
