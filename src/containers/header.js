@@ -8,7 +8,6 @@ import {
   changeInfoType,
   changeGlossaryActive
 } from '../actions/index.js'
-import { withRouter } from 'react-router'
 
 
 
@@ -94,11 +93,10 @@ export const mapStateToProps = state =>({
   dataType: state.dataType,
   gameName: state.gameName,
   individualGames: state.individualGames,
-  path: state.router.location.pathname,
   dataLoaded: state.dataLoaded,
   finderActive: state.finderActive,
   infoType: state.infoType,
   glossary: state.glossary,
 
 })
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

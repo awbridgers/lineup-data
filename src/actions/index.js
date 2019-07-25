@@ -1,4 +1,4 @@
-import { push } from 'connected-react-router'
+
 
 export const changeDataType = dataType =>({
   type: 'CHANGE_DATA_TYPE',
@@ -10,15 +10,11 @@ export const lineupFinder = (foundLineups) =>({
   payload: foundLineups
 })
 
-export const chooseGame = game =>{
-  return dispatch => {
-    dispatch({
-      type:'SELECT_GAME',
-      game
-    });
-    dispatch(push('/'+ game));
-  }
-}
+export const chooseGame = game =>({
+  type:'SELECT_GAME',
+  game
+});
+
 
 export const dataLoaded = () =>({
   type: 'LOAD_SUCCESSFUL'

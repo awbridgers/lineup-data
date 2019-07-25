@@ -3,7 +3,6 @@ import '../App.css';
 import convert from "convert-seconds"
 import { connect } from 'react-redux';
 import { changeSortType, chooseGame } from '../actions/index.js'
-import { withRouter } from 'react-router'
 import TableLayout from '../components/tableLayout.js.jsx';
 import lineupClass from '../lineupClass.js'
 
@@ -253,4 +252,4 @@ export const mapStateToProps = state =>({
   accPlayerTotal: state.accData.player,
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(DataTable))
+export default connect(mapStateToProps, mapDispatchToProps)(DataTable)
