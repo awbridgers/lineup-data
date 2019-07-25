@@ -7,6 +7,8 @@ import {Glossary} from './components/glossary.js';
 import { connect } from 'react-redux';
 import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
 
+
+
 export class App extends Component {
   constructor(){
     super();

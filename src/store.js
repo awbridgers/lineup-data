@@ -3,17 +3,17 @@ import thunk from 'redux-thunk';
 import firebase from 'firebase/app';
 import 'firebase/database';
 import rootReducer from './reducers/index.js';
-import { createBrowserHistory } from 'history';
-import { routerMiddleware } from 'connected-react-router'
 import { composeWithDevTools} from 'redux-devtools-extension'
 import {setPlayerStats, updateStats} from './lineupClass.js'
+import config from './config.js'
 
-export const history = createBrowserHistory({basename: '/lineup-data/'});
+//initialize the firebase database
+firebase.initializeApp(config)
 
+//create the store
 export const store = createStore(
-  rootReducer(history),
-  undefined,
-  composeWithDevTools(applyMiddleware(routerMiddleware(history),thunk))
+  rootReducer,
+  composeWithDevTools(applyMiddleware(thunk))
 )
 //LOAD IN THE INITIAL DATA
 firebase.database().ref().once('value').then((snapshot) => {

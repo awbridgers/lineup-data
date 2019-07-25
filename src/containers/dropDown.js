@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux'
 import { chooseGame, changeGlossaryActive } from '../actions/index.js'
 
@@ -41,4 +40,4 @@ export const mapDispatchToProps = dispatch =>({
   changeGlossaryActive: (active)=> dispatch(changeGlossaryActive(active)),
 })
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Dropdown));
+export default connect(mapStateToProps, mapDispatchToProps)(Dropdown);
