@@ -5,7 +5,7 @@ import { changeFinderActive } from '../actions/index.js';
 export const Finder = (props) =>(
   <div className = "finder">
     <div>
-      <h2>Lineup Finder</h2>
+      <h3>Lineup Finder</h3>
       <p id = 'finderInstr'>Enter up to 5 players to find a specific lineup. Leave the input blank if it is unused.</p>
       <p><b>Player 1: <input className = "finderText" type="text" onChange = {props.handleInput} name = "player1" value = {props.player1}/></b></p>
       <p><b>Player 2: <input className = "finderText" type="text" onChange = {props.handleInput} name = "player2" value = {props.player2}/></b></p>
