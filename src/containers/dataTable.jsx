@@ -20,6 +20,8 @@ export class DataTable extends Component{
         return b.time-a.time;
       case 'net':
         return (b.pointsFor-b.pointsAgainst) - (a.pointsFor - a.pointsAgainst);
+      case 'name':
+        return (a.lineup.split(' ')[1].localeCompare(b.lineup.split(' ')[1]))
       case 'pf':
         return b.pointsFor - a.pointsFor;
       case 'pa':

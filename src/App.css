@@ -112,7 +112,6 @@ h1{
   vertical-align: middle;
 }
 .finder{
-  height: 60vh;
   width: 40vw;
   min-height: 400px;
   min-width: 400px;
@@ -125,6 +124,13 @@ h1{
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
+}
+.finderSelections{
+  display: flex;
+  flex-flow:column;
+}
+.finderplayer{
+  margin: 5px;
 }
 .glossary{
   color: white;
@@ -200,6 +206,16 @@ h1{
 }
 .dropdown{
   margin-top: auto;
+}
+.finderSubmit{
+  margin-top: 10px;
+}
+.finderSubmit button{
+  width: 75px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px;
 }
 
 

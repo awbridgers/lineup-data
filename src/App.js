@@ -12,8 +12,23 @@ import { changeDataType, lineupFinder, changeFinderActive } from './actions/inde
 export class App extends Component {
   constructor(){
     super();
-    this.state = {dataArray: [], playerArray: [], dataType: 'lineup', finder: false,
-      player1: "", player2: "", player3: "", player4: "", player5: "", finderArray:[]};
+    this.state = {
+      dataArray: [],
+      playerArray: [],
+      dataType: 'lineup',
+      finder: false,
+      player1: "",
+      player2: "",
+      player3: "",
+      player4: "",
+      player5: "",
+      finderArray:[],
+      omit1: '',
+      omit2: '',
+      omit3: '',
+      omit4: '',
+      omit5: '',
+    };
   }
   checkRoster = (array) => {
     let lowerRoster = roster.map(player=>player.toLowerCase());
@@ -29,31 +44,32 @@ export class App extends Component {
     return isIncluded;
   }
 
-  handleInput = (e) =>{
-    this.setState({[e.target.name]: e.target.value});
+  handleInput = (e, num) =>{
+    this.setState({['player'+num]: e.target.value});
+  }
+  handleOmit = (e, num) =>{
+    this.setState({['omit'+num]:e.target.value})
   }
   lineupFinder = () =>{
     //add all the input names to array and filter out any spaces left blank
     let tempArray = [this.state.player1,this.state.player2,this.state.player3,this.state.player4,this.state.player5]
+    let omitArray = [this.state.omit1,this.state.omit2,this.state.omit3,this.state.omit4,this.state.omit5]
     let fixedArray = tempArray.filter((name) => name!== '');
+    let omitPlayersArray = omitArray.filter(name=>name!== '');
 
-    //make sure the players are on the team!
-    if(!this.checkRoster(fixedArray)){
-      alert("One of the players is misspelled or not a member of the team");
-    }
-    else{
-      //choose the overall array for totals or individual game array for just a game
-      let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
-      //filter and return only lineups where every chosen player is in the lineup
-      let reduxArray = fromWhichArray.filter((lineup)=>{
-        return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase()))
-      })
-      //filter out any lineups with 0 possessions
-      const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
-      this.props.addLineupFinderInfo(reduxArrayFilter)
-      this.props.changeFinder(false);
-      this.props.changeDataType('finder');
-      }
+    //choose the overall array for totals or individual game array for just a game
+    let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
+    //filter and return only lineups where every chosen player is in the lineup
+    let reduxArray = fromWhichArray.filter((lineup)=>{
+      return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
+      omitPlayersArray.every(name => !lineup.lineup.toLowerCase().includes(name.toLowerCase()))
+    })
+    //filter out any lineups with 0 possessions
+    const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
+    this.props.addLineupFinderInfo(reduxArrayFilter)
+    this.props.changeFinder(false);
+    this.props.changeDataType('finder');
+
     }
   render() {
     if(this.props.glossary){
@@ -62,10 +78,22 @@ export class App extends Component {
     return (
       <div className="App">
         {this.props.dataLoaded && <DataTable />}
-        {this.props.finderActive && <Finder onClick = {this.lineupFinder}
-          player1 = {this.state.player1}   player2 = {this.state.player2} player3 = {this.state.player3}
-          player4 = {this.state.player4}   player5 = {this.state.player5}
-          handleInput = {this.handleInput}/>}
+        {this.props.finderActive &&
+          <Finder onClick = {this.lineupFinder}
+            player1 = {this.state.player1}
+            player2 = {this.state.player2}
+            player3 = {this.state.player3}
+            player4 = {this.state.player4}
+            player5 = {this.state.player5}
+            omit1 = {this.state.omit1}
+            omit2 = {this.state.omit2}
+            omit3 = {this.state.omit3}
+            omit4v= {this.state.omit4}
+            omit5 = {this.state.omit5}
+            handleInput = {this.handleInput}
+            handleOmit = {this.handleOmit}
+          />
+        }
     </div>
     );
   }
