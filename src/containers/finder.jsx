@@ -128,8 +128,10 @@ export const Finder = (props) =>{
           />
         </div>
       </div>
-      <button className = "lineupSubmit" type = "button" onClick = {props.onClick}>Submit</button>
-      <button className = "lineupSubmit" type = "button" onClick = {props.cancelFinder}>Cancel</button>
+      <div className = 'finderSubmit'>
+        <button className = "lineupSubmit" type = "button" onClick = {props.onClick}>Submit</button>
+        <button className = "lineupSubmit" type = "button" onClick = {props.cancelFinder}>Cancel</button>
+      </div>
     </div>
   )
 }
