@@ -4,6 +4,7 @@ import { changeFinderActive } from '../actions/index.js';
 import {roster} from '../lineupClass.js';
 
 
+
 const FinderPlayerSelector = (props) => (
   <select className = 'finderSelector' value = {props.selection} onChange = {props.onChange}>
     <option value = '' >None</option>
@@ -132,6 +133,7 @@ export const Finder = (props) =>{
         <button className = "lineupSubmit" type = "button" onClick = {props.onClick}>Submit</button>
         <button className = "lineupSubmit" type = "button" onClick = {props.cancelFinder}>Cancel</button>
       </div>
+
     </div>
   )
 }

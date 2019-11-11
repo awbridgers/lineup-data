@@ -8,56 +8,56 @@ export const Glossary = (props)=>(
     <table className = 'terms'>
       <tbody>
         <tr>
-          <th rowspan = '2'>Poss</th>
+          <th rowSpan = '2'>Poss</th>
           <td>An estimate of the number of possesions.</td>
         </tr>
         <tr>
           <td className = 'eq'>FGA + TO - Off Reb + (0.475 * FTA)</td>
         </tr>
         <tr>
-          <th rowspan = '2'>ORtg</th>
+          <th rowSpan = '2'>ORtg</th>
           <td>Offensive Rating - points per 100 possessions</td>
         </tr>
         <tr>
           <td className = 'eq'>Points / Possesions * 100</td>
         </tr>
         <tr>
-          <th rowspan = '2'>DRtg</th>
+          <th rowSpan = '2'>DRtg</th>
           <td>Defensive Rating - points allowed per 100 possessions</td>
         </tr>
         <tr>
           <td className = 'eq'>Points Allowed / Possesions * 100</td>
         </tr>
         <tr>
-          <th rowspan = '2'>Orb%</th>
+          <th rowSpan = '2'>Orb%</th>
           <td>Offensive Rebounding Percent - Percent of available offensive rebounds grabbed</td>
         </tr>
         <tr>
           <td className = 'eq'>Off Reb / (Off Reb + Opp Def Reb)</td>
         </tr>
         <tr>
-          <th rowspan = '2'>Drb%</th>
+          <th rowSpan = '2'>Drb%</th>
           <td>Defensive Rebounding Percent - Percent of available defensive rebounds grabbed</td>
         </tr>
         <tr>
           <td className = 'eq'>Def Reb / (Def Reb + Opp Off Reb)</td>
         </tr>
         <tr>
-          <th rowspan = '2'>Ast%</th>
+          <th rowSpan = '2'>Ast%</th>
           <td>Assist Percent - Percent of made shots coming from assists</td>
         </tr>
         <tr>
           <td className = 'eq'>Assists / Field Goals Made</td>
         </tr>
         <tr>
-          <th rowspan = '2'>A/Poss</th>
+          <th rowSpan = '2'>A/Poss</th>
           <td>Assists per Possession</td>
         </tr>
         <tr>
           <td className = 'eq'>Assists / Possessions</td>
         </tr>
         <tr>
-          <th rowspan = '2'>TOV%</th>
+          <th rowSpan = '2'>TOV%</th>
           <td>Turnover Percent - Percent of possessions ending in a turnover</td>
         </tr>
         <tr>

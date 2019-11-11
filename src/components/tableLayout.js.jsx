@@ -1,5 +1,4 @@
 import React from 'react'
-import ReactTooltip from 'react-tooltip'
 import '../App.css'
 
 
@@ -51,14 +50,14 @@ const TableLayout = (props)=>(
     <tbody>
       <tr>
         <th className = 'lineupHeader'>Lineup</th>
-        <th  data-tip = 'estimated number of possessions' className = "click" id = "poss" onClick = {(e)=>props.sort(e)}>Poss</th>
-        <th  data-tip = 'points/100 poss' className = "click" id = "ortg" onClick = {(e)=>props.sort(e)}>ORtg</th>
-        <th  data-tip = 'points allowed/100poss' className = "click" id = "drtg" onClick = {(e)=>props.sort(e)}>DRtg</th>
-        <th  data-tip = '% of available rebounds grabbed by offense' className = "click" id = "orb%" onClick = {(e)=>props.sort(e)}>ORb% </th>
-        <th  data-tip = '% of available rebounds grabbed by defense' className = "click" id = "drb%" onClick = {(e)=>props.sort(e)}>DRb% </th>
-        <th  data-tip = '% of FGM on assists' className = "click" id = "ast%" onClick = {(e)=>props.sort(e)}>AST%</th>
-        <th  data-tip = 'assists per possession' className = "click" id = "a/poss" onClick = {(e)=>props.sort(e)}>A/Poss</th>
-        <th  data-tip = '% of poss<br />ending with TO' className = "click" id = "tov%" onClick = {(e)=>props.sort(e)}>TOV%</th>
+        <th  className = "click" id = "poss" onClick = {(e)=>props.sort(e)}>Poss</th>
+        <th  className = "click" id = "ortg" onClick = {(e)=>props.sort(e)}>ORtg</th>
+        <th  className = "click" id = "drtg" onClick = {(e)=>props.sort(e)}>DRtg</th>
+        <th  className = "click" id = "orb%" onClick = {(e)=>props.sort(e)}>ORb% </th>
+        <th  className = "click" id = "drb%" onClick = {(e)=>props.sort(e)}>DRb% </th>
+        <th  className = "click" id = "ast%" onClick = {(e)=>props.sort(e)}>AST%</th>
+        <th  className = "click" id = "a/poss" onClick = {(e)=>props.sort(e)}>A/Poss</th>
+        <th  className = "click" id = "tov%" onClick = {(e)=>props.sort(e)}>TOV%</th>
       </tr>
       {props.array.map((x,i) => {
         return (
@@ -87,7 +86,6 @@ const TableLayout = (props)=>(
           <td>{parseFloat((props.total.assistsFor/((props.total.possFor+props.total.possAgainst)/2))).toFixed(3)}</td>
           <td>{Math.round((props.total.turnoversFor/((props.total.possFor+props.total.possAgainst)/2))*100)}%</td>
       </tr>
-      <ReactTooltip wrapper = 'span' effect = 'solid' delayShow = {1000} multiline = {true}/>
     </tbody>
   }
   </table>

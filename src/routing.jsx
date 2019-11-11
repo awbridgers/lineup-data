@@ -11,8 +11,12 @@ import Header from './containers/header.js'
 const Routing = () => (
   <Router>
     <div>
-      <Route path = "/" component = {Header} />
-      <Route path ="/" component = {App} />
+      <Route path = "/">
+        <Header />
+      </Route>
+      <Route path ="/">
+        <App />
+      </Route>
     </div>
   </Router>
 )
