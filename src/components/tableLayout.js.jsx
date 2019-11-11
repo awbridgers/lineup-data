@@ -8,7 +8,7 @@ const TableLayout = (props)=>(
     {props.type === 'overview' &&
       <tbody>
         <tr>
-          <th className = 'lineupHeader'>Lineup</th>
+          <th className = 'click lineupHeader' id = 'name' onClick ={(e)=>props.sort(e)}>Lineup</th>
           <th  className = "click" id = "time" onClick = {(e)=>props.sort(e)}>Time</th>
           <th  className = "click" id = "net" onClick = {(e)=>props.sort(e)}>Pts +/-</th>
           <th  className = "click" id = "reb" onClick = {(e)=>props.sort(e)}>Reb +/-</th>

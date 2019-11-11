@@ -29,7 +29,7 @@ export default class Data {
     this.totalShotsAgainst = 0;
   }
 }
-export const roster = [
+ export const roster = [
   "Brandon Childress",
   "Isaiah Mucius",
   "Sharone Wright",
@@ -45,8 +45,14 @@ export const roster = [
   "Sunday Okeke",
   "Anthony Bilas",
   "Aaron Spivey",
+].sort((a,b)=>{
+  //sort the roster array by player's last name
+  const lastNameA = a.split(' ')
+  const lastNameB = b.split(' ')
+  return lastNameA[1].localeCompare(lastNameB[1])
+})
 
-];
+
 export const setPlayerStats = (array) => {
   let playerArray = [];
   roster.forEach((player)=>{
