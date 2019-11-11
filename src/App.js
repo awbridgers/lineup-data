@@ -57,24 +57,19 @@ export class App extends Component {
     let fixedArray = tempArray.filter((name) => name!== '');
     let omitPlayersArray = omitArray.filter(name=>name!== '');
 
-    //make sure the players are on the team!
-    if(!this.checkRoster(fixedArray)){
-      alert("One of the players is misspelled or not a member of the team");
-    }
-    else{
-      //choose the overall array for totals or individual game array for just a game
-      let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
-      //filter and return only lineups where every chosen player is in the lineup
-      let reduxArray = fromWhichArray.filter((lineup)=>{
-        return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
-        omitPlayersArray.every(name => !lineup.lineup.toLowerCase().includes(name.toLowerCase()))
-      })
-      //filter out any lineups with 0 possessions
-      const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
-      this.props.addLineupFinderInfo(reduxArrayFilter)
-      this.props.changeFinder(false);
-      this.props.changeDataType('finder');
-      }
+    //choose the overall array for totals or individual game array for just a game
+    let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
+    //filter and return only lineups where every chosen player is in the lineup
+    let reduxArray = fromWhichArray.filter((lineup)=>{
+      return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
+      omitPlayersArray.every(name => !lineup.lineup.toLowerCase().includes(name.toLowerCase()))
+    })
+    //filter out any lineups with 0 possessions
+    const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
+    this.props.addLineupFinderInfo(reduxArrayFilter)
+    this.props.changeFinder(false);
+    this.props.changeDataType('finder');
+
     }
   render() {
     if(this.props.glossary){
