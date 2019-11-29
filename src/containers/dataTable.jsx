@@ -198,12 +198,12 @@ export class DataTable extends Component{
   render(){
     let lineupArray, playerArray;
     if(this.props.gameName === ''){
-      lineupArray = this.props.lineupTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
-      playerArray = this.props.playerTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
+      lineupArray = this.props.lineupTotal.filter((x)=>(x.possFor+x.possAgainst)/2 >=5 );
+      playerArray = this.props.playerTotal.filter((x)=>(x.possFor+x.possAgainst)/2 >=5 );
     }
     else if(this.props.gameName === 'Acc-Totals'){
-      lineupArray = this.props.accLineupTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
-      playerArray = this.props.accPlayerTotal.filter((x)=>x.possFor!== 0 && x.possAgainst !== 0);
+      lineupArray = this.props.accLineupTotal.filter((x)=>x.possFor > 0 && x.possAgainst > 0);
+      playerArray = this.props.accPlayerTotal.filter((x)=>x.possFor > 0 && x.possAgainst > 0);
     }
     else{
       lineupArray = this.props.individualGames[this.props.gameName].lineup;
