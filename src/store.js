@@ -39,7 +39,7 @@ firebase.database().ref().once('value').then((snapshot) => {
 
       //now check to see if the lineup is unique to the total stats/acc
       let index = totalStats.findIndex((lineup)=>lineup.lineup === temp.lineup);
-      let accIndex = accStats.findIndex((lineup)=>lineup.lineup === temp.lineup);
+      let accIndex = accStats.findIndex((x)=>x.lineup === temp.lineup);
       //if the lineup doesn't exist, push it to the total array
       if(index === -1){
         totalStats.push(temp);
@@ -58,9 +58,10 @@ firebase.database().ref().once('value').then((snapshot) => {
         }
         //if the lineup does exist, update its stats
         else{
-          let newObject = {...accStats[index]};
+          //console.log(accStats[accIndex])
+          let newObject = {...accStats[accIndex]};
           updateStats(newObject, temp);
-          accStats[index] = newObject
+          accStats[accIndex] = newObject
         }
       }
     });
