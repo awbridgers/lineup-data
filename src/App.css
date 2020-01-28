@@ -203,6 +203,9 @@ h1{
   justify-content: center;
   align-items: center;
 }
+#back{
+  background: red;
+}
 
 #wakeScore, #oppScore{
   font-size: 20px;

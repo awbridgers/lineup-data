@@ -44,7 +44,11 @@ export class Header extends Component {
           <div className = 'header'>
             <div className = 'headerButtonContainer'>
               <button className = "type" onClick = {this.activateFinder}>Lineup Finder</button>
-              <button className = "type" onClick = {this.activateGlossary}>{`${this.props.glossary ? 'Back' : 'Glossary'}`}</button>
+              {this.props.dataType !== 'finder' &&
+                <button id = 'switchData' className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
+                  "View Players": "View Lineups"}`}</button>}
+                {this.props.dataType=== 'finder' &&
+                  <button id = 'back' className = "type" onClick = {this.props.back}>All Lineups</button>}
             </div>
             {(this.props.gameName === '' || this.props.gameName === 'Acc-Totals') &&
               <div className = 'title'>
@@ -68,11 +72,8 @@ export class Header extends Component {
             <div className = 'headerButtonContainer'>
               <button id = 'switchType' className = 'type' onClick = {this.switchType}>
               {`${this.props.infoType === 'overview' ? 'Advanced' : 'Overview'}`}</button>
-            {this.props.dataType !== 'finder' &&
-              <button id = 'switchData' className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
-                "View Players": "View Lineups"}`}</button>}
-              {this.props.dataType=== 'finder' &&
-                <button id = 'back' className = "type" onClick = {this.props.back}>Deactivate Finder</button>}
+
+                <button className = "type" onClick = {this.activateGlossary}>{`${this.props.glossary ? 'Back' : 'Glossary'}`}</button>
             </div>
           </div>
         </header>
