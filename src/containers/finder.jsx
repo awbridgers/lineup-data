@@ -6,16 +6,16 @@ import {roster} from '../lineupClass.js';
 
 
 const FinderPlayerSelector = (props) => (
-  <select className = 'finderSelector' value = {props.selection} onChange = {props.onChange}>
+  <select disabled = {props.disabled} className = 'finderSelector' value = {props.selection} onChange = {props.onChange}>
     <option value = '' >None</option>
     {roster.map((player,i)=>{
       if(props.selectedPlayers.includes(player)){
         return(
-          <option disabled value = {player}>{player}</option>
+          <option key = {i} disabled value = {player}>{player}</option>
         )
       }
       return (
-        <option value = {player}>{player}</option>
+        <option key = {i} value = {player}>{player}</option>
       )
     })
   }
@@ -23,18 +23,28 @@ const FinderPlayerSelector = (props) => (
 )
 
 export const Finder = (props) =>{
-  const playerArray = [
+  const includeArray = [
     props.player1,
     props.player2,
     props.player3,
     props.player4,
     props.player5,
+  ];
+    const omitArray = [
     props.omit1,
     props.omit2,
     props.omit3,
     props.omit4,
     props.omit5
   ];
+  const playerArray = [...includeArray, ...omitArray];
+  const shouldBeEnabled = (array, playerNum) =>{
+    //disable the inputs until all the ones above it are filled
+    const i = playerNum - 1;
+    const checkArray = array.slice(0, i)
+    return checkArray.every(name=>name!== '')
+  }
+  const [hover,changeHover] = useState(false);
   return(
     <div className = "finder">
       <div>
@@ -57,6 +67,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.player2}
             onChange = {(e)=>props.handleInput(e,2)}
+            disabled = {!shouldBeEnabled(includeArray,2)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -65,6 +76,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.player3}
             onChange = {(e)=>props.handleInput(e,3)}
+            disabled = {!shouldBeEnabled(includeArray,3)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -73,6 +85,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.player4}
             onChange = {(e)=>props.handleInput(e,4)}
+            disabled = {!shouldBeEnabled(includeArray,4)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -81,6 +94,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.player5}
             onChange = {(e)=>props.handleInput(e,5)}
+            disabled = {!shouldBeEnabled(includeArray,5)}
           />
         </div>
       </div>
@@ -88,6 +102,25 @@ export const Finder = (props) =>{
       {/*  OMIT PLAYERS*/}
       <div className = 'finderSelections'>
         <div style = {{padding: '5px'}}><b>Omit These Players</b></div>
+        <div>
+          <div
+            className = 'omitStyle'
+            onMouseEnter = {()=>changeHover(true)}
+            onMouseLeave = {()=>changeHover(false)}
+          >
+            Style:
+            {hover &&
+              <div className = 'help'>
+                <div>AND: omit lineups that include ALL omitted players</div>
+                <div>OR: omit lineups that include ANY omitted players</div>
+              </div>
+            }
+          </div>
+          <select value = {props.exclusive} onChange = {props.changeExclusive}>
+            <option value = 'and'>AND</option>
+            <option value = 'or'>OR</option>
+          </select>
+        </div>
         <div className = 'finderplayer' >
           Player 1:
           <FinderPlayerSelector
@@ -102,6 +135,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.omit2}
             onChange = {(e)=>props.handleOmit(e,2)}
+            disabled = {!shouldBeEnabled(omitArray,2)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -110,6 +144,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.omit3}
             onChange = {(e)=>props.handleOmit(e,3)}
+            disabled = {!shouldBeEnabled(omitArray,3)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -118,6 +153,7 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.omit4}
             onChange = {(e)=>props.handleOmit(e,4)}
+            disabled = {!shouldBeEnabled(omitArray,4)}
           />
         </div>
         <div className = 'finderplayer'>
@@ -126,11 +162,13 @@ export const Finder = (props) =>{
             selectedPlayers = {playerArray}
             selection = {props.omit5}
             onChange = {(e)=>props.handleOmit(e,5)}
+            disabled = {!shouldBeEnabled(omitArray,5)}
           />
         </div>
       </div>
       <div className = 'finderSubmit'>
         <button className = "lineupSubmit" type = "button" onClick = {props.onClick}>Submit</button>
+        <button className = "lineupSubmit" type = "button" onClick = {props.resetFinder}>Reset</button>
         <button className = "lineupSubmit" type = "button" onClick = {props.cancelFinder}>Cancel</button>
       </div>
 

@@ -132,6 +132,20 @@ h1{
 .finderplayer{
   margin: 5px;
 }
+.omitStyle{
+  display: inline;
+  color: blue;
+  text-decoration: underline;
+}
+.omitStyle:hover{
+  cursor:default;
+}
+.help{
+  position: absolute;
+  background: black;
+  color: #cfb53b;
+  width:100%;
+}
 .glossary{
   color: white;
   text-align: center;

@@ -6,6 +6,7 @@ import DataTable from './containers/dataTable.jsx';
 import {Glossary} from './components/glossary.js';
 import { connect } from 'react-redux';
 import { changeDataType, lineupFinder, changeFinderActive } from './actions/index.js'
+import Header from './containers/header.js'
 
 
 
@@ -28,27 +29,51 @@ export class App extends Component {
       omit3: '',
       omit4: '',
       omit5: '',
+      exclusive: 'and'
     };
   }
-  checkRoster = (array) => {
-    let lowerRoster = roster.map(player=>player.toLowerCase());
-    let isIncluded = true;
-    array.forEach((name)=>{
-      if(lowerRoster.includes(name.toLowerCase()) || name === ""){
-        //do nothing
-      }
-      else{
-        isIncluded = false;
-      }
-    });
-    return isIncluded;
+  activateFinder = () => {
+    //set finderActive to the opposite of what it is
+    if(this.props.changeFinderActive)
+    this.props.changeFinder(!this.props.finderActive)
   }
-
+  resetFinder = () =>{
+    this.setState({
+      omit1: '',
+      omit2: '',
+      omit3: '',
+      omit4: '',
+      omit5: '',
+      player1: "",
+      player2: "",
+      player3: "",
+      player4: "",
+      player5: ""
+    })
+  }
+  back = () =>{
+    this.setState({
+      omit1: '',
+      omit2: '',
+      omit3: '',
+      omit4: '',
+      omit5: '',
+      player1: "",
+      player2: "",
+      player3: "",
+      player4: "",
+      player5: ""
+    })
+    this.props.changeDataType('lineup')
+  }
   handleInput = (e, num) =>{
     this.setState({['player'+num]: e.target.value});
   }
   handleOmit = (e, num) =>{
     this.setState({['omit'+num]:e.target.value})
+  }
+  changeExclusive = (e) =>{
+    this.setState({exclusive: e.target.value})
   }
   lineupFinder = () =>{
     //add all the input names to array and filter out any spaces left blank
@@ -60,10 +85,22 @@ export class App extends Component {
     //choose the overall array for totals or individual game array for just a game
     let fromWhichArray = (this.props.gameName === '') ? this.props.lineups : this.props.individualGames[this.props.gameName].lineup
     //filter and return only lineups where every chosen player is in the lineup
-    let reduxArray = fromWhichArray.filter((lineup)=>{
-      return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
-      omitPlayersArray.every(name => !lineup.lineup.toLowerCase().includes(name.toLowerCase()))
-    })
+    let reduxArray;
+    if(this.state.exclusive === 'or'){
+      reduxArray = fromWhichArray.filter((lineup)=>{
+        return fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
+        omitPlayersArray.every(name => !lineup.lineup.toLowerCase().includes(name.toLowerCase()))
+      })
+    }
+    else{
+      reduxArray = fromWhichArray.filter((lineup)=>{
+        return omitPlayersArray.length > 0 ?
+        fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) &&
+        !omitPlayersArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase())) :
+
+        fixedArray.every(name => lineup.lineup.toLowerCase().includes(name.toLowerCase()))
+      })
+    }
     //filter out any lineups with 0 possessions
     const reduxArrayFilter = reduxArray.filter(x => x.possFor!== 0 && x.possAgainst!==0);
     this.props.addLineupFinderInfo(reduxArrayFilter)
@@ -77,6 +114,7 @@ export class App extends Component {
     }
     return (
       <div className="App">
+        <Header back = {this.back}/>
         {this.props.dataLoaded && <DataTable />}
         {this.props.finderActive &&
           <Finder onClick = {this.lineupFinder}
@@ -88,10 +126,13 @@ export class App extends Component {
             omit1 = {this.state.omit1}
             omit2 = {this.state.omit2}
             omit3 = {this.state.omit3}
-            omit4v= {this.state.omit4}
+            omit4 = {this.state.omit4}
             omit5 = {this.state.omit5}
             handleInput = {this.handleInput}
             handleOmit = {this.handleOmit}
+            exclusive = {this.state.exclusive}
+            changeExclusive = {this.changeExclusive}
+            resetFinder = {this.resetFinder}
           />
         }
     </div>

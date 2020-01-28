@@ -25,9 +25,7 @@ export class Header extends Component {
       this.props.changeDataType('lineup')
     }
   }
-  back = () =>{
-    this.props.changeDataType('lineup')
-  }
+
   switchType = () =>{
     if(this.props.infoType === 'overview'){
       this.props.changeInfoType('advanced')
@@ -74,7 +72,7 @@ export class Header extends Component {
               <button id = 'switchData' className = "type" onClick = {this.switchData}>{`${this.props.dataType === 'lineup' ?
                 "View Players": "View Lineups"}`}</button>}
               {this.props.dataType=== 'finder' &&
-                <button id = 'back' className = "type" onClick = {this.back}>Deactivate Finder</button>}
+                <button id = 'back' className = "type" onClick = {this.props.back}>Deactivate Finder</button>}
             </div>
           </div>
         </header>
