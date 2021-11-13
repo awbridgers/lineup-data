@@ -30,23 +30,25 @@ export default class Data {
   }
 }
  export const roster = [
-  "Jahcobi Neath",
   "Isaiah Mucius",
-  "Jalen Johnson",
   "Daivien Williamson",
-  "Tariq Ingraham",
-  "Ian DuBose",
-  "Quadry Adams",
-  "Jonah Antonio",
-  "Isaiah Wilkins",
-  "Ismael Massoud",
-  "Emmanuel Okpomo",
-  "Blake Buchanan",
-  "Ody Oguama",
-  "Sunday Okeke",
+  "Jake LaRavia",
+  "Cameron Hildreth",
+  "Dallas Walton",
+  "Khadim Sy",
+  "Lucas Taylor",
+  "Robert McCray",
+  "Alondes Williams",
+  "Matthew Marsh",
+  "RJ Kennah",
+  "Luc Robinson",
   "Anthony Mathis",
+  "Kevin Dunn",
+  "Damari Monsanto",
+  "Tariq Ingraham",
   "Grant Van Beveren",
-  "Miles Lester"
+  "Miles Lester",
+  "Carter Whitt"
 ].sort((a,b)=>{
   //sort the roster array by player's last name
   const lastNameA = a.split(' ')
