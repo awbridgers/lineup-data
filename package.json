@@ -44,7 +44,7 @@
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.4.3",
     "firebase-functions-test": "^0.1.7",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "react-test-renderer": "^16.11.0",
     "redux-devtools-extension": "^2.13.8",
     "redux-mock-store": "^1.5.3"
